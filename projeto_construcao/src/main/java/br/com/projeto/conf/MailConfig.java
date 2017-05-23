@@ -3,10 +3,14 @@ package br.com.projeto.conf;
 import java.util.Properties;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import br.com.projeto.infra.Mailer;
+
+@ComponentScan( basePackageClasses = Mailer.class)
 @Configuration
 public class MailConfig {
 	
@@ -15,8 +19,8 @@ public class MailConfig {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost("smtp.sendgrid.net");
 		mailSender.setPort(587);
-		mailSender.setUsername(env.getProperty("ProjetoEits"));
-		mailSender.setPassword(env.getProperty("Eits123456"));
+		mailSender.setUsername("ProjetoEits");
+		mailSender.setPassword("Eits123456");
 		
 		Properties props = new Properties();
 		props.put("mail.transport.protocol", "smtp");

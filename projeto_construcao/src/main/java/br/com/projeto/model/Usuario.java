@@ -90,7 +90,7 @@ public class Usuario implements UserDetails{
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getSenha() {
+	public String getSenha () {
 		return senha;
 	}
 	public void setSenha(String senha) {
