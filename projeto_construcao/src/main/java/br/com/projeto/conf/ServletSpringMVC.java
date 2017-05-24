@@ -7,33 +7,39 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletInitializer
+{
 
 	@Override
-	protected Class<?>[] getRootConfigClasses() {	
+	protected Class<?>[] getRootConfigClasses() 
+	{	
 		return new Class<?>[] {MailConfig.class,JPAConfiguration.class,AppWebConfiguration.class, ServiceConfiguration.class, SecurityConfiguration.class};
 	}
 
 	@Override
-	protected Class<?>[] getServletConfigClasses() {
+	protected Class<?>[] getServletConfigClasses() 
+	{
 		return new Class<?>[] {}; 
 	}
 
 	@Override
-	protected String[] getServletMappings() {
+	protected String[] getServletMappings() 
+	{
 		
 		return new String[] {"/"};
 	}
 	
 	@Override
-    protected Filter[] getServletFilters() {
+    protected Filter[] getServletFilters() 
+	{
         CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
         encodingFilter.setEncoding("UTF-8");
         return new Filter[] {encodingFilter};
 	}
 	
 	@Override
-	protected void customizeRegistration(Dynamic registration) {
+	protected void customizeRegistration(Dynamic registration) 
+	{
 		registration.setMultipartConfig(new MultipartConfigElement(""));
 	}
 	

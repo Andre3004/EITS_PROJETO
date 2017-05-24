@@ -10,23 +10,23 @@
 <body>
 	<form action="/projeto/usuarios" method="POST"
 	enctype="multipart/form-data">
-        <label for="nome">Nome</label>
-        <input type="text" name="nome" id="nome">
+        <label for="name">Nome</label>
+        <input type="text" name="name" id="name">
         
         <label for="email">Email</label>
         <input type="email" name="email" id="email">
         
-        <label for="senha">senha</label>
-        <input type="password" name="senha" id="senha">
+        <label for="password">senha</label>
+        <input type="password" name="password" id="password">
         
-       	<label for="confirmacaoSenha">Confirma a senha</label>
-        <input type="password" name="confirmacaoSenha" id="confirmacaoSenha">
+       	<label for="confirmPassword">Confirma a senha</label>
+        <input type="password" name="confirmPassword" id="confirmPassword">
        
         <br>
-        <input type="radio" name="permissao" id="permissao" checked value="ROLE_USER">Engenheiro
-        <input type="radio" name="permissao" id="permissao" value="ROLE_ADMIN">Administrador     
+        <input type="radio" name="permission" id="permission" checked value="ROLE_USER">Engenheiro
+        <input type="radio" name="permission" id="permission" value="ROLE_ADMIN">Administrador     
 		<br><br>
-		<input type="radio" name="ativo" id="ativo" checked value="TRUE">Ativo     
+		<input type="radio" name="active" id="active" checked value="TRUE">Ativo     
 		<br><br>
 		
         <button type="submit">Salvar</button>

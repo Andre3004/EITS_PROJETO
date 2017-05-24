@@ -19,7 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories("br.com.projeto.repository")
 @EnableTransactionManagement
-public class JPAConfiguration{
+public class JPAConfiguration
+{
 	
 	@Bean
 	public DriverManagerDataSource dataSource()

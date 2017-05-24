@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("br.com.projeto.service")
-public class ServiceConfiguration {
+public class ServiceConfiguration 
+{
 
 }

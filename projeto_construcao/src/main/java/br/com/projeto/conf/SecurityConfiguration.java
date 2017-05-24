@@ -12,13 +12,15 @@ import br.com.projeto.service.AutenticacaoService;
 
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = AutenticacaoService.class)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter
+{
 	
 	@Autowired
 	private AutenticacaoService autentication;
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception 
+	{
 		http
 			.authorizeRequests()
 				.anyRequest().authenticated()
@@ -26,11 +28,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.formLogin()
 				.permitAll()
 				.and()
-			.csrf().disable();
+			.csrf().disable()
+			.sessionManagement();
 	}
 	
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception 
+	{
 		auth.userDetailsService(autentication).passwordEncoder(new BCryptPasswordEncoder());
 	}
 	

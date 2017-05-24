@@ -5,18 +5,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.projeto.model.Usuario;
-import br.com.projeto.repository.UsuarioRepository;
+import br.com.projeto.model.User;
+import br.com.projeto.repository.UserRepository;
 
 @Service
-public class AutenticacaoService implements UserDetailsService {
+public class AutenticacaoService implements UserDetailsService 
+{
 	
 	@Autowired
-	private UsuarioRepository usuariosRepository;
+	private UserRepository userRepository;
 	
-	public Usuario loadUserByUsername(String email){
+	public User loadUserByUsername(String email)
+	{
 		try{
-			return  usuariosRepository.findByEmail(email);
+			return  userRepository.findByEmail(email);
 		} 
 		catch (Exception e){
 			throw new UsernameNotFoundException("Usuário " + email + " não encontrado.");

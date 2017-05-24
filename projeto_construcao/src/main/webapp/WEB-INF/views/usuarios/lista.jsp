@@ -24,12 +24,12 @@
 		<c:forEach items="${usuarios }" var="usuarios">
 			<tr>
 				<td>
-					<a href="${s:mvcUrl('UC#detalhe').arg(0,usuarios.id).build()}">${usuarios.nome}
+					<a href="${s:mvcUrl('UC#detalhe').arg(0,usuarios.id).build()}">${usuarios.name}
 				</td> 
 				<td>${usuarios.email}</td>
-				<td>${usuarios.senha}</td>
+				<td>${usuarios.password}</td>
 			<%-- 	<td>${usuarios.sexo}</td> --%>
-				<td>${usuarios.permissao}</td>
+				<td>${usuarios.permission}</td>
 			<%--	<td><fmt:formatDate pattern="dd/MM/yyyy" value = "${usuarios.dataNascimento.time}"/></td>--%>
 			</tr>
 		</c:forEach>

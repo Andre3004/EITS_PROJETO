@@ -12,10 +12,12 @@ import br.com.projeto.infra.Mailer;
 
 @ComponentScan( basePackageClasses = Mailer.class)
 @Configuration
-public class MailConfig {
+public class MailConfig
+{
 	
 	@Bean
-	public JavaMailSender mailSender() {
+	public JavaMailSender mailSender() 
+	{
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost("smtp.sendgrid.net");
 		mailSender.setPort(587);

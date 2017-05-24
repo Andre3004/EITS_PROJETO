@@ -7,7 +7,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 @Controller
 @Scope(value=WebApplicationContext.SCOPE_REQUEST)
-public class HomeController {
+public class HomeController 
+{
 
 	@RequestMapping("/")
 	public String index(){
