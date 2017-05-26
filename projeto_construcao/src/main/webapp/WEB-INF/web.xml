@@ -9,7 +9,7 @@
 	</session-config>
 	
 	
-	<!-- Inovcação -->
+	
 	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
 		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
@@ -19,10 +19,23 @@
 		</init-param>
 	</servlet>
 	
-	<!-- Mapeamento -->
+
 	<servlet-mapping>
 		<servlet-name>dwr-invoker</servlet-name>
-		<url-pattern>/dwr/*</url-pattern>
+		<url-pattern>/broker/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+	  <description>DWR controller servlet</description>
+	  <servlet-name>DWR controller servlet</servlet-name>
+	  <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+	  <init-param>
+	    <param-name>classes</param-name>
+	    <param-value>
+	      com.example.RemoteFunctions,
+	      com.example.RemoteBean
+	    </param-value>
+	  </init-param>
+	</servlet>
 
 </web-app>

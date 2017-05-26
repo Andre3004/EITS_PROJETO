@@ -22,14 +22,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 	protected void configure(HttpSecurity http) throws Exception 
 	{
 		http
-			.authorizeRequests()
-				.anyRequest().authenticated()
-				.and()
-			.formLogin()
-				.permitAll()
-				.and()
-			.csrf().disable()
-			.sessionManagement();
+		.authorizeRequests()
+			.antMatchers("/**").permitAll();
+		
+		/*http
+		.authorizeRequests()
+			.anyRequest().authenticated()
+			.and()
+		.formLogin()
+			.permitAll()
+			.and()
+		.csrf().disable()
+		.sessionManagement();*/
 	}
 	
 	@Override

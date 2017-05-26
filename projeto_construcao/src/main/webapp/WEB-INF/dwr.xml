@@ -25,13 +25,18 @@
 			
 		<convert converter="bean" match="br.com.projeto.domain.util.SimplePageRequest" javascript="SimplePageRequest" />
 		<convert converter="enum" match="br.com.projeto.domain.util.SimplePageRequest$Direction" />
-			
+
 	
 		<create creator="new" javascript="userService">
 			<param name="class" value="br.com.projeto.model.User"/>
 			<param name="class" value="br.com.projeto.service.UserService"/>	
+			
 		</create>
 		<convert converter="bean" match="br.com.projeto.service.UserService"/>
 		<convert converter="bean" match="br.com.projeto.model.User"/>
+		<convert match = "java.lang.Exception" converter = "exception"/>
+		  
+		
+		
 	</allow>
 </dwr>

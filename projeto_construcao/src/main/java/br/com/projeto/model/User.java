@@ -1,6 +1,6 @@
 package br.com.projeto.model;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,13 +16,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.directwebremoting.annotations.DataTransferObject;
-import org.springframework.format.annotation.DateTimeFormat;
+//import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
-@DataTransferObject(javascript = "Usuario")
+@DataTransferObject(javascript = "User")
 public class User implements UserDetails 
 {
 

@@ -1,4 +1,4 @@
-package br.com.projeto.controllers;
+package br.com.projeto.restful;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -7,28 +7,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.projeto.model.Equipment;
-import br.com.projeto.service.EquipmentService;
+import br.com.projeto.model.Location;
+import br.com.projeto.service.LocationService;
 
 @Controller
 @Scope(value=WebApplicationContext.SCOPE_REQUEST)
-public class EquipmentController 
+public class LocationRestController 
 {
-	
+
 	@Autowired
-	private EquipmentService equipmentService;
+	private LocationService locationService;
 	
-	@RequestMapping("equipamentos/form")
+	@RequestMapping("localizacao/form")
 	public ModelAndView form()
 	{
-		ModelAndView mv = new ModelAndView("equipamentos/form");
+		ModelAndView mv = new ModelAndView("localizacao/form");
 		return mv;
 	}
-	@RequestMapping("equipamentos")
-	public String salvar(Equipment equipamento)
+	@RequestMapping("localizacao")
+	public String salvar(Location localizacao)
 	{	
-		equipmentService.insert(equipamento);
-		return "equipamentos/ok";
+		locationService.insert(localizacao);
+		return "localizacoes/ok";
 	}
 	
 }
