@@ -1,0 +1,84 @@
+<td-layout-nav> 
+    <td-layout-card-over cardTitle="Usuário"  cardWidth="75"  >
+        <md-card>      
+            <form #myform="ngForm" class="example-form" (submit)="insertUser($event)">
+                <md-input-container class="example-full-width">
+                    <input mdInput placeholder="ID" disabled value="#">
+                </md-input-container>
+
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input required name ="name" [(ngModel)]="user.name" mdInput placeholder="Nome">
+                            </md-input-container>
+                        </td>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input required name ="lastName" [(ngModel)]="user.lastName" mdInput placeholder="Sobrenome">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="example-full-width" cellspacing="0">
+                    <td>
+                        <md-input-container class="example-full-width">
+                            <input required #password="ngModel" name ="password" [(ngModel)]="user.password"  type ="password" mdInput placeholder="Senha">
+                        </md-input-container>
+                    </td>
+                </table> 
+                <br>
+                <!--<table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input [hidden]= required #confirmPassword="ngModel" validateEqual="password" name ="confirmPassword" [(ngModel)]="user.confirmPassword" type ="password" mdInput placeholder="Confirme a senha">
+                            </md-input-container>
+                            <span *ngIf ="password.value != confirmPassword.value "  class="text-danger">
+                                Senhas não conferem
+                            </span>
+                        </td>
+                </table> 
+                <br>-->
+                <table class="example-full-width" cellspacing="0"><tr>
+                    <td>
+                        <md-input-container class="example-full-width">
+                            <input required #email="ngModel" name ="email" [(ngModel)]="user.email" type ="email" mdInput placeholder="Email">
+                        </md-input-container>
+                    </td>
+                </table> 
+                <br>
+                <table>
+                    <tr>
+                        <td>
+                            <md-select required name ="permission" [(ngModel)]="user.permission" placeholder="Permissão">
+                                <md-option *ngFor="let role of roles" [value]="role.value">
+                                    {{ role.viewValue }}
+                                </md-option>
+                            </md-select>
+                        </td> 
+                    </tr>
+                </table>
+                <br>
+
+                <table >
+                    <tr>
+                        <td>
+                            <md-select required name ="sex" [(ngModel)]="user.sex" placeholder="Sexo">
+                                <md-option *ngFor="let sex of sexs" [value]="sex.value">
+                                    {{ sex.viewValue }}
+                                </md-option>
+                            </md-select>
+                        </td> 
+                    </tr>
+                </table>
+
+                <div class="inset">
+                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertUser($event, user.id)" >Salvar</button>
+                    <button md-raised-button  color="primary" [routerLink]="['/user']" class="button">Cancelar</button>
+                </div>
+            </form>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>

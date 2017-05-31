@@ -1,0 +1,55 @@
+<td-layout-nav> 
+    <td-layout-card-over cardTitle="Usuário"  cardWidth="75"  >
+        <md-card>    
+
+            <form class="example-form">
+                <md-input-container class="example-full-width">
+                    <input mdInput placeholder="ID" [value]="user.id" disabled>
+                </md-input-container>
+
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="user.name" placeholder="Nome">
+                            </md-input-container>
+                        </td>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="user.lastName" placeholder="Sobrenome">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="example-full-width" cellspacing="0"><tr>
+                    <td>
+                        <md-input-container class="example-full-width">
+                            <input type ="email" disabled [value]="user.email" mdInput placeholder="Email">
+                        </md-input-container>
+                    </td>
+                </table> 
+                <br>
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                            <input mdInput disabled [value]="user.sex" placeholder="Sexo">
+                            </md-input-container>
+                        </td> 
+                    </tr>
+                </table>
+                <br><br>
+                <table>
+                    <td>
+                        <md-slide-toggle disabled *ngIf="user.active" [checked]="true" ></md-slide-toggle>
+                        <md-slide-toggle disabled *ngIf="!user.active" ></md-slide-toggle>
+                    </td>
+                </table> 
+                <div class="inset">
+                    <button md-raised-button  color="primary" [routerLink]="['/user']" class="button">Voltar</button>
+                </div>
+            </form>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>

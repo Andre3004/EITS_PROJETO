@@ -1,0 +1,60 @@
+<!--<md-toolbar color="primary" class="pad-none pull-top">
+
+  <button md-button [mdMenuTriggerFor]="menu">Menu</button>
+  <md-menu #menu="mdMenu">
+    <button md-menu-item routerLink="/user" >Usuários</button>
+    <button md-menu-item routerLink="/location">Localizações</button>
+    <button md-menu-item routerLink="/equipment">Equipamentos</button>
+  </md-menu>
+  <div class="navbar-header">
+      <button md-button routerLink="">EITS PROJETO</button>
+  </div>
+</md-toolbar>
+<router-outlet></router-outlet>
+
+<md-toolbar color="primary" class="pad-none pull-top">
+    <nav md-tab-nav-bar class="pull-bottom">
+      <a md-tab-link
+        [routerLink]="['/user']"
+        class="active">
+        Landing Page
+      </a>
+      <a md-tab-link
+        [routerLink]="['/location']">
+        Dashboard
+      </a>
+      <a md-tab-link
+        [routerLink]="['/equipment']">
+        Email App
+      </a>
+    </nav>
+  </md-toolbar>-->
+<body>
+<md-toolbar class="toolbar">
+<button md-button (click)="sidenav.open() "  layout-align="center center" class="button"><md-icon>menu</md-icon></button>
+<button md-button md-button routerLink="" class="button"><md-icon >home</md-icon></button>
+<button md-button routerLink="/login" class="botao"><md-icon >exit_to_app</md-icon></button>
+</md-toolbar>
+<md-sidenav-container >
+
+        <router-outlet></router-outlet>
+        <md-sidenav #sidenav class="example-sidenav">
+            <li routerLinkActive="active">
+                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/user">Usuários</button>
+            </li>
+            <li routerLinkActive="active">
+                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/location">Localização</button>
+            </li>
+            <li routerLinkActive="active">
+                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/equipment">Equipamentos</button>
+            </li>
+        </md-sidenav>
+
+        
+</md-sidenav-container>
+<div flex layout="column" flex-gt-xs="30" layout-align="right right">
+          <p class="text-sm">&copy; Projeto Desafio 2017 Eits, Inc. All rights reserved.</p>
+        </div>
+</body>
+
+

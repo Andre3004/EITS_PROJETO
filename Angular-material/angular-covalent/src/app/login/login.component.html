@@ -1,0 +1,28 @@
+<td-layout-nav >
+  <td-layout-card-over  cardWidth="45">
+     <md-card>
+        <md-card-content>
+          <div id="textCenter">
+              <h1 class="md-display-1" align="center">Login </h1>
+          </div>
+          <form #myform="ngForm" class="center"> 
+              <div >
+                  <md-icon>account_circle</md-icon> 
+                  <md-input-container class="inputClass">
+                    <input required name ="email" [(ngModel)]="user.email" mdInput placeholder="Login" > 
+                  </md-input-container>
+              </div>
+              <div>
+                  <md-icon>lock_outline</md-icon>
+                  <md-input-container class="inputClass">
+                    <input required name ="password" [(ngModel)]="user.password" mdInput placeholder="Senha">
+                  </md-input-container>
+              </div>
+              <button md-button color="primary" [disabled]="myform.form.invalid" class="button">Login</button>
+          </form>
+        </md-card-content>
+    </md-card>
+  </td-layout-card-over>
+  <td-layout-footer>
+  </td-layout-footer>
+</td-layout-nav>

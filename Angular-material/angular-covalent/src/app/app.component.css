@@ -1,0 +1,107 @@
+.example-container 
+{
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content 
+{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+} 
+
+.example-sidenav
+{
+    padding: 20px;
+}
+
+body 
+{
+    margin: 0;
+    font-family: Roboto, sans-serif;
+    background-color: white;
+}
+
+md-card 
+{
+    max-width: 80%;
+    margin: 2em auto;
+    text-align: center;
+}
+
+md-toolbar-row 
+{
+    justify-content: space-between;
+}
+
+.done 
+{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+}
+
+md-toolbar
+{
+    box-shadow: 1px 2px 2px #827272;
+}
+
+.botao
+{
+    /*display: block; 
+    margin-right:16px; 
+    height: 100%;
+    width: 10%; 
+    position: relative;
+    border-style: none;
+    color: black;*/
+    position:absolute;
+    left: 94% ;          /*1250px; width: 193%;*/
+    color: white;
+}
+
+
+
+.botao-lateral
+{
+    position: relative;
+    top: -20px;
+    left: -20px;
+    width: 115%;
+    height: 70px;
+    background-color: white;
+    border-style: none;
+    color: black
+}
+
+.botao-lateral:hover
+{
+    background-color: #d1c8c8;
+}
+html, body, material-app, md-sidenav-container, .my-content 
+{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+body
+{
+    background-color: white;
+}
+.icon{
+     background-color: white;
+}
+.button{
+    color: white;
+}
+.toolbar{
+    background-color: #1976d2;
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+}
+

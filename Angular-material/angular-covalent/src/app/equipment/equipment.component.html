@@ -1,0 +1,37 @@
+<td-layout-nav> 
+    <td-layout-card-over cardTitle="Lista de equipamentos"  cardWidth="75"  >
+        <md-card>      
+            <md-card-title layout>
+                <md-input-container class="text-sm" flex>
+                    <input #textSearch (keyup)="0" mdInput placeholder="Procurar usuários"/>
+                    <span mdPrefix><md-icon class="icon">search</md-icon></span>
+                </md-input-container>
+            </md-card-title>
+            <md-list class="pull-top">
+                <md-list-item>
+                    <md-icon md-list-avatar>bug_report</md-icon>
+                    <h3 md-line>Equipamentos</h3>
+                </md-list-item>   
+                <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="users ">
+                  <!--| filterName: textSearch.value"-->
+                    <a md-list-item>
+                        <md-icon md-list-avatar>select_all</md-icon>
+                        <h3 md-line> {{item.name}} {{item.lastName}} </h3>
+                        <p md-line> {{item.email}} </p>
+                        <span flex></span>
+                        <button md-button [routerLink]="['/equipment-detail', item.id]" ><md-icon md-list-avatar>details</md-icon></button>
+                        <button md-button [routerLink]="['/equipment-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>
+                        <button md-button ><md-icon md-list-avatar>delete</md-icon></button>
+                    </a>
+                    <md-divider *ngIf="!last" md-inset></md-divider>        
+              </ng-template>
+          </md-list>
+          <a md-fab td-sidenav-content color="accent" [routerLink]="['/equipment-new']" class="botao" style="bottom:20px; position: float; z-index: 1; position: fixed"> 
+              <md-icon>add</md-icon>
+          </a>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>
+
+
+

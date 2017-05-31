@@ -1,0 +1,36 @@
+<td-layout-nav> 
+    <td-layout-card-over cardTitle="Lista de localizações"  cardWidth="75"  >
+        <md-card>      
+            <md-card-title layout>
+                <md-input-container class="text-sm" flex>
+                    <input #textSearch (keyup)="0" mdInput placeholder="Procurar localizações"/>
+                    <span mdPrefix><md-icon class="icon">search</md-icon></span>
+                </md-input-container>
+            </md-card-title>
+            <md-list class="pull-top">
+                <md-list-item>
+                    <md-icon md-list-avatar>location_searching</md-icon>
+                    <h3 md-line>Localizações</h3>
+                </md-list-item>    
+                <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="locations">
+                            <a md-list-item>
+                                <md-icon md-list-avatar>location_on</md-icon>
+                                <h3 md-line> {{item.codLocation}}</h3>
+                                <p md-line> {{item.responsible.name}} </p>
+                                <span flex></span>
+                                <button md-button [routerLink]="['/location-detail', item.id]" ><md-icon md-list-avatar>details</md-icon></button>
+                                <button md-button [routerLink]="['/location-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>
+                                <button md-button (click)="confirmDelete()"><md-icon md-list-avatar>delete</md-icon></button>
+                            </a>
+                    <md-divider *ngIf="!last" md-inset></md-divider>        
+                    </ng-template>
+          </md-list>
+          <a md-fab td-sidenav-content color="accent" [routerLink]="['/location-new']" class="botao" style="bottom:20px; position: float; z-index: 1; position: fixed"> 
+              <md-icon>add</md-icon>
+          </a>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>
+
+
+
