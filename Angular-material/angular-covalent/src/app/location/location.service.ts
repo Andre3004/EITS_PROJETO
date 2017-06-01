@@ -1,3 +1,4 @@
+import { Location } from './Location';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -29,19 +30,27 @@ export class LocationService
     }
   }
  
-  listAllLocation(): Observable<Object[]>
+  listAllLocation(): Observable<Location[]>
   {
     return this.http.get(this.url + 'listAllLocation').map(res => res.json());
+  }
+
+  listAllSubLocation(id): Observable<Location[]>
+  {
+    return this.http.get(this.url + 'listAllSubLocation/' + id).map(res => res.json());
   }
   
   deleteLocation(location): Observable<Response>
   {
     return this.http.delete(this.url + 'deleteLocation/' + location.id);
   }
-  findLocationbyId(id): Observable<Object>
+
+  findLocationbyId(id): Observable<Location>
   {
     return this.http.get(this.url + 'findLocationById/' + id).map(res => res.json());;
   }
+
+  
 
 
 

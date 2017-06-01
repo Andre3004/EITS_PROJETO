@@ -43,7 +43,7 @@
                 <table>
                     <tr>
                         <td>
-                            <md-select name ="subLocation" [(ngModel)]="location.subLocation" placeholder="Sub Localização">
+                            <md-select name ="location" [(ngModel)]="location.location" placeholder="Localização">
                                 <md-option *ngFor="let location of locations" [value]="location">
                                     {{ location.codLocation }}
                                 </md-option>

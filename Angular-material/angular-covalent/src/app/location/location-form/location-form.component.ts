@@ -1,3 +1,4 @@
+import { Location } from './../Location';
 import { LocationService } from './../location.service';
 import { UserService } from './../../user/user.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,17 +13,9 @@ export class LocationFormComponent {
   router: any;
 
   users: Object[] = [];
-  locations : Object[] = [];
-  subLocations: Object[] = [];
-  location : Object = {};
-
-  readOnly: boolean = false;
-  chipAddition: boolean = true;
-  placeholder: Object;
-  
-  items: Object[] = this.locations;
-
-  itemsRequireMatch: Object[] = this.items.slice(0, 6);
+  locations : Location[] = [];
+  subLocations: Location[] = [];
+  location: Location;
 
   constructor(public userService: UserService, public locationService: LocationService) 
   {

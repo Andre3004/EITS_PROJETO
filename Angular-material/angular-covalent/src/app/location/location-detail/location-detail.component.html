@@ -1,3 +1,56 @@
-<p>
-  location-detail works!
-</p>
+<td-layout-nav> 
+    <td-layout-card-over cardTitle="Localização"  class="card" cardWidth="75">
+        <md-card >    
+
+            <form class="example-form">
+                <md-input-container class="example-full-width">
+                    <input mdInput placeholder="ID" [value]="location.id" disabled>
+                </md-input-container>
+
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="location.codLocation" placeholder="Código Localizador">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="location.responsible.name" placeholder="Responsável">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="location.viceResponsible.name" placeholder="Vice Responsável">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                
+                
+
+                <md-list>
+                    <h3 md-subheader>Sub localizações</h3>
+                    <md-list-item *ngFor="let sublocation of sublocations">
+                        <md-icon md-list-icon>location_on</md-icon>
+                        <h4 md-line>{{sublocation?.codLocation}}</h4>
+                        <p md-line> Responsável: {{sublocation?.responsible?.name }} </p>
+                        <p md-line> Vice Responsável: {{sublocation?.viceResponsible?.name }} </p>
+                    </md-list-item>
+                </md-list>
+              
+                <div class="inset">
+                    <button md-raised-button  color="primary" [routerLink]="['/location']" class="button">Voltar</button>
+                </div>
+            </form>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>

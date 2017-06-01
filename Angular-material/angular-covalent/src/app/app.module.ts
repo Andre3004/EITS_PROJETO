@@ -15,7 +15,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSlideToggleModule, MdRadioModule, MdInputModule, MdSnackBarModule } from '@angular/material';
+import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSlideToggleModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule  } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
@@ -73,7 +73,9 @@ import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment
     AppRoutingModule,
     CovalentMessageModule,
     MdSnackBarModule, 
-    CovalentChipsModule 
+    CovalentChipsModule, 
+    MdTabsModule,
+    MdListModule
   ],
   exports: [ FilterName ],
   providers: [TdMediaService, TdLoadingService, UserService, LocationService],

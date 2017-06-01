@@ -1,3 +1,4 @@
+import { User } from './User';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -29,7 +30,7 @@ export class UserService
     }
   }
  
-  listAllUser(): Observable<Object[]>
+  listAllUser(): Observable<User[]>
   {
     return this.http.get(this.url + 'listAllUser').map(res => res.json());
   }
@@ -49,7 +50,7 @@ export class UserService
       return this.http.patch(this.url + 'deactivateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
     }
   }
-  findUserbyId(id): Observable<Object>
+  findUserbyId(id): Observable<User>
   {
     return this.http.get(this.url + 'findUserById/' + id).map(res => res.json());;
   }

@@ -1,3 +1,4 @@
+import { User } from './User';
 import { UserService } from './user.service';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFormComponent } from './user-form/user-form.component';
@@ -15,7 +16,7 @@ import { ViewContainerRef } from '@angular/core';
 export class UserComponent  
 {
 
-    users: Object[] = [];
+    users: User[] = [];
     permission = false;
 
   constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router)

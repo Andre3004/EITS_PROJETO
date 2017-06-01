@@ -20,9 +20,9 @@ export class UserDetailComponent
           console.log(id);
           
           this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
-          console.log(this.user);
+          
       });
     }
-
+    
 
 }
