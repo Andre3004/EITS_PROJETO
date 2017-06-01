@@ -15,9 +15,9 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSlideToggleModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule } from '@angular/material';
+import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSlideToggleModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule  } from '@covalent/core';
+import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule} from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
 import { CovalentHighlightModule } from '@covalent/highlight';
 import { CovalentMarkdownModule } from '@covalent/markdown';
@@ -25,7 +25,7 @@ import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import 'rxjs/add/operator/map';
-import { TdMediaService, TdLoadingService } from '@covalent/core';
+import { TdMediaService, TdLoadingService, TdDialogService } from '@covalent/core';
 import { LocationDetailComponent } from './location/location-detail/location-detail.component';
 import { LocationFormComponent } from './location/location-form/location-form.component';
 import { EquipmentFormComponent } from './equipment/equipment-form/equipment-form.component';
@@ -46,7 +46,7 @@ import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment
     LocationDetailComponent,
     LocationFormComponent,
     EquipmentFormComponent,
-    EquipmentDetailComponent
+    EquipmentDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -75,10 +75,11 @@ import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment
     MdSnackBarModule, 
     CovalentChipsModule, 
     MdTabsModule,
-    MdListModule
+    MdListModule,
+    MdDialogModule
   ],
   exports: [ FilterName ],
-  providers: [TdMediaService, TdLoadingService, UserService, LocationService],
+  providers: [TdMediaService, TdLoadingService, UserService, LocationService, TdDialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Location } from './../Location';
 import { LocationService } from './../location.service';
 import { UserService } from './../../user/user.service';
@@ -14,10 +15,9 @@ export class LocationFormComponent {
 
   users: Object[] = [];
   locations : Location[] = [];
-  subLocations: Location[] = [];
-  location: Location;
+  location: Object = {};
 
-  constructor(public userService: UserService, public locationService: LocationService) 
+  constructor(public userService: UserService, public locationService: LocationService, private activatedRoute: ActivatedRoute) 
   {
       userService.listAllUser().subscribe(users => 
       { 
@@ -31,6 +31,18 @@ export class LocationFormComponent {
         this.locations = locations;
         console.log(this.locations);
       },erro => console.log(erro)); 
+
+      activatedRoute.params.subscribe(params => {
+               
+          let id = params['id'];
+          console.log(id);
+          if (id)
+          {
+            this.locationService.findLocationbyId(id).subscribe( location => this.location = location, erro => console.log(erro));
+            console.log(this.location);
+          }
+          
+      });
   }
 
   insertLocation(event, locationId)

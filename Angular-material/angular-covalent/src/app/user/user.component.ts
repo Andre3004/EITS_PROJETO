@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MdInputModule, MdSnackBar} from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
+import { TdDialogService } from '@covalent/core';
 
 @Component(
   {
@@ -16,10 +17,10 @@ import { ViewContainerRef } from '@angular/core';
 export class UserComponent  
 {
 
-    users: User[] = [];
+    users: Object[] = [];
     permission = false;
 
-  constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router)
+  constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router, private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef)
   {
       userService.listAllUser().subscribe(users => 
       { 
@@ -38,6 +39,7 @@ export class UserComponent
     });
   }
 
+
   confirmEnable(e: any, user) {
     if (window.confirm('Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?')) {
       this.userService.activateUser(user).subscribe(() => 
@@ -55,7 +57,7 @@ export class UserComponent
     }
   }
   confirmDisable(e: any, user) {
-    if (window.confirm('Tem certeza que deseja desativar ' + user.name + ' ' + user.lastName +  ' ?')) 
+    if (window.confirm('Tem certeza que deseja desativar ' +   ' ?')) 
     {
       this.userService.deactivateUser(user).subscribe(() => 
       {
@@ -76,36 +78,36 @@ export class UserComponent
 
 
 
-    // openConfirmEnable(event, user): void 
-    // {
-    //     this._dialogService.openConfirm(
-    //     {
-    //         message: 'Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?',
-    //         disableClose: false, 
-    //         viewContainerRef: this._viewContainerRef,
-    //         title: 'Ativar usuário', 
-    //         cancelButton: 'Não',
-    //         acceptButton: 'Sim', 
-    //     }).
-    //     afterClosed().subscribe((accept: boolean) => 
-    //     {
-    //       if (accept) 
-    //       {
-    //           this.userService.activateUser(user).subscribe(() => 
-    //           {
-    //               this.permission = !this.permission;
-    //               console.log('Usuario ativado com sucesso!');
-    //               // let users = this.users.slice(0);
-    //               // let indice = users.indexOf(user);
-    //               // users.splice(indice, 1);
-    //               // this.users = users;
-    //           },
-    //           erro => console.log(erro));
-    //       }
-    //       else
-    //       {
-    //         event.preventDefault();
-    //       }
-    //     })
-    // }
+    openConfirmEnable(event, user): void 
+    {
+        this._dialogService.openConfirm(
+        {
+            message: 'Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?',
+            disableClose: false, 
+            viewContainerRef: this._viewContainerRef,
+            title: 'Ativar usuário', 
+            cancelButton: 'Não',
+            acceptButton: 'Sim', 
+        }).
+        afterClosed().subscribe((accept: boolean) => 
+        {
+          if (accept) 
+          {
+              this.userService.activateUser(user).subscribe(() => 
+              {
+                  this.permission = !this.permission;
+                  console.log('Usuario ativado com sucesso!');
+                  // let users = this.users.slice(0);
+                  // let indice = users.indexOf(user);
+                  // users.splice(indice, 1);
+                  // this.users = users;
+              },
+              erro => console.log(erro));
+          }
+          else
+          {
+            event.preventDefault();
+          }
+        })
+    }
 }

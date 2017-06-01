@@ -2,6 +2,7 @@ import { Location } from './../Location';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LocationService } from './../location.service';
 import { Component, OnInit } from '@angular/core';
+import { TdDialogService } from '@covalent/core';
 
 @Component({
   selector: 'app-location-detail',
@@ -21,7 +22,7 @@ export class LocationDetailComponent
   sublocations : Object[] ;
   id: number;
 
-  constructor(public locationService: LocationService, public router: Router, public activatedRouter: ActivatedRoute) 
+  constructor(private _dialogService: TdDialogService, public locationService: LocationService, public router: Router, public activatedRouter: ActivatedRoute) 
   { 
 
     activatedRouter.params.subscribe(params => 

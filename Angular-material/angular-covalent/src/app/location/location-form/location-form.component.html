@@ -20,7 +20,7 @@
                     <tr>
                         <td>
                             <md-select required name ="responsible" [(ngModel)]="location.responsible" placeholder="Responsável">
-                                <md-option *ngFor="let user of users" [value]="user">
+                                <md-option *ngFor="let user of users" [value]="user" >
                                     {{ user.name }}
                                 </md-option>
                             </md-select>

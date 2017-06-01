@@ -21,7 +21,8 @@
                         <button md-button [routerLink]="['/user-detail', item.id]" ><md-icon md-list-avatar>details</md-icon></button>
                         <button md-button [routerLink]="['/user-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>
                         <md-slide-toggle  *ngIf="item.active" [checked]="true" (click)="confirmDisable($event, item)"  ></md-slide-toggle> <!-- *ngIf="teste(item)"  (click)="openConfirmDisable(item)" // [checked]=" item.active ? 'true' : 'false' "-->
-                        <md-slide-toggle  *ngIf="!item.active" (click)="confirmEnable($event, item)" ></md-slide-toggle> 
+                        <md-slide-toggle  *ngIf="!item.active" (click)="confirmEnable($event, item)"  ></md-slide-toggle> 
+                        <!--<button md-button (click)="openConfirmEnable($event, user)" ><md-icon md-list-avatar>power_settings_new</md-icon></button>-->
                     </a>
                     <md-divider *ngIf="!last" md-inset></md-divider>        
               </ng-template>
