@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe(
 {
-    name: 'FilterCodLocation',
+    name: 'filterCodLocation',
 })
 
 export class FilterCodLocation implements PipeTransform

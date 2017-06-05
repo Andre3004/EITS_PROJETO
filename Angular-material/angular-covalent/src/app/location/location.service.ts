@@ -1,4 +1,3 @@
-import { Location } from './Location';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -30,12 +29,12 @@ export class LocationService
     }
   }
  
-  listAllLocation(): Observable<Location[]>
+  listAllLocation(): Observable<Object[]>
   {
     return this.http.get(this.url + 'listAllLocation').map(res => res.json());
   }
 
-  listAllSubLocation(id): Observable<Location[]>
+  listAllSubLocation(id): Observable<Object[]>
   {
     return this.http.get(this.url + 'listAllSubLocation/' + id).map(res => res.json());
   }
@@ -45,7 +44,7 @@ export class LocationService
     return this.http.delete(this.url + 'deleteLocation/' + location.id);
   }
 
-  findLocationbyId(id): Observable<Location>
+  findLocationbyId(id): Observable<Object>
   {
     return this.http.get(this.url + 'findLocationById/' + id).map(res => res.json());;
   }

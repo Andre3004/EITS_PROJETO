@@ -3,7 +3,7 @@
         <md-card>      
             <md-card-title layout>
                 <md-input-container class="text-sm" flex>
-                    <input #textSearch (keyup)="0" mdInput placeholder="Procurar usuários"/>
+                    <input #textSearch (keyup)="0" mdInput placeholder="Procurar equipamentos"/>
                     <span mdPrefix><md-icon class="icon">search</md-icon></span>
                 </md-input-container>
             </md-card-title>
@@ -12,7 +12,7 @@
                     <md-icon md-list-avatar>bug_report</md-icon>
                     <h3 md-line>Equipamentos</h3>
                 </md-list-item>   
-                <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="users ">
+                <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="equipments | filterNameEquipment: textSearch.value" >
                   <!--| filterName: textSearch.value"-->
                     <a md-list-item>
                         <md-icon md-list-avatar>select_all</md-icon>
@@ -21,7 +21,7 @@
                         <span flex></span>
                         <button md-button [routerLink]="['/equipment-detail', item.id]" ><md-icon md-list-avatar>details</md-icon></button>
                         <button md-button [routerLink]="['/equipment-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>
-                        <button md-button ><md-icon md-list-avatar>delete</md-icon></button>
+                        <button md-button (click)="openConfirm(item)"><md-icon md-list-avatar>delete</md-icon></button>
                     </a>
                     <md-divider *ngIf="!last" md-inset></md-divider>        
               </ng-template>
@@ -32,6 +32,6 @@
      </md-card> 
   </td-layout-card-over>
 </td-layout-nav>
-
+ 
 
 

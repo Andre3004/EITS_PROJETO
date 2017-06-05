@@ -6,7 +6,7 @@
                     <input #textSearch (keyup)="0" mdInput placeholder="Procurar usuários"/>
                     <span mdPrefix><md-icon class="icon">search</md-icon></span>
                 </md-input-container>
-            </md-card-title>
+            </md-card-title> 
             <md-list class="pull-top">
                 <md-list-item>
                     <md-icon md-list-avatar>account_circle</md-icon>
@@ -26,6 +26,7 @@
                     <md-divider *ngIf="!last" md-inset></md-divider>        
               </ng-template>
           </md-list>
+          <!--<a md-fab td-sidenav-content color="accent" (click)="teste(5)" class="botao"-->
           <a md-fab td-sidenav-content color="accent" [routerLink]="['/user-new']" class="botao" style="bottom:20px; position: float; z-index: 1; position: fixed"> 
               <md-icon>add</md-icon>
           </a>

@@ -1,4 +1,3 @@
-import { Location } from './../Location';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LocationService } from './../location.service';
 import { Component, OnInit } from '@angular/core';
@@ -58,7 +57,7 @@ export class LocationDetailComponent
     //       this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
     //       console.log(this.user);
     //   });
-    // }
+    // } 
 
     
  

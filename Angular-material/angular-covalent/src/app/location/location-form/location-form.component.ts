@@ -1,6 +1,5 @@
 import { MdSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from './../Location';
 import { LocationService } from './../location.service';
 import { UserService } from './../../user/user.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +13,7 @@ import { Component, OnInit } from '@angular/core';
 export class LocationFormComponent {
 
   users: Object[] = [];
-  locations : Location[] = [];
+  locations : Object[] = [];
   location: Object = {};
 
   constructor(public userService: UserService, public locationService: LocationService, 

@@ -1,3 +1,6 @@
+import { FilterNameEquipment } from './equipment/equipment.pipes';
+import { FilterCodLocation } from './location/location.pipes';
+import { EquipmentService } from './equipment/equipment.service';
 import { LocationService } from './location/location.service';
 import { EquipmentComponent } from './equipment/equipment.component';
 import { LocationComponent } from './location/location.component';
@@ -15,7 +18,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSlideToggleModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule } from '@angular/material';
+import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSliderModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule, MdSlideToggleModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule, CovalentDialogsModule } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
@@ -43,6 +46,8 @@ import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment
     LocationComponent,
     EquipmentComponent,
     FilterName,
+    FilterCodLocation,
+    FilterNameEquipment,
     LocationDetailComponent,
     LocationFormComponent,
     EquipmentFormComponent,
@@ -77,10 +82,11 @@ import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment
     MdTabsModule,
     MdListModule,
     MdDialogModule,
-    CovalentDialogsModule 
+    CovalentDialogsModule,
+    MdSliderModule
   ],
-  exports: [ FilterName ],
-  providers: [TdMediaService, TdLoadingService, UserService, LocationService, TdDialogService],
+  exports: [ FilterName, FilterCodLocation, FilterNameEquipment ],
+  providers: [TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

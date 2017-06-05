@@ -1,3 +1,61 @@
-<p>
-  equipment-detail works!
-</p>
+<td-layout-nav> 
+    <td-layout-card-over cardTitle="Equipamento"  class="card" cardWidth="75">
+        <md-card >    
+
+            <form class="example-form">
+                <md-input-container class="example-full-width">
+                    <input mdInput placeholder="ID" [value]="equipment.id" disabled>
+                </md-input-container>
+
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="equipment.name" placeholder="Nome do equipamento">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="equipment.description" placeholder="Descrição">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="equipment.archivePath" placeholder="Arquivo">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input mdInput disabled [value]="equipment?.location?.codLocation" placeholder="Localização">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <md-list>
+                    <h3 md-subheader>Sub equipamentos</h3>
+                    <md-list-item *ngFor="let subequipment of subequipments">
+                        <md-icon md-list-icon>android</md-icon>
+                        <h4 md-line>{{subequipment?.name}}</h4>
+                        <p md-line> Descrição: {{subequipment?.description }} </p>
+                    </md-list-item>
+                </md-list>
+              
+                <div class="inset">
+                    <button md-raised-button  color="primary" [routerLink]="['/equipment']" class="button">Voltar</button>
+                </div>
+            </form>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>

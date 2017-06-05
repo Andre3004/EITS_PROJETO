@@ -11,9 +11,9 @@
                 <md-list-item>
                     <md-icon md-list-avatar>location_searching</md-icon>
                     <h3 md-line>Localizações</h3>
-                </md-list-item>    
-                <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="locations">
-                            <a md-list-item>
+                </md-list-item>     
+                <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="locations | filterCodLocation: textSearch.value">
+                            <a md-list-item> 
                                 <md-icon md-list-avatar>location_on</md-icon>
                                 <h3 md-line> {{item.codLocation}}</h3>
                                 <p md-line> {{item.responsible.name}} </p>

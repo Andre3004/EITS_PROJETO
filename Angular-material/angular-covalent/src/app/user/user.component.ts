@@ -1,4 +1,3 @@
-import { User } from './User';
 import { UserService } from './user.service';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFormComponent } from './user-form/user-form.component';
@@ -40,14 +39,18 @@ export class UserComponent
     });
   }
 
+  //   teste(id){
+  //   this.router.navigate(['users/edit', id], { relativeTo: this.route });
+  // }
+
   openConfirm(event, user): void 
   {
       this._dialogService.openConfirm(
       {
-          message: user.active ? 'Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?' : 'Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?',
+          message: user.active ? 'Tem certeza que deseja desativar ' + user.name + ' ' + user.lastName +  ' ?' : 'Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?',
           disableClose: false, 
           viewContainerRef: this._viewContainerRef,
-          title: user.active ? 'Ativar usuário' : 'Desativar usuário', 
+          title: user.active ? 'Desativar usuário' : 'Ativar usuário', 
           cancelButton: 'Não',
           acceptButton: 'Sim', 
       }).
