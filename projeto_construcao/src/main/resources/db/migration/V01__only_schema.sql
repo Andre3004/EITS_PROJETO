@@ -146,7 +146,7 @@ CREATE TABLE users (
     id bigint NOT NULL,
     email character varying(144) NOT NULL,
     name character varying(50)NOT NULL,
-    password character varying(50)NOT NULL,
+    password character varying(100)NOT NULL,
     permission character varying(20)NOT NULL,
     active boolean DEFAULT true NOT NULL,
     lastname character varying(50)NOT NULL,
