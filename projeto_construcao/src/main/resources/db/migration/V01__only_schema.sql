@@ -63,9 +63,9 @@
 
 CREATE TABLE equipment (
     id bigint NOT NULL,
-    archivepath character varying(255),
-    description character varying(255) NOT NULL,
-    name character varying(255)NOT NULL,
+    archivepath character varying(144),
+    description character varying(144) NOT NULL,
+    name character varying(50)NOT NULL,
     equipment_id bigint,
     location_id bigint 
 );
@@ -104,7 +104,7 @@ ALTER SEQUENCE equipment_id_seq OWNED BY equipment.id;
 
 CREATE TABLE location (
     id bigint NOT NULL,
-    codlocation character varying(255) NOT NULL,
+    codlocation character varying(50) NOT NULL,
     location_id bigint,
     responsible_id bigint NOT NULL,
     vice_responsible_id bigint
@@ -144,13 +144,13 @@ ALTER SEQUENCE location_id_seq OWNED BY location.id;
 
 CREATE TABLE users (
     id bigint NOT NULL,
-    email character varying(255) NOT NULL,
-    name character varying(255)NOT NULL,
-    password character varying(255)NOT NULL,
-    permission character varying(255)NOT NULL,
+    email character varying(144) NOT NULL,
+    name character varying(50)NOT NULL,
+    password character varying(50)NOT NULL,
+    permission character varying(20)NOT NULL,
     active boolean DEFAULT true NOT NULL,
-    lastname character varying(255)NOT NULL,
-    sex character varying(255)NOT NULL
+    lastname character varying(50)NOT NULL,
+    sex character varying(20)NOT NULL
 );
 
 
