@@ -6,14 +6,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.projeto.model.User;
-import br.com.projeto.repository.UserRepository;
+import br.com.projeto.repository.IUserRepository;
 
 @Service
-public class AutenticacaoService implements UserDetailsService 
+public class AuthenticationService implements UserDetailsService 
 {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private IUserRepository userRepository;
 	
 	public User loadUserByUsername(String email)
 	{

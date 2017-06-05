@@ -1,24 +1,56 @@
 package br.com.projeto.service;
 
+import java.util.List;
+
+import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.projeto.model.Location;
-import br.com.projeto.repository.LocationRepository;
+import br.com.projeto.repository.ILocationRepository;
 
 @Service
-@Transactional
+@RemoteProxy(name = "locationService")
 public class LocationService 
 {
 	
 	@Autowired
-	private LocationRepository locationRepository;
+	private ILocationRepository locationRepository;
 	
-	@Transactional
-	public void insert(Location location)
+	public void insertLocation(Location location)
 	{
 		locationRepository.save(location);
 	}
+	
+	public List<Location> listAllLocation()
+	{
+		return locationRepository.findAll();
+	}
+
+	public List<Location> listAllSubLocation(Long id) 
+	{
+		return locationRepository.findAllSubLocations(id);
+	}
+
+	public Location findLocationById(Long id) 
+	{
+		return locationRepository.findOne(id);
+	}
+
+	public void deleteLocation(Long id) 
+	{
+		locationRepository.delete(id);
+	}
+
+	public void updateLocation(Location location) 
+	{
+		if ( location.getLocation().getId() == location.getId() )
+		{
+			throw new IllegalArgumentException("Nâo foi possíve salvar a localização.");
+		}
+		locationRepository.saveAndFlush(location);
+	}
+	
+	
 
 }

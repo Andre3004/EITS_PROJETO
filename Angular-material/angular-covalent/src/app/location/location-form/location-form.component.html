@@ -53,7 +53,7 @@
                 </table>
                 <br><br>
                 <div class="inset">
-                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertLocation($event, location.id)" >Salvar</button>
+                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertLocation(location)" >Salvar</button>
                     <button md-raised-button  color="primary" [routerLink]="['/location']" class="button">Cancelar</button>
                 </div>
             </form>

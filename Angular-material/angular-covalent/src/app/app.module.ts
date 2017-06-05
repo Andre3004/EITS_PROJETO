@@ -17,7 +17,7 @@ import { AppComponent } from './app.component';
 
 import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSlideToggleModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule} from '@covalent/core';
+import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule, CovalentDialogsModule } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
 import { CovalentHighlightModule } from '@covalent/highlight';
 import { CovalentMarkdownModule } from '@covalent/markdown';
@@ -76,7 +76,8 @@ import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment
     CovalentChipsModule, 
     MdTabsModule,
     MdListModule,
-    MdDialogModule
+    MdDialogModule,
+    CovalentDialogsModule 
   ],
   exports: [ FilterName ],
   providers: [TdMediaService, TdLoadingService, UserService, LocationService, TdDialogService],

@@ -20,6 +20,8 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 @DataTransferObject(javascript = "User")
@@ -35,26 +37,66 @@ public class User implements UserDetails
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
+	private String lastName;
 	private String email;
 	private String password;
 
 	@Column(name = "active", nullable = false, columnDefinition = "boolean default true")
 	private boolean active;
 
-	@Transient
-	private String confirmPassword;
+	/*@Transient
+	private String confirmPassword;*/
 
-	// @DateTimeFormat
-	// private LocalDate dataNascimento;
+	private String sex;
 
 	@Enumerated(EnumType.STRING)
 	private UserRole permission;
+
+	public User()
+	{
+
+	}
+	
+	public User(Long id, String name, String email, String password, boolean active, UserRole permission, String lastName, String sex)
+	{
+		super();
+		this.id = id;
+		this.name = name;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.active = active;
+		this.sex = sex;
+		this.permission = permission;
+	}
+	
+	
+	public String getLastName() 
+	{
+		return lastName;
+	}
+
+	public void setLastName(String lastName) 
+	{
+		this.lastName = lastName;
+	}
+
+	public String getSex() 
+	{
+		return sex;
+	}
+
+	public void setSex(String sex) 
+	{
+		this.sex = sex;
+	}
 
 	public long getId() 
 	{
 		return id;
 	}
 
+	
 	public void setId(long id) 
 	{
 		this.id = id;
@@ -90,16 +132,6 @@ public class User implements UserDetails
 		this.active = active;
 	}
 
-	public String getConfirmPassword() 
-	{
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) 
-	{
-		this.confirmPassword = confirmPassword;
-	}
-
 	public UserRole getPermission() 
 	{
 		return permission;
@@ -109,7 +141,8 @@ public class User implements UserDetails
 	{
 		this.permission = permission;
 	}
-
+	
+	@JsonIgnore
 	public static long getSerialversionuid() 
 	{
 		return serialVersionUID;
@@ -143,7 +176,8 @@ public class User implements UserDetails
 			return false;
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() 
 	{
@@ -151,37 +185,42 @@ public class User implements UserDetails
 		users.add(permission);
 		return users;
 	}
-
+	
 	@Override
 	public String getPassword() 
 	{
 		return this.password;
 	}
 
+	@JsonIgnore
 	@Override
 	public String getUsername() 
 	{
 		return this.email;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() 
 	{
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() 
 	{
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() 
 	{
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() 
 	{

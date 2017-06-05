@@ -3,6 +3,7 @@ package br.com.projeto.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,91 +19,64 @@ public class Equipment
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id; 
-	
 	private String name;
 	private String description;
-	
 	private  String archivePath;
 	
 	@ManyToOne
 	@JoinColumn(name = "location_id")
 	private Location location;
 	
-	@ManyToOne
-	@JoinColumn(name = "sub_equipment_id")
-	private Equipment subEquipment;
-	
-	@OneToMany(mappedBy = "subEquipment")
-	private List<Equipment> equipments;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "equipment_id")
+	private Equipment equipment;
 
-	public long getId() 
-	{
+	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) 
-	{
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getName() 
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) 
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getDescription() 
-	{
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) 
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public String getArchivePath()
-	{
+	public String getArchivePath() {
 		return archivePath;
 	}
 
-	public void setArchivePath(String archivePath) 
-	{
+	public void setArchivePath(String archivePath) {
 		this.archivePath = archivePath;
 	}
 
-	public Location getLocation() 
-	{
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location) 
-	{
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 
-	public Equipment getSubEquipment() 
-	{
-		return subEquipment;
+	public Equipment getEquipment() {
+		return equipment;
 	}
 
-	public void setSubEquipment(Equipment subEquipment) 
-	{
-		this.subEquipment = subEquipment;
-	}
-
-	public List<Equipment> getEquipments() 
-	{
-		return equipments;
-	}
-
-	public void setEquipments(List<Equipment> equipments) 
-	{
-		this.equipments = equipments;
+	public void setEquipment(Equipment equipment) {
+		this.equipment = equipment;
 	}
 
 	@Override

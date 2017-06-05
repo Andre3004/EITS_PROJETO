@@ -8,20 +8,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import br.com.projeto.service.AutenticacaoService;
+import br.com.projeto.service.AuthenticationService;
 
 @EnableWebSecurity
-@ComponentScan(basePackageClasses = AutenticacaoService.class)
+@ComponentScan(basePackageClasses = AuthenticationService.class)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
 	
 	@Autowired
-	private AutenticacaoService autentication;
+	private AuthenticationService autentication;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception 
 	{
-		http
+		http.csrf().disable()
 		.authorizeRequests()
 			.antMatchers("/**").permitAll();
 		

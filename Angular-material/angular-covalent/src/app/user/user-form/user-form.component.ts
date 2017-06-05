@@ -54,7 +54,6 @@ export class UserFormComponent
             console.log('insert working');
             console.log(event);
             console.log(userId);
-            event.preventDefault();
             this.router.navigate(['/user']);
             this.userService.insertUser(this.user).subscribe(() => 
             {

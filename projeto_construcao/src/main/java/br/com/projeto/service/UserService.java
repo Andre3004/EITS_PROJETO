@@ -8,27 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.com.projeto.infra.Mailer;
 import br.com.projeto.model.User;
-import br.com.projeto.repository.UserRepository;
+import br.com.projeto.repository.IUserRepository;
 
 //IMPLEMENTAÇÃO
 @Service("userService")
-@Transactional
 @RemoteProxy(name = "userService")
 public class UserService
 {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private IUserRepository userRepository;
 	
 	@Autowired
 	private Mailer mailer;
 	
 	@RemoteMethod
-	@PreAuthorize("hasRole('ADMIN')")
+	@CrossOrigin(origins = "http://localhost:4200")
 	public User insertUser(User user)
 	{		
 		mailer.send(user); // envio de email
@@ -37,6 +38,7 @@ public class UserService
 		
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); // criptografando a senha para o banco
 		user.setPassword(hash);// set senha criptografada
+		user.setActive(true);
 		
 		return userRepository.save(user); // inserindo o usuario
 	}
@@ -49,18 +51,17 @@ public class UserService
 	}
 	
 	@RemoteMethod
-	@PreAuthorize("hasRole('USER')")
 	public User findUserById(Long id) 
 	{
 		return userRepository.findOne(id);
 	}	
 	
-	@RemoteMethod
+	/*@RemoteMethod
 	@PreAuthorize("hasRole('ADMIN')")
 	public void deleteUser(Long id)
 	{
 		userRepository.delete(id);
-	}
+	}*/
 	
 	@RemoteMethod
 	@PreAuthorize("hasRole('USER')")
@@ -69,20 +70,30 @@ public class UserService
 		return userRepository.findByEmail(email);
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
-	public User activateUser(User user) {
-		if ( user.isActive()){
-			throw new IllegalArgumentException("O usuário já está ativo");
-		}
+
+	public void activateUser(User user) 
+	{
+		System.out.println(user.getName());
 		user.setActive(true);
-		return insertUser(user);
+		userRepository.save(user);
 	}
-	@PreAuthorize("hasRole('ADMIN')")
-	public User deactivateUser(User user) {
-		if ( user.isActive() == false ){
-			throw new IllegalArgumentException("O usuário já está desativado");
+	
+	public void deactivateUser(User user) 
+	{
+		if ( user.getId() == 42)
+		{
+			throw new IllegalArgumentException("O usuário Master não pode ser desativado.");
 		}
+		System.out.println(user.getName());
 		user.setActive(false);
-		return insertUser(user);
+		userRepository.save(user);
+	}
+
+	public void editUser(User user) 
+	{
+		System.out.println(user.getName());
+		String hash = new BCryptPasswordEncoder().encode(user.getPassword());
+		user.setPassword(hash);
+		userRepository.saveAndFlush(user);	 
 	}
 }

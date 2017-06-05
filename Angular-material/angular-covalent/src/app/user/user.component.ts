@@ -4,7 +4,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { MdInputModule, MdSnackBar} from '@angular/material';
+import { MdInputModule, MdSnackBar, MdDialogModule } from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
 import { TdDialogService } from '@covalent/core';
 
@@ -20,7 +20,8 @@ export class UserComponent
     users: Object[] = [];
     permission = false;
 
-  constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router, private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef)
+  constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router, 
+              private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef)
   {
       userService.listAllUser().subscribe(users => 
       { 
@@ -39,75 +40,54 @@ export class UserComponent
     });
   }
 
-
-  confirmEnable(e: any, user) {
-    if (window.confirm('Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?')) {
-      this.userService.activateUser(user).subscribe(() => 
+  openConfirm(event, user): void 
+  {
+      this._dialogService.openConfirm(
       {
-          this.permission = !this.permission;
-          this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
-      },
-      erro => 
+          message: user.active ? 'Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?' : 'Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?',
+          disableClose: false, 
+          viewContainerRef: this._viewContainerRef,
+          title: user.active ? 'Ativar usuário' : 'Desativar usuário', 
+          cancelButton: 'Não',
+          acceptButton: 'Sim', 
+      }).
+      afterClosed().subscribe((accept: boolean) => 
       {
-        console.log(erro)
-        this.openSnackBar('Não foi possível ativar o usuário ', 'Erro!');
-      });
-    } else {
-      e.preventDefault();
-    }
-  }
-  confirmDisable(e: any, user) {
-    if (window.confirm('Tem certeza que deseja desativar ' +   ' ?')) 
-    {
-      this.userService.deactivateUser(user).subscribe(() => 
-      {
-          this.permission = !this.permission;
-          this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
-          console.log('Usuario desativado');
-      },
-      erro => 
-      {
-        console.log(erro)
-        this.openSnackBar('Não foi possível desativar o usuário ', 'Erro!');
-      });
-    } else {
-      e.preventDefault();
-    }
-  }
-
-
-
-
-    openConfirmEnable(event, user): void 
-    {
-        this._dialogService.openConfirm(
+        if (accept) 
         {
-            message: 'Tem certeza que deseja ativar ' + user.name + ' ' + user.lastName +  ' ?',
-            disableClose: false, 
-            viewContainerRef: this._viewContainerRef,
-            title: 'Ativar usuário', 
-            cancelButton: 'Não',
-            acceptButton: 'Sim', 
-        }).
-        afterClosed().subscribe((accept: boolean) => 
+          if (!user.active) 
+          {
+            this.userService.activateUser(user).subscribe(() => 
+            {
+                console.log('Usuario ativado com sucesso!');
+                this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
+            },
+            erro => 
+            {
+              console.log(erro);
+              this.openSnackBar('Não foi possível ativar o usuário ', 'Erro!');
+            }
+            );
+          }
+          else 
+          {
+            this.userService.deactivateUser(user).subscribe(() => 
+            {
+                console.log('Usuario desativado com sucesso!');
+                this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
+            },
+            erro => 
+            {
+              console.log(erro);
+              this.openSnackBar('Não foi possível desativar o usuário ', 'Erro!');
+            }
+            );
+          }
+        }
+        else
         {
-          if (accept) 
-          {
-              this.userService.activateUser(user).subscribe(() => 
-              {
-                  this.permission = !this.permission;
-                  console.log('Usuario ativado com sucesso!');
-                  // let users = this.users.slice(0);
-                  // let indice = users.indexOf(user);
-                  // users.splice(indice, 1);
-                  // this.users = users;
-              },
-              erro => console.log(erro));
-          }
-          else
-          {
-            event.preventDefault();
-          }
-        })
-    }
+          
+        }
+      })
+  }
 }

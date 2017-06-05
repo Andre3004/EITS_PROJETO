@@ -5,7 +5,10 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -52,6 +55,5 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 		servletContext.addListener(RequestContextListener.class); 
 		servletContext.setInitParameter("spring.profiles.active", "dev"); 
 	}
-	
 	
 }

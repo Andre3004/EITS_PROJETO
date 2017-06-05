@@ -2,8 +2,13 @@ package br.com.projeto.restful;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,32 +49,48 @@ public class UserRestController
 		return userService.findUserById(id);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
+	/*@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/deleteUser/{id}", method = RequestMethod.DELETE)
 	public void deleteUser(@PathVariable("id") Long id)
 	{
 		userService.deleteUser(id);
-	}
+	}*/
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/findByEmail", method = RequestMethod.GET)
+	@RequestMapping(value = "/findUserByEmail", method = RequestMethod.GET)
 	public User findUserByEmail(String email)
 	{
 		return userService.findUserByEmail(email);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/activate/{id}", method = RequestMethod.POST)
-	public User activateUser(@PathVariable Long id)
+	@RequestMapping(value = "/findUserById/{id}", method = RequestMethod.GET)
+	public User findUserById(@PathVariable Long id)
 	{
-		return userService.activateUser(userService.findUserById(id));
+		return userService.findUserById(id);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/deactivate/{id}", method = RequestMethod.POST)
-	public User deactivateUser(@PathVariable Long id)
+	@RequestMapping(value = "/activateUser/{id}", method = RequestMethod.PATCH)
+	public void activateUser(@PathVariable Long id)
 	{
-		return userService.deactivateUser(userService.findUserById(id));
+		userService.activateUser(userService.findUserById(id));
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/deactivateUser/{id}", method = RequestMethod.PATCH)
+	public void deactivateUser(@PathVariable Long id)
+	{
+		userService.deactivateUser(userService.findUserById(id));
+	}
+	
+	
+	/*@Transactional(readOnly = false)*/
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
+	public void update(@RequestBody User user)
+	{
+		userService.editUser(user);
 	}
 
 }

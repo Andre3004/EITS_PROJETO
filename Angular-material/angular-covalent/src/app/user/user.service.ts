@@ -41,14 +41,7 @@ export class UserService
   }
   deactivateUser(user): Observable<Response>
   {
-    if ( ( user.name + user.lastName) == 'Masteruser' )
-    {
-      return Observable.throw('O usuário Master não pode ser desativado.');
-    }
-    else
-    {
       return this.http.patch(this.url + 'deactivateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
-    }
   }
   findUserbyId(id): Observable<User>
   {

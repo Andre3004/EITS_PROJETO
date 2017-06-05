@@ -6,13 +6,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphCrudRepository;
+
 import br.com.projeto.model.User;
 
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<User, Long>
+public interface IUserRepository extends JpaRepository<User, Long>
 {
 	@Query("select u from User u where u.email = :email")
 	public User findByEmail(@Param("email") String email);
+	
+	/*EntityGraphCrudRepository<T, Serializable>*/
 
 }

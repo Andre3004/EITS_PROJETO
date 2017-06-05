@@ -1,11 +1,15 @@
 package br.com.projeto.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.projeto.model.Equipment;
-import br.com.projeto.repository.EquipmentRepository;
+import br.com.projeto.model.Location;
+import br.com.projeto.repository.IEquipmentRepository;
+import br.com.projeto.repository.ILocationRepository;
 
 @Service
 @Transactional
@@ -13,12 +17,40 @@ public class EquipmentService
 {
 	
 	@Autowired
-	private EquipmentRepository equipmentRepository;
+	private IEquipmentRepository equipmentRepository;
 	
-	@Transactional
-	public void insert(Equipment equipment)
+	public void insertEquipment(Equipment equipment)
 	{
 		equipmentRepository.save(equipment);
+	}
+	
+	public List<Equipment> listAllEquipment()
+	{
+		return equipmentRepository.findAll();
+	}
+
+	public List<Equipment> listAllSubEquipment(Long id) 
+	{
+		return equipmentRepository.findAllSubEquipments(id);
+	}
+
+	public Equipment findEquipmentById(Long id) 
+	{
+		return equipmentRepository.findOne(id);
+	}
+
+	public void deleteEquipment(Long id) 
+	{
+		equipmentRepository.delete(id);
+	}
+
+	public void updateEquipment(Equipment equipment) 
+	{
+		if ( equipment.getEquipment().getId() == equipment.getId() )
+		{
+			throw new IllegalArgumentException("Nâo foi possível salvar o equipamento.");
+		}
+		equipmentRepository.saveAndFlush(equipment);
 	}
 	
 	
