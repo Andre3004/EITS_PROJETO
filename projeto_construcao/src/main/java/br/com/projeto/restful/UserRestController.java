@@ -41,14 +41,6 @@ public class UserRestController
 		return userService.listAllUser();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "detailUser/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public User detailUser(@PathVariable("id") Long id)
-	{	
-		return userService.findUserById(id);
-	}
-	
 	/*@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/deleteUser/{id}", method = RequestMethod.DELETE)
 	public void deleteUser(@PathVariable("id") Long id)

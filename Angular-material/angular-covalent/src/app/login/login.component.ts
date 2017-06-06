@@ -1,3 +1,5 @@
+import { MdSnackBar } from '@angular/material';
+import { AuthService } from './auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent {
 
-  constructor() { }
+  constructor(private authService: AuthService, public snackBar: MdSnackBar) { }
 
   user: Object = {};
+
+  openSnackBar(msg, action) 
+  {
+    this.snackBar.open(msg, action, 
+    {
+      duration: 5000,
+    }); 
+  }
+
+  login(user)
+  {
+    console.log(user.email);
+    this.authService.doLogin(user).subscribe(() => 
+    {
+      this.openSnackBar('Usuário logado com sucesso ', 'sucesso!');
+    },
+    erro => 
+    {
+      this.openSnackBar('Login ou senha inválidos ', 'Erro!');
+      console.log(erro);
+    }
+    );
+  }
 
 
 }

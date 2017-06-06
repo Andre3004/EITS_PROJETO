@@ -17,10 +17,13 @@ public class AuthenticationService implements UserDetailsService
 	
 	public User loadUserByUsername(String email)
 	{
-		try{
+		try
+		{
+			System.out.println(userRepository.findByEmail(email));
 			return  userRepository.findByEmail(email);
 		} 
-		catch (Exception e){
+		catch (Exception e)
+		{
 			throw new UsernameNotFoundException("Usuário " + email + " não encontrado.");
 		}
 	}

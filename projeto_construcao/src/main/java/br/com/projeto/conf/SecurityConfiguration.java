@@ -25,15 +25,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 		.authorizeRequests()
 			.antMatchers("/**").permitAll();
 		
-		/*http
-		.authorizeRequests()
-			.anyRequest().authenticated()
-			.and()
-		.formLogin()
-			.permitAll()
-			.and()
-		.csrf().disable()
-		.sessionManagement();*/
+//		http
+//		.authorizeRequests()
+//			.anyRequest().authenticated()
+//			.and()
+//		.formLogin()
+//			.permitAll()
+//			.and()
+//		.csrf().disable()
+//		.sessionManagement();
 	}
 	
 	@Override

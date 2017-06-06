@@ -30,9 +30,11 @@
                 <table class="example-full-width" cellspacing="0">
                     <tr>
                         <td>
-                            <md-input-container class="example-full-width">
-                                <input name ="archivePath" [(ngModel)]="equipment.archivePath" mdInput placeholder="Arquivo teste">
-                            </md-input-container>
+                            <!--<td-file-input name="equipment." type="file" [(ngModel)]="files" color="primary" (select)="selectEvent($event)"
+                                        accept=".pdf" [disabled]="disabled" multiple>
+                            <md-icon>attach_file</md-icon><span>Choose a file...</span>
+                            </td-file-input>-->
+                            <input type="file" name="archivePath" [(ngModel)]="equipment.archivePath">
                         </td>
                     </tr>
                 </table>   

@@ -1,3 +1,4 @@
+import { AuthService } from './login/auth.service';
 import { FilterNameEquipment } from './equipment/equipment.pipes';
 import { FilterCodLocation } from './location/location.pipes';
 import { EquipmentService } from './equipment/equipment.service';
@@ -15,6 +16,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -28,7 +30,7 @@ import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import 'rxjs/add/operator/map';
-import { TdMediaService, TdLoadingService, TdDialogService } from '@covalent/core';
+import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule  } from '@covalent/core';
 import { LocationDetailComponent } from './location/location-detail/location-detail.component';
 import { LocationFormComponent } from './location/location-form/location-form.component';
 import { EquipmentFormComponent } from './equipment/equipment-form/equipment-form.component';
@@ -83,10 +85,12 @@ import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment
     MdListModule,
     MdDialogModule,
     CovalentDialogsModule,
-    MdSliderModule
+    MdSliderModule, 
+    CovalentFileModule, 
+    HttpModule
   ],
   exports: [ FilterName, FilterCodLocation, FilterNameEquipment ],
-  providers: [TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService],
+  providers: [TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

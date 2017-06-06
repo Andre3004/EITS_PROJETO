@@ -1,0 +1,26 @@
+ <br><br> <br> <br><br> <br>
+<div class ="center-align">
+    <img src="http://www.eits.com.br/wp-content/uploads/2015/02/logo-eits-azul.png"> 
+ </div>
+ <br>
+    <div class="center-align">
+        <div class="input-field col s8">
+          <i class="material-icons prefix">perm_identity</i>
+          <input  [(ngModel)]="usuario.email"  id="usuario" type="text" class="validate">
+          <label for="usuario">Usuário</label>
+        </div>
+    </div>
+    <div class ="center-align">
+        <div class="input-field col s8">
+          <i class="material-icons prefix">vpn_key</i>
+          <input [(ngModel)]="usuario.senha" id="senha" type="password" class="validate">
+          <label for="senha">Senha</label>
+        </div>
+    </div>
+    <div class ="center-align">
+      <button class="btn waves-effect waves-light" type="submit" name="action" (click) = "fazerLogin()">Login
+          <i class="material-icons right">power_settings_new</i>
+      </button>
+    </div>
+    
+        

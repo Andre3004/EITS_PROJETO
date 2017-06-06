@@ -40,7 +40,7 @@ export class UserService
   }
   deactivateUser(user): Observable<Response>
   {
-      return this.http.patch(this.url + 'deactivateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
+    return this.http.patch(this.url + 'deactivateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
   }
   findUserbyId(id): Observable<Object>
   {

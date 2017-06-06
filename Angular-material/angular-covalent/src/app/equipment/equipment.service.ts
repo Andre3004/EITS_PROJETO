@@ -11,7 +11,8 @@ export class EquipmentService {
   constructor(public http: Http) 
   { 
     this.headers = new Headers();
-    this.headers.append('Content-Type', 'application/json');
+    this.headers.append('Content-Type', 'multipart/form-data');
+    this.headers.append("enctype", "multipart/form-data");
   }
 
   insertEquipment(equipment): Observable<Response>

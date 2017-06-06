@@ -80,7 +80,7 @@ public class UserService
 	
 	public void deactivateUser(User user) 
 	{
-		if ( user.getId() == 42)
+		if ( user.getId() == 2)
 		{
 			throw new IllegalArgumentException("O usuário Master não pode ser desativado.");
 		}

@@ -1,0 +1,22 @@
+<nav *ngIf="mostrarMenu" class="navbar navbar-default">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink="">EITS PROJETO</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li routerLinkActive="active">
+          <a routerLink="/usuarios">Usuários</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/localizacao">Localização</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/equipamentos">Equipamentos</a>
+        </li>
+        
+    </ul>
+  </div>
+</nav>
+<div class="container">
+   <router-outlet></router-outlet>

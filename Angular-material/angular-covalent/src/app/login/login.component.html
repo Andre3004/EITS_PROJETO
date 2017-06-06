@@ -9,16 +9,16 @@
               <div >
                   <md-icon>account_circle</md-icon> 
                   <md-input-container class="inputClass">
-                    <input required name ="email" [(ngModel)]="user.email" mdInput placeholder="Login" > 
+                    <input required type="email" name ="email" [(ngModel)]="user.email" mdInput placeholder="Login" > 
                   </md-input-container>
               </div>
               <div>
                   <md-icon>lock_outline</md-icon>
                   <md-input-container class="inputClass">
-                    <input required name ="password" [(ngModel)]="user.password" mdInput placeholder="Senha">
+                    <input required type="password" name ="password" [(ngModel)]="user.password" mdInput placeholder="Senha">
                   </md-input-container>
               </div>
-              <button md-button color="primary" [disabled]="myform.form.invalid" class="button">Login</button>
+              <button md-button color="primary" (click)="login(user)" [disabled]="myform.form.invalid" class="button">Login</button>
           </form>
         </md-card-content>
     </md-card>

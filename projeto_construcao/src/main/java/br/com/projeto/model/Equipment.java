@@ -31,51 +31,63 @@ public class Equipment
 	@JoinColumn(name = "equipment_id")
 	private Equipment equipment;
 
-	public long getId() {
+	public long getId() 
+	{
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(long id) 
+	{
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name) 
+	{
 		this.name = name;
 	}
 
-	public String getDescription() {
+	public String getDescription() 
+	{
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description) 
+	{
 		this.description = description;
 	}
 
-	public String getArchivePath() {
+	public String getArchivePath() 
+	{
 		return archivePath;
 	}
 
-	public void setArchivePath(String archivePath) {
+	public void setArchivePath(String archivePath) 
+	{
 		this.archivePath = archivePath;
 	}
 
-	public Location getLocation() {
+	public Location getLocation() 
+	{
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(Location location) 
+	{
 		this.location = location;
 	}
 
-	public Equipment getEquipment() {
+	public Equipment getEquipment() 
+	{
 		return equipment;
 	}
 
-	public void setEquipment(Equipment equipment) {
+	public void setEquipment(Equipment equipment) 
+	{
 		this.equipment = equipment;
 	}
 
