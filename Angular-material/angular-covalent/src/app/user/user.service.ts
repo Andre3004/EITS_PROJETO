@@ -7,7 +7,7 @@ export class UserService
 {
  
   headers: Headers;
-  url: String = 'http://localhost:8083/projeto/user/';
+  url: String = '/projeto/user/';
 
   constructor(public http: Http) 
   { 

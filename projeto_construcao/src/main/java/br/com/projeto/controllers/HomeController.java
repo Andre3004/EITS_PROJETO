@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController 
 {
 
-	@RequestMapping("/")
+	@RequestMapping("/autenticacao")
 	public String index(){
-		return "home";	
+		return "index";	
+	}
+	
+	@RequestMapping("/")
+	public String home(){
+		return "dist/index";	
 	}
 }

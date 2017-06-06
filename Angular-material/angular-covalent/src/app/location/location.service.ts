@@ -7,7 +7,7 @@ export class LocationService
 {
  
   headers: Headers;
-  url: String = 'http://localhost:8083/projeto/location/';
+  url: String = '/projeto/location/';
 
   constructor(public http: Http) 
   { 

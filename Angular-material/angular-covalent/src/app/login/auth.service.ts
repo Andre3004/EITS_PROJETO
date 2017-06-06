@@ -7,7 +7,7 @@ export class AuthService
 {
 
   headers: Headers;
-  url: String = 'http://localhost:8083/projeto/login/';
+  url: String = '/projeto/login/';
 
   constructor(public http: Http) 
   { 

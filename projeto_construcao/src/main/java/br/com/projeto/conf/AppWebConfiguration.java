@@ -117,15 +117,23 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
 	}
 	
 
-	/*@Bean
+	@Bean
 	public InternalResourceViewResolver internalResourceViewResolver() 
 	{
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".jsp");
+		resolver.setSuffix(".html");
 
 		return resolver;
 	}
+	
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+          .addResourceHandler("/static/**")
+          .addResourceLocations("/WEB-INF/views/dist/"); 
+    }
+	/*
 	@Bean
 	public FormattingConversionService mvcConversionService() 
 	{

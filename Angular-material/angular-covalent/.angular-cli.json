@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "C:\\Users\\André\\workspace\\EITS_PROJETO\\projeto_construcao\\src\\main\\webapp\\WEB-INF\\views\\dist",
       "assets": [
         "assets",
         "favicon.ico"

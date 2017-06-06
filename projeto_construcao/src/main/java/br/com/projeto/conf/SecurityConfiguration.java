@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import br.com.projeto.service.AuthenticationService;
 
@@ -16,14 +17,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
 	
 	@Autowired
-	private AuthenticationService autentication;
+	private AuthenticationService authentication;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception 
 	{
-		http.csrf().disable()
-		.authorizeRequests()
-			.antMatchers("/**").permitAll();
+//		http.csrf().disable()
+//		.authorizeRequests()
+//			.antMatchers("/**").permitAll();
 		
 //		http
 //		.authorizeRequests()
@@ -34,12 +35,35 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 //			.and()
 //		.csrf().disable()
 //		.sessionManagement();
-	}
-	
+		
+		/**
+		*
+		*/
+		http.csrf().disable();
+		http.headers().frameOptions().disable();
+
+		http
+		.authorizeRequests()
+		.anyRequest()
+		.authenticated()
+		.and()
+		.formLogin()
+		.usernameParameter( "email" )
+		.passwordParameter( "senha" )
+		.loginPage( "/autenticacao" )
+		.loginProcessingUrl( "/authenticate" )
+//		.successHandler( authenticationSuccessHandler )
+		.permitAll()
+		.and()
+		.logout()
+		.logoutUrl( "/logout" );
+		}
+
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception 
 	{
-		auth.userDetailsService(autentication).passwordEncoder(new BCryptPasswordEncoder());
+		auth.userDetailsService(authentication).passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
 
