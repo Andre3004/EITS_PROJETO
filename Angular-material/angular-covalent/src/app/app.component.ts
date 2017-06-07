@@ -15,8 +15,4 @@ export class AppComponent
     // broadcast to all listener observables when loading the page
     this.media.broadcast();
   }
-  logout()
-  {
-    this.authService.doLogout;
-  }
 }

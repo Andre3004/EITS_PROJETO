@@ -1,14 +1,9 @@
 package br.com.projeto.conf;
 
 import javax.servlet.Filter;
-import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration.Dynamic;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -43,11 +38,6 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
         return new Filter[] {encodingFilter};
 	}
 	
-	@Override
-	protected void customizeRegistration(Dynamic registration) 
-	{
-		registration.setMultipartConfig(new MultipartConfigElement(""));
-	}
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException
 	{

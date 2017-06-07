@@ -3,13 +3,12 @@ package br.com.projeto.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.projeto.model.Equipment;
-import br.com.projeto.model.Location;
 import br.com.projeto.repository.IEquipmentRepository;
-import br.com.projeto.repository.ILocationRepository;
 
 @Service
 @Transactional
@@ -39,6 +38,7 @@ public class EquipmentService
 		return equipmentRepository.findOne(id);
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteEquipment(Long id) 
 	{
 		equipmentRepository.delete(id);

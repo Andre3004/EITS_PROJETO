@@ -1,3 +1,4 @@
+import { AuthService } from './login/auth.service';
 import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment-detail.component';
 import { EquipmentFormComponent } from './equipment/equipment-form/equipment-form.component';
 import { LocationDetailComponent } from './location/location-detail/location-detail.component';
@@ -8,20 +9,17 @@ import { HomeComponent } from './home/home.component';
 import { LocationComponent } from './location/location.component';
 import { EquipmentComponent } from './equipment/equipment.component';
 import { UserComponent } from './user/user.component';
-import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 
 
 const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-
 
   { path: 'user', component: UserComponent},
-  { path: 'user-new', component: UserFormComponent },
+  { path: 'user-new', component: UserFormComponent, canActivate: [AuthService] },
   { path: 'user-detail/:id', component: UserDetailComponent },
-  { path: 'user-edit/:id', component: UserFormComponent }, 
+  { path: 'user-edit/:id', component: UserFormComponent, canActivate: [AuthService] }, 
 
 
   { path: 'equipment', component: EquipmentComponent},

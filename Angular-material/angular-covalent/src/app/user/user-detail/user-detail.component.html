@@ -4,19 +4,19 @@
 
             <form class="example-form">
                 <md-input-container class="example-full-width">
-                    <input mdInput placeholder="ID" [value]="user.id" disabled>
+                    <input mdInput placeholder="ID" [value]="user?.id" disabled>
                 </md-input-container>
 
                 <table class="example-full-width" cellspacing="0">
                     <tr>
                         <td>
                             <md-input-container class="example-full-width">
-                                <input mdInput disabled [value]="user.name" placeholder="Nome">
+                                <input mdInput disabled [value]="user?.name" placeholder="Nome">
                             </md-input-container>
                         </td>
                         <td>
                             <md-input-container class="example-full-width">
-                                <input mdInput disabled [value]="user.lastName" placeholder="Sobrenome">
+                                <input mdInput disabled [value]="user?.lastName" placeholder="Sobrenome">
                             </md-input-container>
                         </td>
                     </tr>
@@ -25,7 +25,7 @@
                 <table class="example-full-width" cellspacing="0"><tr>
                     <td>
                         <md-input-container class="example-full-width">
-                            <input type ="email" disabled [value]="user.email" mdInput placeholder="Email">
+                            <input type ="email" disabled [value]="user?.email" mdInput placeholder="Email">
                         </md-input-container>
                     </td>
                 </table> 
@@ -34,7 +34,7 @@
                     <tr>
                         <td>
                             <md-input-container class="example-full-width">
-                            <input mdInput disabled [value]="user.sex" placeholder="Sexo">
+                            <input mdInput disabled [value]="user?.sex" placeholder="Sexo">
                             </md-input-container>
                         </td> 
                     </tr>
@@ -42,8 +42,8 @@
                 <br><br>
                 <table>
                     <td>
-                        <md-slide-toggle disabled *ngIf="user.active" [checked]="true" ></md-slide-toggle>
-                        <md-slide-toggle disabled *ngIf="!user.active" ></md-slide-toggle>
+                        <md-slide-toggle disabled *ngIf="user?.active" [checked]="true" ></md-slide-toggle>
+                        <md-slide-toggle disabled *ngIf="!user?.active" ></md-slide-toggle>
                     </td>
                 </table> 
                 <div class="inset">

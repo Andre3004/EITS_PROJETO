@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.directwebremoting.annotations.DataTransferObject;
 //import org.springframework.format.annotation.DateTimeFormat;
@@ -45,9 +44,6 @@ public class User implements UserDetails
 
 	@Column(name = "active", nullable = false, columnDefinition = "boolean default true")
 	private boolean active;
-
-	/*@Transient
-	private String confirmPassword;*/
 
 	private String sex;
 

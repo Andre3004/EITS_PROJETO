@@ -9,9 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.com.projeto.infra.Mailer;
 import br.com.projeto.model.User;
@@ -30,7 +27,7 @@ public class UserService
 	private Mailer mailer;
 	
 	@RemoteMethod
-	@CrossOrigin(origins = "http://localhost:4200")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User insertUser(User user)
 	{		
 		if ( userRepository.findByEmail(user.getEmail()) != null )
@@ -42,13 +39,11 @@ public class UserService
 		
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); // criptografando a senha para o banco
 		user.setPassword(hash);// set senha criptografada
-		user.setActive(true);
 		
 		return userRepository.save(user); // inserindo o usuario
 	}
 	
 	@RemoteMethod
-	@PreAuthorize("hasRole('USER')")
 	public List<User> listAllUser() 
 	{
 		return userRepository.findAll();
@@ -74,19 +69,19 @@ public class UserService
 	}*/
 	
 	@RemoteMethod
-	@PreAuthorize("hasRole('USER')")
 	public User findUserByEmail(String email)
 	{
 		return userRepository.findByEmail(email);
 	}
 
-
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void activateUser(User user) 
 	{
 		user.setActive(true);
 		userRepository.save(user);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deactivateUser(User user) 
 	{
 		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -98,6 +93,7 @@ public class UserService
 		userRepository.save(user);
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void editUser(User user) 
 	{
 		System.out.println(user.getPassword());

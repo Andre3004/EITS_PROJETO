@@ -1,11 +1,6 @@
 package br.com.projeto.model;
 
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,10 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "location")
@@ -35,17 +27,7 @@ public class Location
 	@ManyToOne
 	@JoinColumn(name = "vice_responsible_id")
 	private User viceResponsible;
-	
-	/*@ManyToOne
-	@JoinColumn(name = "sub_location_id")
-	private Location subLocation;*/
-	
-	/*@ManyToOne
-	@JoinColumn( name= "sub_location_id")
-	private Location subLocation;
-	*/
 
-	//@OneToMany(mappedBy="parent", fetch=FetchType.EAGER)
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "location_id")
 	private Location location;

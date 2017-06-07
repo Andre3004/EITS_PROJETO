@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import br.com.projeto.service.AuthenticationService;
 
@@ -39,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 		/**
 		*
 		*/
-		http.csrf().disable();
+		http.csrf().disable().sessionManagement();;
 		http.headers().frameOptions().disable();
 
 		http
@@ -52,7 +51,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 		.passwordParameter( "senha" )
 		.loginPage( "/login" )
 		.loginProcessingUrl( "/authenticate" )
-//		.successHandler( authenticationSuccessHandler )
 		.permitAll()
 		.and()
 		.logout()

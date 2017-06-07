@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projeto.model.Location;
-import br.com.projeto.model.User;
 import br.com.projeto.service.LocationService;
 
 @RestController

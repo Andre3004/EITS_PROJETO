@@ -17,7 +17,5 @@ public interface IUserRepository extends JpaRepository<User, Long>
 	
 	@Query("select u from User u where u.email = :email and active = true")
 	public User findByEmailAndActive(@Param("email") String email);
-	
-	/*EntityGraphCrudRepository<T, Serializable>*/
 
 }

@@ -27,7 +27,6 @@ import { CovalentHttpModule } from '@covalent/http';
 import { CovalentHighlightModule } from '@covalent/highlight';
 import { CovalentMarkdownModule } from '@covalent/markdown';
 import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
-import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import 'rxjs/add/operator/map';
 import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule  } from '@covalent/core';
@@ -40,7 +39,6 @@ import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     HomeComponent,
     UserComponent,
     UserDetailComponent,

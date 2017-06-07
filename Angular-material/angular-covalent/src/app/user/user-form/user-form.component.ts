@@ -11,7 +11,7 @@ import { MdInputModule, MdSnackBar} from '@angular/material';
 export class UserFormComponent 
 {
 
-    user : Object = {}
+    user : Object = {};
     ok : boolean = false;
     @Input() permission;
           sexs = 
