@@ -46,7 +46,7 @@ public class LocationService
 	{
 		if ( location.getLocation().getId() == location.getId() )
 		{
-			throw new IllegalArgumentException("Nâo foi possíve salvar a localização.");
+			throw new IllegalArgumentException("Nâo foi possível salvar a localização.");
 		}
 		locationRepository.saveAndFlush(location);
 	}

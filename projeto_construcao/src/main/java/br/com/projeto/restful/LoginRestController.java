@@ -20,16 +20,9 @@ public class LoginRestController
 	AuthenticationService authenticationService;
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/auth/{email}", method = RequestMethod.GET)
-	public User AuthenticationService(@PathVariable("email")String email)
+	@RequestMapping(value = "/logout", method = RequestMethod.TRACE)
+	public String logout()
 	{
-		if ( authenticationService.loadUserByUsername(email) != null )
-		{
-			return authenticationService.loadUserByUsername(email);
-		}
-		else
-		{
-			throw new IllegalArgumentException("adasd");
-		}
+		return "redirect:/logout";
 	}
 }

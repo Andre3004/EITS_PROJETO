@@ -31,7 +31,6 @@ export class UserFormComponent
             activatedRouter.params.subscribe(params => {
                
                 let id = params['id'];
-                console.log(id);
                 if (id)
                 {
                   this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
@@ -51,13 +50,9 @@ export class UserFormComponent
 
           insertUser(event, userId)
           { 
-            console.log('insert working');
-            console.log(event);
-            console.log(userId);
             this.router.navigate(['/user']);
             this.userService.insertUser(this.user).subscribe(() => 
             {
-              console.log('Usuario salvo com sucesso!');
               this.ok = true;
               this.openSnackBar('Usuário salvo com sucesso ', 'Sucesso!');
             }, 

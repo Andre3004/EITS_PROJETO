@@ -1,6 +1,6 @@
 webpackJsonp([1,5],{
 
-/***/ 122:
+/***/ 123:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44,11 +44,8 @@ var EquipmentDetailComponent = (function () {
         equipmentService.findEquipmentbyId(this.id).subscribe(function (equipment) {
             _this.equipment = equipment;
         }, function (erro) { return console.log(erro); });
-        console.log(this.id);
-        console.log(this.equipment);
         equipmentService.listAllSubEquipment(this.id).subscribe(function (subequipments) {
             _this.subequipments = subequipments;
-            console.log(_this.subequipments);
         }, function (erro) { return console.log(erro); });
     }
     return EquipmentDetailComponent;
@@ -67,11 +64,11 @@ var _a, _b, _c, _d;
 
 /***/ }),
 
-/***/ 123:
+/***/ 124:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__location_location_service__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__location_location_service__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__equipment_service__ = __webpack_require__(44);
@@ -104,18 +101,14 @@ var EquipmentFormComponent = (function () {
         this.equipment = {};
         locationService.listAllLocation().subscribe(function (locations) {
             _this.locations = locations;
-            console.log(_this.locations);
         }, function (erro) { return console.log(erro); });
         equipmentService.listAllEquipment().subscribe(function (equipments) {
             _this.equipments = equipments;
-            console.log(_this.equipments);
         }, function (erro) { return console.log(erro); });
         activatedRoute.params.subscribe(function (params) {
             var id = params['id'];
-            console.log(id);
             if (id) {
                 _this.equipmentService.findEquipmentbyId(id).subscribe(function (equipment) { return _this.equipment = equipment; }, function (erro) { return console.log(erro); });
-                console.log(_this.equipment);
             }
         });
     }
@@ -126,10 +119,8 @@ var EquipmentFormComponent = (function () {
     };
     EquipmentFormComponent.prototype.insertEquipment = function (equipment) {
         var _this = this;
-        console.log('insert working');
         this.router.navigate(['/equipment']);
         this.equipmentService.insertEquipment(this.equipment).subscribe(function () {
-            console.log('Equipamento salvo com sucesso!');
             _this.openSnackBar('Equipamento salvo com sucesso ', 'Sucesso!');
         }, function (erro) {
             console.log(erro);
@@ -152,15 +143,16 @@ var _a, _b, _c, _d, _e;
 
 /***/ }),
 
-/***/ 124:
+/***/ 125:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__covalent_core__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__equipment_service__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__user_user_service__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__covalent_core__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__equipment_service__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__(2);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EquipmentComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -177,18 +169,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var EquipmentComponent = (function () {
-    function EquipmentComponent(snackBar, equipmentService, router, _dialogService, _viewContainerRef) {
+    function EquipmentComponent(snackBar, equipmentService, router, _dialogService, _viewContainerRef, userService) {
         var _this = this;
         this.snackBar = snackBar;
         this.equipmentService = equipmentService;
         this.router = router;
         this._dialogService = _dialogService;
         this._viewContainerRef = _viewContainerRef;
+        this.userService = userService;
         this.equipments = [];
         equipmentService.listAllEquipment().subscribe(function (equipments) {
             _this.equipments = equipments;
-            console.log(_this.equipments);
+        }, function (erro) { return console.log(erro); });
+        userService.getCurrentUser().subscribe(function (user) {
+            _this.userCurrent = user;
         }, function (erro) { return console.log(erro); });
     }
     EquipmentComponent.prototype.openSnackBar = function (msg, action) {
@@ -209,14 +205,12 @@ var EquipmentComponent = (function () {
             afterClosed().subscribe(function (accept) {
             if (accept) {
                 _this.equipmentService.deleteEquipment(equipment).subscribe(function () {
-                    console.log('Equipamento removido com sucesso!');
                     var equipments = _this.equipments.slice(0);
                     var indice = equipments.indexOf(equipment);
                     equipments.splice(indice, 1);
                     _this.equipments = equipments;
                     _this.openSnackBar('Equipamento removido com sucesso', 'Sucesso!');
                 }, function (erro) {
-                    console.log(erro);
                     _this.openSnackBar('Não foi possível remover o Equipamento ' + equipment.name, 'Erro!');
                 });
             }
@@ -227,20 +221,20 @@ var EquipmentComponent = (function () {
     return EquipmentComponent;
 }());
 EquipmentComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["_15" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__angular_core__["_15" /* Component */])({
         selector: 'app-equipment',
         template: __webpack_require__(477),
         styles: [__webpack_require__(287)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__angular_material__["W" /* MdSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_material__["W" /* MdSnackBar */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__equipment_service__["a" /* EquipmentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__equipment_service__["a" /* EquipmentService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__covalent_core__["j" /* TdDialogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__covalent_core__["j" /* TdDialogService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__angular_core__["R" /* ViewContainerRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_core__["R" /* ViewContainerRef */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__angular_material__["W" /* MdSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_material__["W" /* MdSnackBar */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__equipment_service__["a" /* EquipmentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__equipment_service__["a" /* EquipmentService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__covalent_core__["j" /* TdDialogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__covalent_core__["j" /* TdDialogService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__angular_core__["R" /* ViewContainerRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_core__["R" /* ViewContainerRef */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_0__user_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__user_user_service__["a" /* UserService */]) === "function" && _f || Object])
 ], EquipmentComponent);
 
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 //# sourceMappingURL=equipment.component.js.map
 
 /***/ }),
 
-/***/ 125:
+/***/ 126:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -276,12 +270,12 @@ HomeComponent = __decorate([
 
 /***/ }),
 
-/***/ 126:
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__location_service__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__location_service__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__covalent_core__ = __webpack_require__(15);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocationDetailComponent; });
@@ -318,11 +312,8 @@ var LocationDetailComponent = (function () {
         locationService.findLocationbyId(this.id).subscribe(function (location) {
             _this.location = location;
         }, function (erro) { return console.log(erro); });
-        console.log(this.id);
-        console.log(this.location);
         locationService.listAllSubLocation(this.id).subscribe(function (sublocations) {
             _this.sublocations = sublocations;
-            console.log(_this.sublocations);
         }, function (erro) { return console.log(erro); });
     }
     return LocationDetailComponent;
@@ -350,14 +341,14 @@ var _a, _b, _c, _d;
 
 /***/ }),
 
-/***/ 127:
+/***/ 128:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_material__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__location_service__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_user_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__location_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_user_service__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocationFormComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -387,18 +378,14 @@ var LocationFormComponent = (function () {
         this.location = {};
         userService.listAllUser().subscribe(function (users) {
             _this.users = users;
-            console.log(_this.users);
         }, function (erro) { return console.log(erro); });
         locationService.listAllLocation().subscribe(function (locations) {
             _this.locations = locations;
-            console.log(_this.locations);
         }, function (erro) { return console.log(erro); });
         activatedRoute.params.subscribe(function (params) {
             var id = params['id'];
-            console.log(id);
             if (id) {
                 _this.locationService.findLocationbyId(id).subscribe(function (location) { return _this.location = location; }, function (erro) { return console.log(erro); });
-                console.log(_this.location);
             }
         });
     }
@@ -409,10 +396,8 @@ var LocationFormComponent = (function () {
     };
     LocationFormComponent.prototype.insertLocation = function (location) {
         var _this = this;
-        console.log('insert working');
         this.router.navigate(['/location']);
         this.locationService.insertLocation(this.location).subscribe(function () {
-            console.log('Localização salva com sucesso!');
             _this.openSnackBar('Localização salva com sucesso ', 'Sucesso!');
         }, function (erro) {
             console.log(erro);
@@ -435,15 +420,16 @@ var _a, _b, _c, _d, _e;
 
 /***/ }),
 
-/***/ 128:
+/***/ 129:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__covalent_core__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__location_service__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__user_user_service__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__covalent_core__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__location_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__(2);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocationComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -460,18 +446,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LocationComponent = (function () {
-    function LocationComponent(snackBar, locationService, router, _dialogService, _viewContainerRef) {
+    function LocationComponent(snackBar, locationService, router, _dialogService, _viewContainerRef, userService) {
         var _this = this;
         this.snackBar = snackBar;
         this.locationService = locationService;
         this.router = router;
         this._dialogService = _dialogService;
         this._viewContainerRef = _viewContainerRef;
+        this.userService = userService;
         this.locations = [];
         locationService.listAllLocation().subscribe(function (locations) {
             _this.locations = locations;
-            console.log(_this.locations);
+        }, function (erro) { return console.log(erro); });
+        userService.getCurrentUser().subscribe(function (user) {
+            _this.userCurrent = user;
         }, function (erro) { return console.log(erro); });
     }
     LocationComponent.prototype.openSnackBar = function (msg, action) {
@@ -492,7 +482,6 @@ var LocationComponent = (function () {
             afterClosed().subscribe(function (accept) {
             if (accept) {
                 _this.locationService.deleteLocation(location).subscribe(function () {
-                    console.log('Localização removida com sucesso!');
                     var locations = _this.locations.slice(0);
                     var indice = locations.indexOf(location);
                     locations.splice(indice, 1);
@@ -510,56 +499,16 @@ var LocationComponent = (function () {
     return LocationComponent;
 }());
 LocationComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["_15" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__angular_core__["_15" /* Component */])({
         selector: 'app-location',
         template: __webpack_require__(481),
         styles: [__webpack_require__(291)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__angular_material__["W" /* MdSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_material__["W" /* MdSnackBar */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__location_service__["a" /* LocationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__location_service__["a" /* LocationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__covalent_core__["j" /* TdDialogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__covalent_core__["j" /* TdDialogService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__angular_core__["R" /* ViewContainerRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_core__["R" /* ViewContainerRef */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__angular_material__["W" /* MdSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_material__["W" /* MdSnackBar */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__location_service__["a" /* LocationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__location_service__["a" /* LocationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__covalent_core__["j" /* TdDialogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__covalent_core__["j" /* TdDialogService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__angular_core__["R" /* ViewContainerRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_core__["R" /* ViewContainerRef */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_0__user_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__user_user_service__["a" /* UserService */]) === "function" && _f || Object])
 ], LocationComponent);
 
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 //# sourceMappingURL=location.component.js.map
-
-/***/ }),
-
-/***/ 129:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var AuthService = (function () {
-    function AuthService(http) {
-        this.http = http;
-        this.url = '/projeto/login/';
-        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]();
-        this.headers.append('Content-Type', 'application/json');
-    }
-    AuthService.prototype.doLogin = function (user) {
-        return this.http.get(this.url + 'auth/' + user.email);
-    };
-    return AuthService;
-}());
-AuthService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["c" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object])
-], AuthService);
-
-var _a;
-//# sourceMappingURL=auth.service.js.map
 
 /***/ }),
 
@@ -568,7 +517,7 @@ var _a;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_material__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth_service__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth_service__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -594,16 +543,6 @@ var LoginComponent = (function () {
             duration: 5000,
         });
     };
-    LoginComponent.prototype.login = function (user) {
-        var _this = this;
-        console.log(user.email);
-        this.authService.doLogin(user).subscribe(function () {
-            _this.openSnackBar('Usuário logado com sucesso ', 'sucesso!');
-        }, function (erro) {
-            _this.openSnackBar('Login ou senha inválidos ', 'Erro!');
-            console.log(erro);
-        });
-    };
     return LoginComponent;
 }());
 LoginComponent = __decorate([
@@ -624,7 +563,7 @@ var _a, _b;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__user_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__user_service__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserDetailComponent; });
@@ -674,7 +613,7 @@ var _a, _b, _c;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__user_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__user_service__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__(2);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserFormComponent; });
@@ -711,7 +650,6 @@ var UserFormComponent = (function () {
         ];
         activatedRouter.params.subscribe(function (params) {
             var id = params['id'];
-            console.log(id);
             if (id) {
                 _this.userService.findUserbyId(id).subscribe(function (user) { return _this.user = user; }, function (erro) { return console.log(erro); });
                 console.log(_this.user);
@@ -725,12 +663,8 @@ var UserFormComponent = (function () {
     };
     UserFormComponent.prototype.insertUser = function (event, userId) {
         var _this = this;
-        console.log('insert working');
-        console.log(event);
-        console.log(userId);
         this.router.navigate(['/user']);
         this.userService.insertUser(this.user).subscribe(function () {
-            console.log('Usuario salvo com sucesso!');
             _this.ok = true;
             _this.openSnackBar('Usuário salvo com sucesso ', 'Sucesso!');
         }, function (erro) {
@@ -763,7 +697,7 @@ var _a, _b, _c, _d;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__user_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__user_service__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__(2);
@@ -796,7 +730,9 @@ var UserComponent = (function () {
         this.permission = false;
         userService.listAllUser().subscribe(function (users) {
             _this.users = users;
-            console.log(_this.users);
+        }, function (erro) { return console.log(erro); });
+        userService.getCurrentUser().subscribe(function (user) {
+            _this.userCurrent = user;
         }, function (erro) { return console.log(erro); });
     }
     UserComponent.prototype.openSnackBar = function (msg, action) {
@@ -821,7 +757,6 @@ var UserComponent = (function () {
             if (accept) {
                 if (!user.active) {
                     _this.userService.activateUser(user).subscribe(function () {
-                        console.log('Usuario ativado com sucesso!');
                         _this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
                     }, function (erro) {
                         console.log(erro);
@@ -830,7 +765,6 @@ var UserComponent = (function () {
                 }
                 else {
                     _this.userService.deactivateUser(user).subscribe(function () {
-                        console.log('Usuario desativado com sucesso!');
                         _this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
                     }, function (erro) {
                         console.log(erro);
@@ -897,15 +831,15 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__equipment_equipment_detail_equipment_detail_component__ = __webpack_require__(122);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__equipment_equipment_form_equipment_form_component__ = __webpack_require__(123);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__location_location_detail_location_detail_component__ = __webpack_require__(126);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__location_location_form_location_form_component__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__equipment_equipment_detail_equipment_detail_component__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__equipment_equipment_form_equipment_form_component__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__location_location_detail_location_detail_component__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__location_location_form_location_form_component__ = __webpack_require__(128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__user_user_detail_user_detail_component__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__user_user_form_user_form_component__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home_component__ = __webpack_require__(125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__location_location_component__ = __webpack_require__(128);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__equipment_equipment_component__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home_component__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__location_location_component__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__equipment_equipment_component__ = __webpack_require__(125);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__user_user_component__ = __webpack_require__(133);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__login_login_component__ = __webpack_require__(130);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_core__ = __webpack_require__(0);
@@ -966,8 +900,9 @@ AppRoutingModule = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__covalent_core__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__login_auth_service__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__covalent_core__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -980,27 +915,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var AppComponent = (function () {
-    function AppComponent(media) {
+    function AppComponent(media, authService) {
         this.media = media;
+        this.authService = authService;
         this.title = 'app works!';
     }
     AppComponent.prototype.ngAfterViewInit = function () {
         // broadcast to all listener observables when loading the page
         this.media.broadcast();
     };
+    AppComponent.prototype.logout = function () {
+        this.authService.doLogout;
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["_15" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["_15" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__(474),
         styles: [__webpack_require__(284)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__covalent_core__["h" /* TdMediaService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__covalent_core__["h" /* TdMediaService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__covalent_core__["h" /* TdMediaService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__covalent_core__["h" /* TdMediaService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__login_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__login_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
 ], AppComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=app.component.js.map
 
 /***/ }),
@@ -1009,17 +949,17 @@ var _a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__login_auth_service__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__login_auth_service__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__equipment_equipment_pipes__ = __webpack_require__(224);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__location_location_pipes__ = __webpack_require__(225);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__equipment_equipment_service__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__location_location_service__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__equipment_equipment_component__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__location_location_component__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__location_location_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__equipment_equipment_component__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__location_location_component__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__user_user_form_user_form_component__ = __webpack_require__(132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_user_detail_user_detail_component__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__user_user_component__ = __webpack_require__(133);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__user_user_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__user_user_service__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_common__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_user_pipes__ = __webpack_require__(226);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_core__ = __webpack_require__(0);
@@ -1035,13 +975,13 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__covalent_markdown__ = __webpack_require__(219);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__covalent_dynamic_forms__ = __webpack_require__(212);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__login_login_component__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__home_home_component__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__home_home_component__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_rxjs_add_operator_map__ = __webpack_require__(146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__location_location_detail_location_detail_component__ = __webpack_require__(126);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__location_location_form_location_form_component__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__equipment_equipment_form_equipment_form_component__ = __webpack_require__(123);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__equipment_equipment_detail_equipment_detail_component__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__location_location_detail_location_detail_component__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__location_location_form_location_form_component__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__equipment_equipment_form_equipment_form_component__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__equipment_equipment_detail_equipment_detail_component__ = __webpack_require__(123);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1257,6 +1197,68 @@ var environment = {
     production: false
 };
 //# sourceMappingURL=environment.js.map
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var UserService = (function () {
+    function UserService(http) {
+        this.http = http;
+        this.url = '/projeto/user/';
+        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]();
+        this.headers.append('Content-Type', 'application/json');
+    }
+    UserService.prototype.insertUser = function (user) {
+        if (user.id != undefined) {
+            return this.http.put(this.url + 'updateUser', JSON.stringify(user), { headers: this.headers });
+        }
+        else {
+            return this.http.post(this.url + 'insertUser', JSON.stringify(user), { headers: this.headers });
+        }
+    };
+    UserService.prototype.listAllUser = function () {
+        return this.http.get(this.url + 'listAllUser').map(function (res) { return res.json(); });
+    };
+    UserService.prototype.activateUser = function (user) {
+        return this.http.patch(this.url + 'activateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
+    };
+    UserService.prototype.deactivateUser = function (user) {
+        return this.http.patch(this.url + 'deactivateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
+    };
+    UserService.prototype.findUserbyId = function (id) {
+        return this.http.get(this.url + 'findUserById/' + id).map(function (res) { return res.json(); });
+        ;
+    };
+    UserService.prototype.getCurrentUser = function () {
+        return this.http.get(this.url + 'getCurrentUser').map(function (res) { return res.json(); });
+        ;
+    };
+    return UserService;
+}());
+UserService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["c" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object])
+], UserService);
+
+var _a;
+//# sourceMappingURL=user.service.js.map
 
 /***/ }),
 
@@ -1476,7 +1478,7 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1502,8 +1504,6 @@ var LocationService = (function () {
         this.headers.append('Content-Type', 'application/json');
     }
     LocationService.prototype.insertLocation = function (location) {
-        console.log(location.id, 'ID FINAL');
-        console.log(location);
         if (location.id != undefined) {
             return this.http.put(this.url + 'updateLocation', JSON.stringify(location), { headers: this.headers });
         }
@@ -1536,66 +1536,6 @@ var _a;
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var UserService = (function () {
-    function UserService(http) {
-        this.http = http;
-        this.url = '/projeto/user/';
-        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]();
-        this.headers.append('Content-Type', 'application/json');
-    }
-    UserService.prototype.insertUser = function (user) {
-        console.log(user.id, 'ID FINAL');
-        console.log(user);
-        if (user.id != undefined) {
-            return this.http.put(this.url + 'updateUser', JSON.stringify(user), { headers: this.headers });
-        }
-        else {
-            return this.http.post(this.url + 'insertUser', JSON.stringify(user), { headers: this.headers });
-        }
-    };
-    UserService.prototype.listAllUser = function () {
-        return this.http.get(this.url + 'listAllUser').map(function (res) { return res.json(); });
-    };
-    UserService.prototype.activateUser = function (user) {
-        return this.http.patch(this.url + 'activateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
-    };
-    UserService.prototype.deactivateUser = function (user) {
-        return this.http.patch(this.url + 'deactivateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
-    };
-    UserService.prototype.findUserbyId = function (id) {
-        return this.http.get(this.url + 'findUserById/' + id).map(function (res) { return res.json(); });
-        ;
-    };
-    return UserService;
-}());
-UserService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["c" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object])
-], UserService);
-
-var _a;
-//# sourceMappingURL=user.service.js.map
-
-/***/ }),
-
 /***/ 44:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1619,12 +1559,9 @@ var EquipmentService = (function () {
         this.http = http;
         this.url = '/projeto/equipment/';
         this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]();
-        this.headers.append('Content-Type', 'multipart/form-data');
-        this.headers.append("enctype", "multipart/form-data");
+        this.headers.append('Content-Type', 'application/json');
     }
     EquipmentService.prototype.insertEquipment = function (equipment) {
-        console.log(equipment.id, 'ID FINAL');
-        console.log(equipment);
         if (equipment.id != undefined) {
             return this.http.put(this.url + 'updateEquipment', JSON.stringify(equipment), { headers: this.headers });
         }
@@ -1660,84 +1597,84 @@ var _a;
 /***/ 474:
 /***/ (function(module, exports) {
 
-module.exports = "<!--<md-toolbar color=\"primary\" class=\"pad-none pull-top\">\n\n  <button md-button [mdMenuTriggerFor]=\"menu\">Menu</button>\n  <md-menu #menu=\"mdMenu\">\n    <button md-menu-item routerLink=\"/user\" >Usuários</button>\n    <button md-menu-item routerLink=\"/location\">Localizações</button>\n    <button md-menu-item routerLink=\"/equipment\">Equipamentos</button>\n  </md-menu>\n  <div class=\"navbar-header\">\n      <button md-button routerLink=\"\">EITS PROJETO</button>\n  </div>\n</md-toolbar>\n<router-outlet></router-outlet>\n\n<md-toolbar color=\"primary\" class=\"pad-none pull-top\">\n    <nav md-tab-nav-bar class=\"pull-bottom\">\n      <a md-tab-link\n        [routerLink]=\"['/user']\"\n        class=\"active\">\n        Landing Page\n      </a>\n      <a md-tab-link\n        [routerLink]=\"['/location']\">\n        Dashboard\n      </a>\n      <a md-tab-link\n        [routerLink]=\"['/equipment']\">\n        Email App\n      </a>\n    </nav>\n  </md-toolbar>-->\n<body>\n<md-toolbar class=\"toolbar\">\n<button md-button (click)=\"sidenav.open()\" layout-align=\"center center\" class=\"button\"><md-icon>menu</md-icon></button>\n<button md-button md-button routerLink=\"\" (click)=\"sidenav.close()\" class=\"button\"><md-icon >home</md-icon></button>\n<button md-button routerLink=\"/login\"  class=\"botao\"><md-icon >exit_to_app</md-icon></button>\n</md-toolbar>\n<md-sidenav-container >\n\n        <router-outlet></router-outlet>\n        <md-sidenav #sidenav class=\"example-sidenav\">\n            <li routerLinkActive=\"active\">\n                <button class=\"botao-lateral\" (click)=\"sidenav.close()\" routerLink=\"/user\">Usuários</button>\n            </li>\n            <li routerLinkActive=\"active\">\n                <button class=\"botao-lateral\" (click)=\"sidenav.close()\" routerLink=\"/location\">Localização</button>\n            </li>\n            <li routerLinkActive=\"active\">\n                <button class=\"botao-lateral\" (click)=\"sidenav.close()\" routerLink=\"/equipment\">Equipamentos</button>\n            </li>\n        </md-sidenav>\n\n        \n</md-sidenav-container>\n<div flex layout=\"column\" flex-gt-xs=\"30\" layout-align=\"right right\">\n          <p class=\"text-sm\">&copy; Projeto Desafio 2017 Eits, Inc. All rights reserved.</p>\n        </div>\n</body>\n\n\n"
+module.exports = "<!--<md-toolbar color=\"primary\" class=\"pad-none pull-top\">\r\n\r\n  <button md-button [mdMenuTriggerFor]=\"menu\">Menu</button>\r\n  <md-menu #menu=\"mdMenu\">\r\n    <button md-menu-item routerLink=\"/user\" >Usuários</button>\r\n    <button md-menu-item routerLink=\"/location\">Localizações</button>\r\n    <button md-menu-item routerLink=\"/equipment\">Equipamentos</button>\r\n  </md-menu>\r\n  <div class=\"navbar-header\">\r\n      <button md-button routerLink=\"\">EITS PROJETO</button>\r\n  </div>\r\n</md-toolbar>\r\n<router-outlet></router-outlet>\r\n\r\n<md-toolbar color=\"primary\" class=\"pad-none pull-top\">\r\n    <nav md-tab-nav-bar class=\"pull-bottom\">\r\n      <a md-tab-link\r\n        [routerLink]=\"['/user']\"\r\n        class=\"active\">\r\n        Landing Page\r\n      </a>\r\n      <a md-tab-link\r\n        [routerLink]=\"['/location']\">\r\n        Dashboard\r\n      </a>\r\n      <a md-tab-link\r\n        [routerLink]=\"['/equipment']\">\r\n        Email App\r\n      </a>\r\n    </nav>\r\n  </md-toolbar>-->\r\n<body>\r\n<md-toolbar class=\"toolbar\">\r\n<button md-button (click)=\"sidenav.open()\" layout-align=\"center center\" class=\"button\"><md-icon>menu</md-icon></button>\r\n<button md-button md-button routerLink=\"\" (click)=\"sidenav.close()\" class=\"button\"><md-icon >home</md-icon></button>\r\n<button md-button class=\"botao\"><md-icon >exit_to_app</md-icon></button>\r\n</md-toolbar>\r\n<md-sidenav-container >\r\n\r\n        <router-outlet></router-outlet>\r\n        <md-sidenav #sidenav class=\"example-sidenav\">\r\n            <li routerLinkActive=\"active\">\r\n                <button class=\"botao-lateral\" (click)=\"sidenav.close()\" routerLink=\"/user\">Usuários</button>\r\n            </li>\r\n            <li routerLinkActive=\"active\">\r\n                <button class=\"botao-lateral\" (click)=\"sidenav.close()\" routerLink=\"/location\">Localização</button>\r\n            </li>\r\n            <li routerLinkActive=\"active\">\r\n                <button class=\"botao-lateral\" (click)=\"sidenav.close()\" routerLink=\"/equipment\">Equipamentos</button>\r\n            </li>\r\n        </md-sidenav>\r\n\r\n        \r\n</md-sidenav-container>\r\n<div flex layout=\"column\" flex-gt-xs=\"30\" layout-align=\"right right\">\r\n          <p class=\"text-sm\">&copy; Projeto Desafio 2017 Eits, Inc. All rights reserved.</p>\r\n        </div>\r\n</body>\r\n\r\n\r\n"
 
 /***/ }),
 
 /***/ 475:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Equipamento\"  class=\"card\" cardWidth=\"75\">\n        <md-card >    \n\n            <form class=\"example-form\">\n                <md-input-container class=\"example-full-width\">\n                    <input mdInput placeholder=\"ID\" [value]=\"equipment.id\" disabled>\n                </md-input-container>\n\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"equipment.name\" placeholder=\"Nome do equipamento\">\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"equipment.description\" placeholder=\"Descrição\">\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"equipment.archivePath\" placeholder=\"Arquivo\">\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"equipment?.location?.codLocation\" placeholder=\"Localização\">\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <md-list>\n                    <h3 md-subheader>Sub equipamentos</h3>\n                    <md-list-item *ngFor=\"let subequipment of subequipments\">\n                        <md-icon md-list-icon>android</md-icon>\n                        <h4 md-line>{{subequipment?.name}}</h4>\n                        <p md-line> Descrição: {{subequipment?.description }} </p>\n                    </md-list-item>\n                </md-list>\n              \n                <div class=\"inset\">\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/equipment']\" class=\"button\">Voltar</button>\n                </div>\n            </form>\n     </md-card> \n  </td-layout-card-over>\n</td-layout-nav>"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Equipamento\"  class=\"card\" cardWidth=\"75\">\r\n        <md-card >    \r\n\r\n            <form class=\"example-form\">\r\n                <md-input-container class=\"example-full-width\">\r\n                    <input mdInput placeholder=\"ID\" [value]=\"equipment.id\" disabled>\r\n                </md-input-container>\r\n\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"equipment.name\" placeholder=\"Nome do equipamento\">\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"equipment.description\" placeholder=\"Descrição\">\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"equipment.archivePath\" placeholder=\"Arquivo\">\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"equipment?.location?.codLocation\" placeholder=\"Localização\">\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <md-list>\r\n                    <h3 md-subheader>Sub equipamentos</h3>\r\n                    <md-list-item *ngFor=\"let subequipment of subequipments\">\r\n                        <md-icon md-list-icon>android</md-icon>\r\n                        <h4 md-line>{{subequipment?.name}}</h4>\r\n                        <p md-line> Descrição: {{subequipment?.description }} </p>\r\n                    </md-list-item>\r\n                </md-list>\r\n              \r\n                <div class=\"inset\">\r\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/equipment']\" class=\"button\">Voltar</button>\r\n                </div>\r\n            </form>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
 
 /***/ }),
 
 /***/ 476:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Equipamento\"  cardWidth=\"75\"  >\n        <md-card>      \n            <form #myform=\"ngForm\" class=\"example-form\">\n                <md-input-container class=\"example-full-width\">\n                    <input mdInput placeholder=\"ID\" disabled value=\"#\">\n                </md-input-container>\n\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input required #equipmentName max=\"50\" name =\"name\" [(ngModel)]=\"equipment.name\" mdInput placeholder=\"Nome do equipamento\">\n                                <md-hint align=\"end\">{{equipmentName.value.length}} / 50</md-hint>\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <textarea  required #equipmentDescription max=\"144\" name =\"description\" [(ngModel)]=\"equipment.description\" mdInput placeholder=\"Descrição\"></textarea>\n                                <md-hint align=\"end\">{{equipmentDescription.value.length}} / 144</md-hint>\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <br>\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <!--<td-file-input name=\"equipment.\" type=\"file\" [(ngModel)]=\"files\" color=\"primary\" (select)=\"selectEvent($event)\"\n                                        accept=\".pdf\" [disabled]=\"disabled\" multiple>\n                            <md-icon>attach_file</md-icon><span>Choose a file...</span>\n                            </td-file-input>-->\n                            <input type=\"file\" name=\"archivePath\" [(ngModel)]=\"equipment.archivePath\">\n                        </td>\n                    </tr>\n                </table>   \n                <br>\n                <table>\n                    <tr>\n                        <td>\n                            <md-select name =\"location\" [(ngModel)]=\"equipment.location\" placeholder=\"Localização\">\n                                <md-option required *ngFor=\"let location of locations\" [value]=\"location\">\n                                    {{ location.codLocation }}\n                                </md-option>\n                            </md-select>\n                        </td> \n                    </tr>\n                </table>\n                <br>\n                <table>\n                    <tr>\n                        <td>\n                            <md-checkbox class=\"example-margin\" name=\"show\" [(ngModel)]=\"show\">Equipamento principal</md-checkbox>\n                            <br><br><br>\n                            <md-select *ngIf=\"show\" name =\"equipment\" [(ngModel)]=\"equipment.equipment\" placeholder=\"Equipamento\">                            \n                                <md-option *ngFor=\"let equipment of equipments\" [value]=\"equipment\">\n                                    {{ equipment.name }}\n                                </md-option>\n                            </md-select>\n                        </td> \n                    </tr>\n                </table>\n                <br><br>\n                <div class=\"inset\">\n                    <button md-raised-button  color=\"primary\" type=\"submit\"class=\"button\" [disabled]=\"myform.form.invalid\" (click)=\"insertEquipment(equipment)\" >Salvar</button>\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/equipment']\" class=\"button\">Cancelar</button>\n                </div>\n            </form>\n     </md-card> \n  </td-layout-card-over>\n</td-layout-nav>"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Equipamento\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <form #myform=\"ngForm\" class=\"example-form\">\r\n                <md-input-container class=\"example-full-width\">\r\n                    <input mdInput placeholder=\"ID\" disabled value=\"#\">\r\n                </md-input-container>\r\n\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input required #equipmentName max=\"50\" name =\"name\" [(ngModel)]=\"equipment.name\" mdInput placeholder=\"Nome do equipamento\">\r\n                                <md-hint align=\"end\">{{equipmentName.value.length}} / 50</md-hint>\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <textarea  required #equipmentDescription max=\"144\" name =\"description\" [(ngModel)]=\"equipment.description\" mdInput placeholder=\"Descrição\"></textarea>\r\n                                <md-hint align=\"end\">{{equipmentDescription.value.length}} / 144</md-hint>\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <br>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <!--<td-file-input name=\"equipment.\" type=\"file\" [(ngModel)]=\"files\" color=\"primary\" (select)=\"selectEvent($event)\"\r\n                                        accept=\".pdf\" [disabled]=\"disabled\" multiple>\r\n                            <md-icon>attach_file</md-icon><span>Choose a file...</span>\r\n                            </td-file-input>-->\r\n                            <input type=\"file\" name=\"archivePath\" [(ngModel)]=\"equipment.archivePath\">\r\n                        </td>\r\n                    </tr>\r\n                </table>   \r\n                <br>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <md-select name =\"location\" [(ngModel)]=\"equipment.location\" placeholder=\"Localização\">\r\n                                <md-option required *ngFor=\"let location of locations\" [value]=\"location\">\r\n                                    {{ location.codLocation }}\r\n                                </md-option>\r\n                            </md-select>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n                <br>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <md-checkbox class=\"example-margin\" name=\"show\" [(ngModel)]=\"show\">Equipamento principal</md-checkbox>\r\n                            <br><br><br>\r\n                            <md-select *ngIf=\"show\" name =\"equipment\" [(ngModel)]=\"equipment.equipment\" placeholder=\"Equipamento\">                            \r\n                                <md-option *ngFor=\"let equipment of equipments\" [value]=\"equipment\">\r\n                                    {{ equipment.name }}\r\n                                </md-option>\r\n                            </md-select>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n                <br><br>\r\n                <div class=\"inset\">\r\n                    <button md-raised-button  color=\"primary\" type=\"submit\"class=\"button\" [disabled]=\"myform.form.invalid\" (click)=\"insertEquipment(equipment)\" >Salvar</button>\r\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/equipment']\" class=\"button\">Cancelar</button>\r\n                </div>\r\n            </form>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
 
 /***/ }),
 
 /***/ 477:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Lista de equipamentos\"  cardWidth=\"75\"  >\n        <md-card>      \n            <md-card-title layout>\n                <md-input-container class=\"text-sm\" flex>\n                    <input #textSearch (keyup)=\"0\" mdInput placeholder=\"Procurar equipamentos\"/>\n                    <span mdPrefix><md-icon class=\"icon\">search</md-icon></span>\n                </md-input-container>\n            </md-card-title>\n            <md-list class=\"pull-top\">\n                <md-list-item>\n                    <md-icon md-list-avatar>bug_report</md-icon>\n                    <h3 md-line>Equipamentos</h3>\n                </md-list-item>   \n                <ng-template let-item=\"$implicit\" let-i=\"index\" let-last=\"last\" ngFor [ngForOf]=\"equipments | filterNameEquipment: textSearch.value\" >\n                  <!--| filterName: textSearch.value\"-->\n                    <a md-list-item>\n                        <md-icon md-list-avatar>select_all</md-icon>\n                        <h3 md-line> {{item.name}} </h3>\n                        <p md-line> {{item?.location?.codLocation}} </p>\n                        <span flex></span>\n                        <button md-button [routerLink]=\"['/equipment-detail', item.id]\" ><md-icon md-list-avatar>details</md-icon></button>\n                        <button md-button [routerLink]=\"['/equipment-edit', item.id]\"><md-icon md-list-avatar>edit</md-icon></button>\n                        <button md-button (click)=\"openConfirm(item)\"><md-icon md-list-avatar>delete</md-icon></button>\n                    </a>\n                    <md-divider *ngIf=\"!last\" md-inset></md-divider>        \n              </ng-template>\n          </md-list>\n          <a md-fab td-sidenav-content color=\"accent\" [routerLink]=\"['/equipment-new']\" class=\"botao\" style=\"bottom:20px; position: float; z-index: 1; position: fixed\"> \n              <md-icon>add</md-icon>\n          </a>\n     </md-card> \n  </td-layout-card-over>\n</td-layout-nav>\n \n\n\n"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Lista de equipamentos\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <md-card-title layout>\r\n                <md-input-container class=\"text-sm\" flex>\r\n                    <input #textSearch (keyup)=\"0\" mdInput placeholder=\"Procurar equipamentos\"/>\r\n                    <span mdPrefix><md-icon class=\"icon\">search</md-icon></span>\r\n                </md-input-container>\r\n            </md-card-title>\r\n            <md-list class=\"pull-top\">\r\n                <md-list-item>\r\n                    <md-icon md-list-avatar>bug_report</md-icon>\r\n                    <h3 md-line>Equipamentos</h3>\r\n                </md-list-item>   \r\n                <ng-template let-item=\"$implicit\" let-i=\"index\" let-last=\"last\" ngFor [ngForOf]=\"equipments | filterNameEquipment: textSearch.value\" >\r\n                  <!--| filterName: textSearch.value\"-->\r\n                    <a md-list-item>\r\n                        <md-icon md-list-avatar>select_all</md-icon>\r\n                        <h3 md-line> {{item.name}} </h3>\r\n                        <p md-line> {{item?.location?.codLocation}} </p>\r\n                        <span flex></span>\r\n                        <button md-button [routerLink]=\"['/equipment-detail', item.id]\" ><md-icon md-list-avatar>details</md-icon></button>\r\n                        <button md-button [routerLink]=\"['/equipment-edit', item.id]\"><md-icon md-list-avatar>edit</md-icon></button>\r\n                        <button md-button *ngIf=\"userCurrent?.permission == 'ROLE_ADMIN'\" (click)=\"openConfirm(item)\"><md-icon md-list-avatar>delete</md-icon></button>\r\n                    </a>\r\n                    <md-divider *ngIf=\"!last\" md-inset></md-divider>        \r\n              </ng-template>\r\n          </md-list>\r\n          <a md-fab td-sidenav-content color=\"accent\" [routerLink]=\"['/equipment-new']\" class=\"botao\" style=\"bottom:20px; position: float; z-index: 1; position: fixed\"> \r\n              <md-icon>add</md-icon>\r\n          </a>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>\r\n \r\n\r\n\r\n"
 
 /***/ }),
 
 /***/ 478:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav toolbarTitle=\"Início\" logo=\"svgIconName\" navigationRoute=\"/\">\n  <router-outlet></router-outlet>\n  <td-layout-footer>\n    Optional footer\n  </td-layout-footer>\n</td-layout-nav>"
+module.exports = "<td-layout-nav toolbarTitle=\"Início\" navigationRoute=\"/\">\r\n  <router-outlet></router-outlet>\r\n  <td-layout-footer>\r\n    Optional footer\r\n  </td-layout-footer>\r\n</td-layout-nav>"
 
 /***/ }),
 
 /***/ 479:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Localização\"  class=\"card\" cardWidth=\"75\">\n        <md-card >    \n\n            <form class=\"example-form\">\n                <md-input-container class=\"example-full-width\">\n                    <input mdInput placeholder=\"ID\" [value]=\"location.id\" disabled>\n                </md-input-container>\n\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"location.codLocation\" placeholder=\"Código Localizador\">\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"location?.responsible?.name\" placeholder=\"Responsável\">\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"location?.viceResponsible?.name\" placeholder=\"Vice Responsável\">\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                \n                \n\n                <md-list>\n                    <h3 md-subheader>Sub localizações</h3>\n                    <md-list-item *ngFor=\"let sublocation of sublocations\">\n                        <md-icon md-list-icon>location_on</md-icon>\n                        <h4 md-line>{{sublocation?.codLocation}}</h4>\n                        <p md-line> Responsável: {{sublocation?.responsible?.name }} </p>\n                        <p md-line> Vice Responsável: {{sublocation?.viceResponsible?.name }} </p>\n                    </md-list-item>\n                </md-list>\n              \n                <div class=\"inset\">\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/location']\" class=\"button\">Voltar</button>\n                </div>\n            </form>\n     </md-card> \n  </td-layout-card-over>\n</td-layout-nav>"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Localização\"  class=\"card\" cardWidth=\"75\">\r\n        <md-card >    \r\n\r\n            <form class=\"example-form\">\r\n                <md-input-container class=\"example-full-width\">\r\n                    <input mdInput placeholder=\"ID\" [value]=\"location.id\" disabled>\r\n                </md-input-container>\r\n\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"location.codLocation\" placeholder=\"Código Localizador\">\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"location?.responsible?.name\" placeholder=\"Responsável\">\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"location?.viceResponsible?.name\" placeholder=\"Vice Responsável\">\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                \r\n                \r\n\r\n                <md-list>\r\n                    <h3 md-subheader>Sub localizações</h3>\r\n                    <md-list-item *ngFor=\"let sublocation of sublocations\">\r\n                        <md-icon md-list-icon>location_on</md-icon>\r\n                        <h4 md-line>{{sublocation?.codLocation}}</h4>\r\n                        <p md-line> Responsável: {{sublocation?.responsible?.name }} </p>\r\n                        <p md-line> Vice Responsável: {{sublocation?.viceResponsible?.name }} </p>\r\n                    </md-list-item>\r\n                </md-list>\r\n              \r\n                <div class=\"inset\">\r\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/location']\" class=\"button\">Voltar</button>\r\n                </div>\r\n            </form>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
 
 /***/ }),
 
 /***/ 480:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Localização\"  cardWidth=\"75\"  >\n        <md-card>      \n            <form #myform=\"ngForm\" class=\"example-form\" (submit)=\"insertLocation($event)\">\n                <md-input-container class=\"example-full-width\">\n                    <input mdInput placeholder=\"ID\" disabled value=\"#\">\n                </md-input-container>\n\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input required #codLocation maxlength=\"50\" name =\"codLocation\" [(ngModel)]=\"location.codLocation\" mdInput placeholder=\"Código localizador\">\n                                <md-hint align=\"end\">{{codLocation.value.length}} / 50</md-hint>\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <br>\n                <table>\n                    <tr>\n                        <td>\n                            <md-select required name =\"responsible\" [(ngModel)]=\"location.responsible\" placeholder=\"Responsável\">\n                                <md-option *ngFor=\"let user of users\" [value]=\"user\" >\n                                    {{ user.name }}\n                                </md-option>\n                            </md-select>\n                        </td> \n                    </tr>\n                </table>\n                <br>\n                <table>\n                    <tr>\n                        <td>\n                            <md-select name =\"viceResponsible\" [(ngModel)]=\"location.viceResponsible\" placeholder=\"Vice Responsável\">\n                                <md-option *ngFor=\"let user of users\" [value]=\"user\">\n                                    {{ user.name }}\n                                </md-option>\n                            </md-select>\n                        </td> \n                    </tr>\n                </table>\n                <br>\n                <table>\n                    <tr>\n                        <td>\n                            <section class=\"example-section\">\n                                <md-checkbox class=\"example-margin\" name=\"show\" [(ngModel)]=\"show\">Localização principal</md-checkbox>\n                                <br><br><br>\n                                <md-select *ngIf=\"show\" name =\"location\" [(ngModel)]=\"location.location\" placeholder=\"Localização\">\n                                    <md-option *ngFor=\"let location of locations\" [value]=\"location\">\n                                        {{ location.codLocation }}\n                                    </md-option>\n                                </md-select>\n                            </section>\n                        </td> \n                    </tr>\n                </table>\n                <br><br>\n                <div class=\"inset\">\n                    <button md-raised-button  color=\"primary\" type=\"submit\"class=\"button\" [disabled]=\"myform.form.invalid\" (click)=\"insertLocation(location)\" >Salvar</button>\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/location']\" class=\"button\">Cancelar</button>\n                </div>\n            </form>\n     </md-card> \n  </td-layout-card-over>\n</td-layout-nav>"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Localização\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <form #myform=\"ngForm\" class=\"example-form\" (submit)=\"insertLocation($event)\">\r\n                <md-input-container class=\"example-full-width\">\r\n                    <input mdInput placeholder=\"ID\" disabled value=\"#\">\r\n                </md-input-container>\r\n\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input required #codLocation maxlength=\"50\" name =\"codLocation\" [(ngModel)]=\"location.codLocation\" mdInput placeholder=\"Código localizador\">\r\n                                <md-hint align=\"end\">{{codLocation.value.length}} / 50</md-hint>\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <br>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <md-select required name =\"responsible\" [(ngModel)]=\"location.responsible\" placeholder=\"Responsável\">\r\n                                <md-option *ngFor=\"let user of users\" [value]=\"user\" >\r\n                                    {{ user.name }}\r\n                                </md-option>\r\n                            </md-select>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n                <br>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <md-select name =\"viceResponsible\" [(ngModel)]=\"location.viceResponsible\" placeholder=\"Vice Responsável\">\r\n                                <md-option *ngFor=\"let user of users\" [value]=\"user\">\r\n                                    {{ user.name }}\r\n                                </md-option>\r\n                            </md-select>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n                <br>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <section class=\"example-section\">\r\n                                <md-checkbox class=\"example-margin\" name=\"show\" [(ngModel)]=\"show\">Localização principal</md-checkbox>\r\n                                <br><br><br>\r\n                                <md-select *ngIf=\"show\" name =\"location\" [(ngModel)]=\"location.location\" placeholder=\"Localização\">\r\n                                    <md-option *ngFor=\"let location of locations\" [value]=\"location\">\r\n                                        {{ location.codLocation }}\r\n                                    </md-option>\r\n                                </md-select>\r\n                            </section>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n                <br><br>\r\n                <div class=\"inset\">\r\n                    <button md-raised-button  color=\"primary\" type=\"submit\"class=\"button\" [disabled]=\"myform.form.invalid\" (click)=\"insertLocation(location)\" >Salvar</button>\r\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/location']\" class=\"button\">Cancelar</button>\r\n                </div>\r\n            </form>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
 
 /***/ }),
 
 /***/ 481:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Lista de localizações\"  cardWidth=\"75\"  >\n        <md-card>      \n            <md-card-title layout>\n                <md-input-container class=\"text-sm\" flex>\n                    <input #textSearch (keyup)=\"0\" mdInput placeholder=\"Procurar localizações\"/>\n                    <span mdPrefix><md-icon class=\"icon\">search</md-icon></span>\n                </md-input-container>\n            </md-card-title>\n            <md-list class=\"pull-top\">\n                <md-list-item>\n                    <md-icon md-list-avatar>location_searching</md-icon>\n                    <h3 md-line>Localizações</h3>\n                </md-list-item>     \n                <ng-template let-item=\"$implicit\" let-i=\"index\" let-last=\"last\" ngFor [ngForOf]=\"locations | filterCodLocation: textSearch.value\">\n                            <a md-list-item> \n                                <md-icon md-list-avatar>location_on</md-icon>\n                                <h3 md-line> {{item.codLocation}}</h3>\n                                <p md-line> {{item.responsible.name}} </p>\n                                <span flex></span>\n                                <button md-button [routerLink]=\"['/location-detail', item.id]\" ><md-icon md-list-avatar>details</md-icon></button>\n                                <button md-button [routerLink]=\"['/location-edit', item.id]\"><md-icon md-list-avatar>edit</md-icon></button>\n                                <button md-button (click)=\"openConfirm(item)\"><md-icon md-list-avatar>delete</md-icon></button>\n                            </a>\n                    <md-divider *ngIf=\"!last\" md-inset></md-divider>        \n                    </ng-template>\n          </md-list>\n          <a md-fab td-sidenav-content color=\"accent\" [routerLink]=\"['/location-new']\" class=\"botao\" style=\"bottom:20px; position: float; z-index: 1; position: fixed\"> \n              <md-icon>add</md-icon>\n          </a>\n     </md-card> \n  </td-layout-card-over>\n</td-layout-nav>\n\n\n\n"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Lista de localizações\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <md-card-title layout>\r\n                <md-input-container class=\"text-sm\" flex>\r\n                    <input #textSearch (keyup)=\"0\" mdInput placeholder=\"Procurar localizações\"/>\r\n                    <span mdPrefix><md-icon class=\"icon\">search</md-icon></span>\r\n                </md-input-container>\r\n            </md-card-title>\r\n            <md-list class=\"pull-top\">\r\n                <md-list-item> \r\n                    <md-icon md-list-avatar>location_searching</md-icon>\r\n                    <h3 md-line>Localizações</h3>\r\n                </md-list-item>     \r\n                <ng-template let-item=\"$implicit\" let-i=\"index\" let-last=\"last\" ngFor [ngForOf]=\"locations | filterCodLocation: textSearch.value\">\r\n                            <a md-list-item> \r\n                                <md-icon md-list-avatar>location_on</md-icon>\r\n                                <h3 md-line> {{item.codLocation}}</h3>\r\n                                <p md-line> {{item.responsible.name}} </p>\r\n                                <span flex></span>\r\n                                <button md-button [routerLink]=\"['/location-detail', item.id]\" ><md-icon md-list-avatar>details</md-icon></button>\r\n                                <button md-button [routerLink]=\"['/location-edit', item.id]\"><md-icon md-list-avatar>edit</md-icon></button>\r\n                                <button md-button *ngIf=\"userCurrent?.permission == 'ROLE_ADMIN'\" (click)=\"openConfirm(item)\"><md-icon md-list-avatar>delete</md-icon></button>\r\n                            </a>\r\n                    <md-divider *ngIf=\"!last\" md-inset></md-divider>        \r\n                    </ng-template>\r\n          </md-list>\r\n          <a md-fab td-sidenav-content color=\"accent\" [routerLink]=\"['/location-new']\" class=\"botao\" style=\"bottom:20px; position: float; z-index: 1; position: fixed\"> \r\n              <md-icon>add</md-icon>\r\n          </a>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
 /***/ 482:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav >\n  <td-layout-card-over  cardWidth=\"45\">\n     <md-card>\n        <md-card-content>\n          <div id=\"textCenter\">\n              <h1 class=\"md-display-1\" align=\"center\">Login </h1>\n          </div>\n          <form #myform=\"ngForm\" class=\"center\"> \n              <div >\n                  <md-icon>account_circle</md-icon> \n                  <md-input-container class=\"inputClass\">\n                    <input required type=\"email\" name =\"email\" [(ngModel)]=\"user.email\" mdInput placeholder=\"Login\" > \n                  </md-input-container>\n              </div>\n              <div>\n                  <md-icon>lock_outline</md-icon>\n                  <md-input-container class=\"inputClass\">\n                    <input required type=\"password\" name =\"password\" [(ngModel)]=\"user.password\" mdInput placeholder=\"Senha\">\n                  </md-input-container>\n              </div>\n              <button md-button color=\"primary\" (click)=\"login(user)\" [disabled]=\"myform.form.invalid\" class=\"button\">Login</button>\n          </form>\n        </md-card-content>\n    </md-card>\n  </td-layout-card-over>\n  <td-layout-footer>\n  </td-layout-footer>\n</td-layout-nav>"
+module.exports = "<td-layout-nav >\r\n  <td-layout-card-over  cardWidth=\"45\">\r\n     <md-card>\r\n        <md-card-content>\r\n          <div id=\"textCenter\">\r\n              <h1 class=\"md-display-1\" align=\"center\">Login </h1>\r\n          </div>\r\n          <form #myform=\"ngForm\" class=\"center\"> \r\n              <div >\r\n                  <md-icon>account_circle</md-icon> \r\n                  <md-input-container class=\"inputClass\">\r\n                    <input required type=\"email\" name =\"email\" [(ngModel)]=\"user.email\" mdInput placeholder=\"Login\" > \r\n                  </md-input-container>\r\n              </div>\r\n              <div>\r\n                  <md-icon>lock_outline</md-icon>\r\n                  <md-input-container class=\"inputClass\">\r\n                    <input required type=\"password\" name =\"password\" [(ngModel)]=\"user.password\" mdInput placeholder=\"Senha\">\r\n                  </md-input-container>\r\n              </div>\r\n              <button md-button color=\"primary\" (click)=\"login(user)\" [disabled]=\"myform.form.invalid\" class=\"button\">Login</button>\r\n          </form>\r\n        </md-card-content>\r\n    </md-card>\r\n  </td-layout-card-over>\r\n  <td-layout-footer>\r\n  </td-layout-footer>\r\n</td-layout-nav>"
 
 /***/ }),
 
 /***/ 483:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Usuário\"  cardWidth=\"75\"  >\n        <md-card>    \n\n            <form class=\"example-form\">\n                <md-input-container class=\"example-full-width\">\n                    <input mdInput placeholder=\"ID\" [value]=\"user.id\" disabled>\n                </md-input-container>\n\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"user.name\" placeholder=\"Nome\">\n                            </md-input-container>\n                        </td>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                                <input mdInput disabled [value]=\"user.lastName\" placeholder=\"Sobrenome\">\n                            </md-input-container>\n                        </td>\n                    </tr>\n                </table>\n                <br>\n                <table class=\"example-full-width\" cellspacing=\"0\"><tr>\n                    <td>\n                        <md-input-container class=\"example-full-width\">\n                            <input type =\"email\" disabled [value]=\"user.email\" mdInput placeholder=\"Email\">\n                        </md-input-container>\n                    </td>\n                </table> \n                <br>\n                <table class=\"example-full-width\" cellspacing=\"0\">\n                    <tr>\n                        <td>\n                            <md-input-container class=\"example-full-width\">\n                            <input mdInput disabled [value]=\"user.sex\" placeholder=\"Sexo\">\n                            </md-input-container>\n                        </td> \n                    </tr>\n                </table>\n                <br><br>\n                <table>\n                    <td>\n                        <md-slide-toggle disabled *ngIf=\"user.active\" [checked]=\"true\" ></md-slide-toggle>\n                        <md-slide-toggle disabled *ngIf=\"!user.active\" ></md-slide-toggle>\n                    </td>\n                </table> \n                <div class=\"inset\">\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/user']\" class=\"button\">Voltar</button>\n                </div>\n            </form>\n     </md-card> \n  </td-layout-card-over>\n</td-layout-nav>"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Usuário\"  cardWidth=\"75\"  >\r\n        <md-card>    \r\n\r\n            <form class=\"example-form\">\r\n                <md-input-container class=\"example-full-width\">\r\n                    <input mdInput placeholder=\"ID\" [value]=\"user.id\" disabled>\r\n                </md-input-container>\r\n\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"user.name\" placeholder=\"Nome\">\r\n                            </md-input-container>\r\n                        </td>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input mdInput disabled [value]=\"user.lastName\" placeholder=\"Sobrenome\">\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <br>\r\n                <table class=\"example-full-width\" cellspacing=\"0\"><tr>\r\n                    <td>\r\n                        <md-input-container class=\"example-full-width\">\r\n                            <input type =\"email\" disabled [value]=\"user.email\" mdInput placeholder=\"Email\">\r\n                        </md-input-container>\r\n                    </td>\r\n                </table> \r\n                <br>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                            <input mdInput disabled [value]=\"user.sex\" placeholder=\"Sexo\">\r\n                            </md-input-container>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n                <br><br>\r\n                <table>\r\n                    <td>\r\n                        <md-slide-toggle disabled *ngIf=\"user.active\" [checked]=\"true\" ></md-slide-toggle>\r\n                        <md-slide-toggle disabled *ngIf=\"!user.active\" ></md-slide-toggle>\r\n                    </td>\r\n                </table> \r\n                <div class=\"inset\">\r\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/user']\" class=\"button\">Voltar</button>\r\n                </div>\r\n            </form>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
 
 /***/ }),
 
 /***/ 484:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Usuário\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <form #myform=\"ngForm\" class=\"example-form\" (submit)=\"insertUser($event)\">\r\n                <md-input-container class=\"example-full-width\">\r\n                    <input mdInput placeholder=\"ID\" disabled value=\"#\">\r\n                </md-input-container>\r\n\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input required #userName maxlength=\"50\" tdAutoTrim name =\"name\" [(ngModel)]=\"user.name\" mdInput placeholder=\"Nome\">\r\n                                <md-hint align=\"end\">{{userName.value.length}} / 50</md-hint>\r\n                            </md-input-container>\r\n                        </td>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input required #userLastName maxlength=\"50\" name =\"lastName\" [(ngModel)]=\"user.lastName\" mdInput placeholder=\"Sobrenome\">\r\n                                <md-hint align=\"end\">{{userLastName.value.length}} / 50</md-hint>\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <br>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <td>\r\n                        <md-input-container class=\"example-full-width\">\r\n                            <input required #userPassword maxlength=\"50\" #password=\"ngModel\" name =\"password\" [(ngModel)]=\"user.password\"  type =\"password\" mdInput placeholder=\"Senha\">\r\n                            <md-hint align=\"end\">{{userPassword.value.length}} / 50</md-hint>\r\n                        </md-input-container>\r\n                    </td>\r\n                </table> \r\n                <br>\r\n                <!--<table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input [hidden]= required #confirmPassword=\"ngModel\" validateEqual=\"password\" name =\"confirmPassword\" [(ngModel)]=\"user.confirmPassword\" type =\"password\" mdInput placeholder=\"Confirme a senha\">\r\n                            </md-input-container>\r\n                            <span *ngIf =\"password.value != confirmPassword.value \"  class=\"text-danger\">\r\n                                Senhas não conferem\r\n                            </span>\r\n                        </td>\r\n                </table> \r\n                <br>-->\r\n                <table class=\"example-full-width\" cellspacing=\"0\"><tr>\r\n                    <td>\r\n                        <md-input-container class=\"example-full-width\">\r\n                            <input  mdInput \r\n                                    required \r\n                                    pattern=\"^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$\"\r\n                                    maxlength=\"144\" \r\n                                    #email name =\"email\" \r\n                                    [(ngModel)]=\"user.email\" \r\n                                    type =\"email\"\r\n                                    placeholder=\"Email\">\r\n                            <md-hint align=\"end\">{{email.value.length}} / 144</md-hint>\r\n                        </md-input-container>\r\n                    </td>\r\n                </table> \r\n                <br>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <md-select required name =\"permission\" [(ngModel)]=\"user.permission\" placeholder=\"Permissão\">\r\n                                <md-option *ngFor=\"let role of roles\" [value]=\"role.value\">\r\n                                    {{ role.viewValue }}\r\n                                </md-option>\r\n                            </md-select>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n                <br><br>\r\n\r\n                <table >\r\n                    <tr>\r\n                        <td>\r\n                            <md-select required name =\"sex\" [(ngModel)]=\"user.sex\" placeholder=\"Sexo\">\r\n                                <md-option *ngFor=\"let sex of sexs\" [value]=\"sex.value\">\r\n                                    {{ sex.viewValue }}\r\n                                </md-option>\r\n                            </md-select>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n\r\n                <div class=\"inset\">\r\n                    <button md-raised-button  color=\"primary\" type=\"submit\"class=\"button\" [disabled]=\"myform.form.invalid\" (click)=\"insertUser($event, user.id)\" >Salvar</button>\r\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/user']\" class=\"button\">Cancelar</button>\r\n                </div>\r\n            </form>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Usuário\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <form #myform=\"ngForm\" class=\"example-form\" (submit)=\"insertUser($event)\">\r\n                <md-input-container class=\"example-full-width\">\r\n                    <input mdInput placeholder=\"ID\" disabled value=\"#\">\r\n                </md-input-container>\r\n\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input required #userName maxlength=\"50\" tdAutoTrim name =\"name\" [(ngModel)]=\"user.name\" mdInput placeholder=\"Nome\">\r\n                                <md-hint align=\"end\">{{userName.value.length}} / 50</md-hint>\r\n                            </md-input-container>\r\n                        </td>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input required #userLastName maxlength=\"50\" name =\"lastName\" [(ngModel)]=\"user.lastName\" mdInput placeholder=\"Sobrenome\">\r\n                                <md-hint align=\"end\">{{userLastName.value.length}} / 50</md-hint>\r\n                            </md-input-container>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n                <br>\r\n                <table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <td>\r\n                        <md-input-container class=\"example-full-width\">\r\n                            <input required #userPassword maxlength=\"100\" #password=\"ngModel\" name =\"password\" [(ngModel)]=\"user.password\"  type =\"password\" mdInput placeholder=\"Senha\">\r\n                            <md-hint align=\"end\">{{userPassword.value.length}} / 100</md-hint>\r\n                        </md-input-container>\r\n                    </td>\r\n                </table> \r\n                <br>\r\n                <!--<table class=\"example-full-width\" cellspacing=\"0\">\r\n                    <tr>\r\n                        <td>\r\n                            <md-input-container class=\"example-full-width\">\r\n                                <input [hidden]= required #confirmPassword=\"ngModel\" validateEqual=\"password\" name =\"confirmPassword\" [(ngModel)]=\"user.confirmPassword\" type =\"password\" mdInput placeholder=\"Confirme a senha\">\r\n                            </md-input-container>\r\n                            <span *ngIf =\"password.value != confirmPassword.value \"  class=\"text-danger\">\r\n                                Senhas não conferem\r\n                            </span>\r\n                        </td>\r\n                </table> \r\n                <br>-->\r\n                <table class=\"example-full-width\" cellspacing=\"0\"><tr>\r\n                    <td>\r\n                        <md-input-container class=\"example-full-width\">\r\n                            <input  mdInput \r\n                                    required \r\n                                    pattern=\"^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$\"\r\n                                    maxlength=\"144\" \r\n                                    #email name =\"email\" \r\n                                    [(ngModel)]=\"user.email\" \r\n                                    type =\"email\"\r\n                                    placeholder=\"Email\">\r\n                            <md-hint align=\"end\">{{email.value.length}} / 144</md-hint>\r\n                        </md-input-container>\r\n                    </td>\r\n                </table> \r\n                <br>\r\n                <table>\r\n                    <tr>\r\n                        <td>\r\n                            <md-select required name =\"permission\" [(ngModel)]=\"user.permission\" placeholder=\"Permissão\">\r\n                                <md-option *ngFor=\"let role of roles\" [value]=\"role.value\">\r\n                                    {{ role.viewValue }}\r\n                                </md-option>\r\n                            </md-select>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n                <br><br>\r\n\r\n                <table >\r\n                    <tr>\r\n                        <td>\r\n                            <md-select required name =\"sex\" [(ngModel)]=\"user.sex\" placeholder=\"Sexo\">\r\n                                <md-option *ngFor=\"let sex of sexs\" [value]=\"sex.value\">\r\n                                    {{ sex.viewValue }}\r\n                                </md-option>\r\n                            </md-select>\r\n                        </td> \r\n                    </tr>\r\n                </table>\r\n\r\n                <div class=\"inset\">\r\n                    <button md-raised-button  color=\"primary\" type=\"submit\"class=\"button\" [disabled]=\"myform.form.invalid\" (click)=\"insertUser($event, user.id)\" >Salvar</button>\r\n                    <button md-raised-button  color=\"primary\" [routerLink]=\"['/user']\" class=\"button\">Cancelar</button>\r\n                </div>\r\n            </form>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
 
 /***/ }),
 
 /***/ 485:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Lista de usuários\"  cardWidth=\"75\"  >\n        <md-card>      \n            <md-card-title layout>\n                <md-input-container class=\"text-sm\" flex>\n                    <input #textSearch (keyup)=\"0\" mdInput placeholder=\"Procurar usuários\"/>\n                    <span mdPrefix><md-icon class=\"icon\">search</md-icon></span>\n                </md-input-container>\n            </md-card-title> \n            <md-list class=\"pull-top\">\n                <md-list-item>\n                    <md-icon md-list-avatar>account_circle</md-icon>\n                    <h3 md-line>Usuários</h3>\n                </md-list-item>   \n                <ng-template let-item=\"$implicit\" let-i=\"index\" let-last=\"last\" ngFor [ngForOf]=\"users | filterName: textSearch.value\">\n                    <a md-list-item>\n                        <md-icon md-list-avatar>person</md-icon>\n                        <h3 md-line> {{item.name}} {{item.lastName}} </h3>\n                        <p md-line> {{item.email}} </p>\n                        <span flex></span>\n                        <button md-button [routerLink]=\"['/user-detail', item.id]\" ><md-icon md-list-avatar>details</md-icon></button>\n                        <button md-button [routerLink]=\"['/user-edit', item.id]\"><md-icon md-list-avatar>edit</md-icon></button>\n                        <!-- *ngIf=\"teste(item)\"  (click)=\"openConfirmDisable(item)\" // [checked]=\" item.active ? 'true' : 'false' \"-->\n                        <button md-button (click)=\"openConfirm($event, item)\" ><md-icon md-list-avatar>power_settings_new</md-icon></button>\n                    </a>\n                    <md-divider *ngIf=\"!last\" md-inset></md-divider>        \n              </ng-template>\n          </md-list>\n          <!--<a md-fab td-sidenav-content color=\"accent\" (click)=\"teste(5)\" class=\"botao\"-->\n          <a md-fab td-sidenav-content color=\"accent\" [routerLink]=\"['/user-new']\" class=\"botao\" style=\"bottom:20px; position: float; z-index: 1; position: fixed\"> \n              <md-icon>add</md-icon>\n          </a>\n     </md-card> \n  </td-layout-card-over>\n</td-layout-nav>\n\n\n\n"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Lista de usuários\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <md-card-title layout>\r\n                <md-input-container class=\"text-sm\" flex>\r\n                    <input #textSearch (keyup)=\"0\" mdInput placeholder=\"Procurar usuários\"/>\r\n                    <span mdPrefix><md-icon class=\"icon\">search</md-icon></span>\r\n                </md-input-container>\r\n            </md-card-title> \r\n            <md-list class=\"pull-top\">\r\n                <md-list-item>\r\n                    <md-icon md-list-avatar>account_circle</md-icon>\r\n                    <h3 md-line>Usuários</h3> \r\n                </md-list-item>   \r\n                <ng-template let-item=\"$implicit\" let-i=\"index\" let-last=\"last\" ngFor [ngForOf]=\"users | filterName: textSearch.value\">\r\n                    <a md-list-item>\r\n                        <md-icon md-list-avatar>person</md-icon>\r\n                        <h3 md-line> {{item.name}} {{item.lastName}} </h3>\r\n                        <p md-line> {{item.email}} </p>\r\n                        <span flex></span>\r\n                        <button md-button [routerLink]=\"['/user-detail', item.id]\" ><md-icon md-list-avatar>details</md-icon></button>\r\n                        <button md-button *ngIf=\"userCurrent?.permission == 'ROLE_ADMIN'\" [routerLink]=\"['/user-edit', item.id]\"><md-icon md-list-avatar>edit</md-icon></button>\r\n                        <!-- *ngIf=\"teste(item)\"  (click)=\"openConfirmDisable(item)\" // [checked]=\" item.active ? 'true' : 'false' \"-->\r\n                        <button md-button *ngIf=\"userCurrent?.permission == 'ROLE_ADMIN'\" (click)=\"openConfirm($event, item)\" ><md-icon md-list-avatar>power_settings_new</md-icon></button>\r\n                    </a>\r\n                    <md-divider *ngIf=\"!last\" md-inset></md-divider>        \r\n              </ng-template>\r\n          </md-list>\r\n          <!--<a md-fab td-sidenav-content color=\"accent\" (click)=\"teste(5)\" class=\"botao\"-->\r\n          <a md-fab td-sidenav-content *ngIf=\"userCurrent?.permission == 'ROLE_ADMIN'\" color=\"accent\" [routerLink]=\"['/user-new']\" class=\"botao\" style=\"bottom:20px; position: float; z-index: 1; position: fixed\"> \r\n              <md-icon>add</md-icon>\r\n          </a>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -1746,6 +1683,46 @@ module.exports = "<td-layout-nav> \n    <td-layout-card-over cardTitle=\"Lista d
 
 module.exports = __webpack_require__(163);
 
+
+/***/ }),
+
+/***/ 66:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var AuthService = (function () {
+    function AuthService(http) {
+        this.http = http;
+        this.url = '/projeto/login/';
+        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]();
+        this.headers.append('Content-Type', 'application/json');
+    }
+    AuthService.prototype.doLogout = function () {
+        return this.http.request(this.url + 'logout');
+    };
+    return AuthService;
+}());
+AuthService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["c" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object])
+], AuthService);
+
+var _a;
+//# sourceMappingURL=auth.service.js.map
 
 /***/ })
 

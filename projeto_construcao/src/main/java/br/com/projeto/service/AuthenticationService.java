@@ -19,8 +19,7 @@ public class AuthenticationService implements UserDetailsService
 	{
 		try
 		{
-			System.out.println(userRepository.findByEmail(email));
-			return  userRepository.findByEmail(email);
+			return  userRepository.findByEmailAndActive(email);
 		} 
 		catch (Exception e)
 		{

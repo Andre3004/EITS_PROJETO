@@ -11,14 +11,11 @@ export class EquipmentService {
   constructor(public http: Http) 
   { 
     this.headers = new Headers();
-    this.headers.append('Content-Type', 'multipart/form-data');
-    this.headers.append("enctype", "multipart/form-data");
+    this.headers.append('Content-Type', 'application/json');
   }
 
   insertEquipment(equipment): Observable<Response>
   {
-    console.log(equipment.id,'ID FINAL');
-    console.log(equipment);
     if(equipment.id != undefined )
     {
        return this.http.put(this.url + 'updateEquipment', JSON.stringify(equipment), { headers: this.headers });

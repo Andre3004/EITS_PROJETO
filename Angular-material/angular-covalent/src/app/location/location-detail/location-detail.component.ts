@@ -35,13 +35,10 @@ export class LocationDetailComponent
         this.location = location
       }, 
       erro => console.log(erro));
-      console.log(this.id);
-      console.log(this.location);
 
       locationService.listAllSubLocation(this.id).subscribe(sublocations => 
       { 
         this.sublocations = sublocations;
-        console.log(this.sublocations); 
       }, 
       erro => console.log(erro));
    }

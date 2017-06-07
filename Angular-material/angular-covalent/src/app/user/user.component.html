@@ -10,7 +10,7 @@
             <md-list class="pull-top">
                 <md-list-item>
                     <md-icon md-list-avatar>account_circle</md-icon>
-                    <h3 md-line>Usuários</h3>
+                    <h3 md-line>Usuários</h3> 
                 </md-list-item>   
                 <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="users | filterName: textSearch.value">
                     <a md-list-item>
@@ -19,15 +19,15 @@
                         <p md-line> {{item.email}} </p>
                         <span flex></span>
                         <button md-button [routerLink]="['/user-detail', item.id]" ><md-icon md-list-avatar>details</md-icon></button>
-                        <button md-button [routerLink]="['/user-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>
+                        <button md-button *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" [routerLink]="['/user-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>
                         <!-- *ngIf="teste(item)"  (click)="openConfirmDisable(item)" // [checked]=" item.active ? 'true' : 'false' "-->
-                        <button md-button (click)="openConfirm($event, item)" ><md-icon md-list-avatar>power_settings_new</md-icon></button>
+                        <button md-button *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" (click)="openConfirm($event, item)" ><md-icon md-list-avatar>power_settings_new</md-icon></button>
                     </a>
                     <md-divider *ngIf="!last" md-inset></md-divider>        
               </ng-template>
           </md-list>
           <!--<a md-fab td-sidenav-content color="accent" (click)="teste(5)" class="botao"-->
-          <a md-fab td-sidenav-content color="accent" [routerLink]="['/user-new']" class="botao" style="bottom:20px; position: float; z-index: 1; position: fixed"> 
+          <a md-fab td-sidenav-content *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" color="accent" [routerLink]="['/user-new']" class="botao" style="bottom:20px; position: float; z-index: 1; position: fixed"> 
               <md-icon>add</md-icon>
           </a>
      </md-card> 

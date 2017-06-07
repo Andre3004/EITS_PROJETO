@@ -9,9 +9,13 @@ import br.com.projeto.model.User;
 @Controller
 public class LoginController 
 {
-
-	@RequestMapping("/Login")
-	public String index(@AuthenticationPrincipal User user){
+	@RequestMapping("/login")
+	public String index(@AuthenticationPrincipal User user)
+	{
+		if ( user != null)
+		{
+			return "redirect:/#/user";
+		}
 		return "index";	
 	}
 }

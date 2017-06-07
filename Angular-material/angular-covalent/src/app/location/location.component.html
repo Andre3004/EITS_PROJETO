@@ -8,7 +8,7 @@
                 </md-input-container>
             </md-card-title>
             <md-list class="pull-top">
-                <md-list-item>
+                <md-list-item> 
                     <md-icon md-list-avatar>location_searching</md-icon>
                     <h3 md-line>Localizações</h3>
                 </md-list-item>     
@@ -20,7 +20,7 @@
                                 <span flex></span>
                                 <button md-button [routerLink]="['/location-detail', item.id]" ><md-icon md-list-avatar>details</md-icon></button>
                                 <button md-button [routerLink]="['/location-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>
-                                <button md-button (click)="openConfirm(item)"><md-icon md-list-avatar>delete</md-icon></button>
+                                <button md-button *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" (click)="openConfirm(item)"><md-icon md-list-avatar>delete</md-icon></button>
                             </a>
                     <md-divider *ngIf="!last" md-inset></md-divider>        
                     </ng-template>

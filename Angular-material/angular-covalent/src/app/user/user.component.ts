@@ -14,9 +14,10 @@ import { TdDialogService } from '@covalent/core';
     styleUrls: ['./user.component.css']
   })
 export class UserComponent  
-{
+{ 
 
     users: Object[] = [];
+    userCurrent : Object;
     permission = false;
 
   constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router, 
@@ -25,7 +26,12 @@ export class UserComponent
       userService.listAllUser().subscribe(users => 
       { 
         this.users = users;
-        console.log(this.users);
+      },  
+      erro => console.log(erro));
+
+      userService.getCurrentUser().subscribe(user => 
+      { 
+        this.userCurrent = user;
       }, 
       erro => console.log(erro));
       
@@ -62,7 +68,6 @@ export class UserComponent
           {
             this.userService.activateUser(user).subscribe(() => 
             {
-                console.log('Usuario ativado com sucesso!');
                 this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
             },
             erro => 
@@ -76,7 +81,6 @@ export class UserComponent
           {
             this.userService.deactivateUser(user).subscribe(() => 
             {
-                console.log('Usuario desativado com sucesso!');
                 this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
             },
             erro => 

@@ -22,24 +22,20 @@ export class LocationFormComponent {
       userService.listAllUser().subscribe(users => 
       { 
         this.users = users;
-        console.log(this.users);
       }, 
       erro => console.log(erro));
 
       locationService.listAllLocation().subscribe(locations => 
       { 
         this.locations = locations;
-        console.log(this.locations);
       },erro => console.log(erro)); 
 
       activatedRoute.params.subscribe(params => {
                
         let id = params['id'];
-        console.log(id);
         if (id)
         {
           this.locationService.findLocationbyId(id).subscribe( location => this.location = location, erro => console.log(erro));
-          console.log(this.location);
         }
           
       });
@@ -54,11 +50,9 @@ export class LocationFormComponent {
   }
   insertLocation(location)
   { 
-    console.log('insert working');
     this.router.navigate(['/location']);
     this.locationService.insertLocation(this.location).subscribe(() => 
     {  
-      console.log('Localização salva com sucesso!');
       this.openSnackBar('Localização salva com sucesso ', 'Sucesso!');
     }, 
     erro => 

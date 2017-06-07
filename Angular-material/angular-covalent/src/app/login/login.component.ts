@@ -21,20 +21,5 @@ export class LoginComponent {
     }); 
   }
 
-  login(user)
-  {
-    console.log(user.email);
-    this.authService.doLogin(user).subscribe(() => 
-    {
-      this.openSnackBar('Usuário logado com sucesso ', 'sucesso!');
-    },
-    erro => 
-    {
-      this.openSnackBar('Login ou senha inválidos ', 'Erro!');
-      console.log(erro);
-    }
-    );
-  }
-
 
 }

@@ -22,24 +22,20 @@ export class EquipmentFormComponent {
       locationService.listAllLocation().subscribe(locations => 
       { 
         this.locations = locations;
-        console.log(this.locations);
       }, 
       erro => console.log(erro));
 
       equipmentService.listAllEquipment().subscribe(equipments => 
       { 
         this.equipments = equipments;
-        console.log(this.equipments);
       },erro => console.log(erro)); 
 
       activatedRoute.params.subscribe(params => {
                
         let id = params['id'];
-        console.log(id);
         if (id)
         {
           this.equipmentService.findEquipmentbyId(id).subscribe( equipment => this.equipment = equipment, erro => console.log(erro));
-          console.log(this.equipment);
         }
           
       });
@@ -54,11 +50,9 @@ export class EquipmentFormComponent {
   }
   insertEquipment(equipment)
   { 
-    console.log('insert working');
     this.router.navigate(['/equipment']);
     this.equipmentService.insertEquipment(this.equipment).subscribe(() => 
     {  
-      console.log('Equipamento salvo com sucesso!');
       this.openSnackBar('Equipamento salvo com sucesso ', 'Sucesso!');
     }, 
     erro => 

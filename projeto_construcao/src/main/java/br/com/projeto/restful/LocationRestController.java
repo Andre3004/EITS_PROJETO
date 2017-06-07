@@ -25,7 +25,6 @@ public class LocationRestController
 	@RequestMapping(value = "/insertLocation", method = RequestMethod.POST)
 	public void insertLocation(@RequestBody Location location)
 	{
-		System.out.println(location.getCodLocation());
 		locationService.insertLocation(location);
 	}
 	

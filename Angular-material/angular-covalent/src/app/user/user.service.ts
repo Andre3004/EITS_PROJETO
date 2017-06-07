@@ -17,8 +17,6 @@ export class UserService
 
   insertUser(user): Observable<Response>
   {
-    console.log(user.id,'ID FINAL');
-    console.log(user);
     if(user.id != undefined )
     {
        return this.http.put(this.url + 'updateUser', JSON.stringify(user), { headers: this.headers });
@@ -46,7 +44,8 @@ export class UserService
   {
     return this.http.get(this.url + 'findUserById/' + id).map(res => res.json());;
   }
-
-
-
+  getCurrentUser(): Observable<Object>
+  {
+    return this.http.get(this.url + 'getCurrentUser').map(res => res.json());;
+  }
 }

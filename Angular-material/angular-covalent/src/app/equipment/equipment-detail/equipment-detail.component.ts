@@ -37,13 +37,10 @@ export class EquipmentDetailComponent
         this.equipment = equipment
       }, 
       erro => console.log(erro));
-      console.log(this.id);
-      console.log(this.equipment);
 
       equipmentService.listAllSubEquipment(this.id).subscribe(subequipments => 
       { 
         this.subequipments = subequipments;
-        console.log(this.subequipments); 
       }, 
       erro => console.log(erro));
    }

@@ -15,9 +15,9 @@ export class AuthService
     this.headers.append('Content-Type', 'application/json');
   }
 
-  doLogin(user)
+  doLogout()
   {
-    return this.http.get(this.url + 'auth/' + user.email);
+    return this.http.request(this.url + 'logout');
   }
 
 

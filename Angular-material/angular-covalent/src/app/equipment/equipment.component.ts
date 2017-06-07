@@ -1,3 +1,4 @@
+import { UserService } from './../user/user.service';
 import { TdDialogService } from '@covalent/core';
 import { EquipmentService } from './equipment.service';
 import { Component } from '@angular/core';
@@ -13,15 +14,22 @@ import { ViewContainerRef } from '@angular/core';
 export class EquipmentComponent{
  
    equipments: Object[] = [];
+   userCurrent : Object;
+   
 
   constructor(public snackBar: MdSnackBar, public equipmentService: EquipmentService, private router: Router,
-              private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef)
+              private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef, public userService: UserService)
   {
       equipmentService.listAllEquipment().subscribe(equipments => 
       { 
         this.equipments = equipments;
-        console.log(this.equipments);
       },erro => console.log(erro)); 
+
+      userService.getCurrentUser().subscribe(user => 
+      { 
+        this.userCurrent = user;
+      }, 
+      erro => console.log(erro));
 
       
   }
@@ -50,7 +58,6 @@ export class EquipmentComponent{
           {
               this.equipmentService.deleteEquipment(equipment).subscribe(() => 
               {
-                  console.log('Equipamento removido com sucesso!');
                   let equipments = this.equipments.slice(0);
                   let indice = equipments.indexOf(equipment);
                   equipments.splice(indice, 1);
@@ -59,7 +66,6 @@ export class EquipmentComponent{
               },
               erro => 
               {
-                console.log(erro);
                 this.openSnackBar('Não foi possível remover o Equipamento ' + equipment.name, 'Erro!');
               }
               );

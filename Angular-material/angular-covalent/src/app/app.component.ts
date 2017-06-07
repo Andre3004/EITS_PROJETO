@@ -1,3 +1,4 @@
+import { AuthService } from './login/auth.service';
 import { TdMediaService } from '@covalent/core';
 import { Component } from '@angular/core';
 
@@ -9,9 +10,13 @@ import { Component } from '@angular/core';
 export class AppComponent 
 {
   title = 'app works!';
-  constructor(public media: TdMediaService){}
+  constructor(public media: TdMediaService, public authService: AuthService){}
   ngAfterViewInit(): void {
     // broadcast to all listener observables when loading the page
     this.media.broadcast();
+  }
+  logout()
+  {
+    this.authService.doLogout;
   }
 }

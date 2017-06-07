@@ -17,8 +17,6 @@ export class LocationService
 
   insertLocation(location): Observable<Response>
   {
-    console.log(location.id,'ID FINAL');
-    console.log(location);
     if(location.id != undefined )
     {
        return this.http.put(this.url + 'updateLocation', JSON.stringify(location), { headers: this.headers });

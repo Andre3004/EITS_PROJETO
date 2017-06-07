@@ -7,6 +7,7 @@ import javax.management.RuntimeErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,6 +40,12 @@ public class UserRestController
 	public List<User> listAllUser()
 	{
 		return userService.listAllUser();
+	}
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/getCurrentUser", method = RequestMethod.GET)
+	public User getCurrent()
+	{
+		return userService.getCurrent();
 	}
 	
 	/*@CrossOrigin(origins = "http://localhost:4200")
@@ -80,7 +87,7 @@ public class UserRestController
 	/*@Transactional(readOnly = false)*/
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
-	public void update(@RequestBody User user)
+	public void updateUser(@RequestBody User user)
 	{
 		userService.editUser(user);
 	}

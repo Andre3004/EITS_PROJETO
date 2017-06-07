@@ -1,3 +1,4 @@
+import { UserService } from './../user/user.service';
 import { TdDialogService } from '@covalent/core';
 import { LocationService } from './location.service';
 import { Component } from '@angular/core';
@@ -13,15 +14,21 @@ import { ViewContainerRef } from '@angular/core';
 export class LocationComponent {
 
    locations: Object[] = [];
+   userCurrent : Object;
 
   constructor(public snackBar: MdSnackBar, public locationService: LocationService, private router: Router,
-              private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef)
+              private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef, public userService: UserService)
   {
       locationService.listAllLocation().subscribe(locations => 
       { 
         this.locations = locations;
-        console.log(this.locations);
       },erro => console.log(erro)); 
+
+      userService.getCurrentUser().subscribe(user => 
+      { 
+        this.userCurrent = user;
+      }, 
+      erro => console.log(erro));
 
       
   }
@@ -50,7 +57,6 @@ export class LocationComponent {
           {
               this.locationService.deleteLocation(location).subscribe(() => 
               {
-                  console.log('Localização removida com sucesso!');
                   let locations = this.locations.slice(0);
                   let indice = locations.indexOf(location);
                   locations.splice(indice, 1);

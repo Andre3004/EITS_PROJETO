@@ -21,6 +21,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "users")
@@ -142,7 +144,7 @@ public class User implements UserDetails
 		this.permission = permission;
 	}
 	
-	@JsonIgnore
+	@JsonProperty(access = Access.READ_ONLY)
 	public static long getSerialversionuid() 
 	{
 		return serialVersionUID;
@@ -224,7 +226,7 @@ public class User implements UserDetails
 	@Override
 	public boolean isEnabled() 
 	{
-		return true;
+		return this.active;
 	}
 
 }
