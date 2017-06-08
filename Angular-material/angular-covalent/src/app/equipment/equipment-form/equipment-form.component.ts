@@ -50,9 +50,9 @@ export class EquipmentFormComponent {
   }
   insertEquipment(equipment)
   { 
-    this.router.navigate(['/equipment']);
     this.equipmentService.insertEquipment(this.equipment).subscribe(() => 
     {  
+      this.router.navigate(['/equipment']);
       this.openSnackBar('Equipamento salvo com sucesso ', 'Sucesso!');
     }, 
     erro => 

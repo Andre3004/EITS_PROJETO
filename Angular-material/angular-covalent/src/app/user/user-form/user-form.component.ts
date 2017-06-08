@@ -12,7 +12,6 @@ export class UserFormComponent
 {
 
     user : Object = {};
-    ok : boolean = false;
     @Input() permission;
           sexs = 
           [
@@ -47,13 +46,12 @@ export class UserFormComponent
                 duration: 5000,
               });
           }
-
-          insertUser(event, userId)
+ 
+          insertUser(event)
           { 
-            this.router.navigate(['/user']);
             this.userService.insertUser(this.user).subscribe(() => 
             {
-              this.ok = true;
+              this.router.navigate(['/user']);
               this.openSnackBar('Usuário salvo com sucesso ', 'Sucesso!');
             }, 
             erro => 
@@ -61,7 +59,7 @@ export class UserFormComponent
               console.log(erro)
               this.openSnackBar('Não foi possível salvar o usuário ', 'Erro!');
             });
-          }
+          } 
 
 
 }

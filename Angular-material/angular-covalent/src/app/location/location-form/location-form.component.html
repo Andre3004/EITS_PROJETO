@@ -1,7 +1,7 @@
 <td-layout-nav> 
     <td-layout-card-over cardTitle="Localização"  cardWidth="75"  >
         <md-card>      
-            <form #myform="ngForm" class="example-form" (submit)="insertLocation($event)">
+            <form #myform="ngForm" class="example-form" >
                 <md-input-container class="example-full-width">
                     <input mdInput placeholder="ID" disabled value="#">
                 </md-input-container>
@@ -58,7 +58,7 @@
                 </table>
                 <br><br>
                 <div class="inset">
-                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertLocation(location)" >Salvar</button>
+                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertLocation($event)" >Salvar</button>
                     <button md-raised-button  color="primary" [routerLink]="['/location']" class="button">Cancelar</button>
                 </div>
             </form>

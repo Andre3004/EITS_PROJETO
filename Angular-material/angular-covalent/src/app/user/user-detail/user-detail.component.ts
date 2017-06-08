@@ -17,8 +17,7 @@ export class UserDetailComponent
       activatedRouter.params.subscribe(params => {
 
           let id = params['id'];
-          console.log(id);
-          
+         
           this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
           
       });

@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 @Entity
 @Table(name = "location")
 public class Location 
@@ -18,18 +20,22 @@ public class Location
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id; 
 	
+	@Audited
 	private String codLocation;
 
 	@ManyToOne
 	@JoinColumn(name = "responsible_id")
+	@Audited
 	private User responsible;
 
 	@ManyToOne
 	@JoinColumn(name = "vice_responsible_id")
+	@Audited
 	private User viceResponsible;
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "location_id")
+	@Audited
 	private Location location;
 	
 	
@@ -57,10 +63,6 @@ public class Location
 
 	public String getCodLocation() {
 		return codLocation;
-	}
-
-	public void setCod_Location(String codLocation) {
-		this.codLocation = codLocation;
 	}
 
 	public User getResponsible() {

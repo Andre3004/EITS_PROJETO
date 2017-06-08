@@ -5,6 +5,7 @@ import java.util.List;
 import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,8 +16,9 @@ import br.com.projeto.model.User;
 import br.com.projeto.repository.IUserRepository;
 
 //IMPLEMENTAÇÃO
-@Service("userService")
+
 @RemoteProxy(name = "userService")
+@Service("userService")
 public class UserService
 {
 	
@@ -30,16 +32,12 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User insertUser(User user)
 	{		
-		if ( userRepository.findByEmail(user.getEmail()) != null )
-		{
-			throw new IllegalArgumentException("O usuário não pode ser inserindo.");
-		}
 		
 		mailer.send(user); // envio de email
 		
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); // criptografando a senha para o banco
 		user.setPassword(hash);// set senha criptografada
-		
+		user.setActive(true);
 		return userRepository.save(user); // inserindo o usuario
 	}
 	
@@ -50,10 +48,22 @@ public class UserService
 	}
 	
 	@RemoteMethod
+	public Page<User> listUsersByFilters(String filter)
+	{
+		return userRepository.listUsersByFilters(filter, null);
+	}
+	
+	@RemoteMethod
 	public User findUserById(Long id) 
 	{
 		return userRepository.findOne(id);
 	}	
+	
+	@RemoteMethod
+	public User findByEmail(String email) 
+	{
+		return userRepository.findByEmail(email);
+	}
 	
 	public User getCurrent()
 	{
@@ -68,21 +78,15 @@ public class UserService
 		userRepository.delete(id);
 	}*/
 	
-	@RemoteMethod
-	public User findUserByEmail(String email)
-	{
-		return userRepository.findByEmail(email);
-	}
-
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void activateUser(User user) 
 	{
 		user.setActive(true);
-		userRepository.save(user);
+		userRepository.saveAndFlush(user);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void deactivateUser(User user) 
+	public User deactivateUser(User user) 
 	{
 		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if ( ( user.getId() == 2 ) || ( userCurrent.getId() == user.getId() ) )
@@ -90,7 +94,7 @@ public class UserService
 			throw new IllegalArgumentException("O usuário não pode ser desativado.");
 		}
 		user.setActive(false);
-		userRepository.save(user);
+		return userRepository.saveAndFlush(user);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -46,13 +46,13 @@ export class LocationFormComponent {
     this.snackBar.open(msg, action, 
     {
       duration: 5000,
-    });
+    }); 
   }
-  insertLocation(location)
+  insertLocation(event)
   { 
-    this.router.navigate(['/location']);
     this.locationService.insertLocation(this.location).subscribe(() => 
     {  
+      this.router.navigate(['/location']);
       this.openSnackBar('Localização salva com sucesso ', 'Sucesso!');
     }, 
     erro => 

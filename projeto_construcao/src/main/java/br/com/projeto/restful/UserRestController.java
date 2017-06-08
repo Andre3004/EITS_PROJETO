@@ -48,13 +48,6 @@ public class UserRestController
 	}*/
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/findUserByEmail", method = RequestMethod.GET)
-	public User findUserByEmail(String email)
-	{
-		return userService.findUserByEmail(email);
-	}
-	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/findUserById/{id}", method = RequestMethod.GET)
 	public User findUserById(@PathVariable Long id)
 	{

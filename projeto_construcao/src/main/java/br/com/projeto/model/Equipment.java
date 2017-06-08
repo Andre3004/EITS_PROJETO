@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 @Entity
 @Table(name = "equipment")
 public class Equipment 
@@ -16,15 +18,21 @@ public class Equipment
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id; 
+	
+	@Audited
 	private String name;
+	
+	@Audited
 	private String description;
 	
 	@ManyToOne
 	@JoinColumn(name = "location_id")
+	@Audited
 	private Location location;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "equipment_id")
+	@Audited
 	private Equipment equipment;
 
 	public long getId() 

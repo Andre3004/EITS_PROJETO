@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.envers.Audited;
 //import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,16 +38,28 @@ public class User implements UserDetails
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@Audited
 	private String name;
+	
+	@Audited
 	private String lastName;
+	
+	@Audited
 	private String email;
+	
+	@Audited
 	private String password;
 
+	
+	@Audited
 	@Column(name = "active", nullable = false, columnDefinition = "boolean default true")
 	private boolean active;
 
+	@Audited
 	private String sex;
 
+	@Audited
 	@Enumerated(EnumType.STRING)
 	private UserRole permission;
 
