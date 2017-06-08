@@ -5,8 +5,11 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -19,17 +22,20 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories("br.com.projeto.repository")
 @EnableTransactionManagement
+@PropertySource({"classpath:env/application.properties"})
 public class JPAConfiguration
 {
+	@Autowired
+	private Environment env;
 	
 	@Bean
 	public DriverManagerDataSource dataSource()
 	{
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("240288");
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/bd_projeto");
-		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUsername(env.getProperty("jdbc.user"));
+		dataSource.setPassword(env.getProperty("jdbc.pass"));
+		dataSource.setUrl(env.getProperty("jdbc.url"));
+		dataSource.setDriverClassName(env.getProperty("jdbc.driverClass"));
 		
 		return dataSource;
 	}

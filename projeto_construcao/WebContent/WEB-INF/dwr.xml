@@ -10,23 +10,6 @@
 
 	<allow>
 		
-		<convert converter="localDateTime" match="java.time.LocalDateTime" />
-		<convert converter="localDateTime" match="java.time.LocalDate" />
-		
-		<convert converter="jsx3uri" match="jsx3.net.URIResolver" />
-		<convert converter="jsx3doc" match="jsx3.xml.CdfDocument" />
-
-		<convert converter="object" match="org.springframework.data.domain.Page" />
-		<convert converter="object" match="org.springframework.data.domain.Sort" />
-		<convert converter="enum" match="org.springframework.data.domain.Sort$Direction" />
-		
-		<convert converter="bean" match="org.springframework.data.domain.PageImpl"
-			javascript="PageImpl" />
-			
-		<convert converter="bean" match="br.com.projeto.domain.util.SimplePageRequest" javascript="SimplePageRequest" />
-		<convert converter="enum" match="br.com.projeto.domain.util.SimplePageRequest$Direction" />
-
-	
 		<create creator="new" javascript="userService">
 			<param name="class" value="br.com.projeto.model.User"/>
 			<param name="class" value="br.com.projeto.service.UserService"/>	

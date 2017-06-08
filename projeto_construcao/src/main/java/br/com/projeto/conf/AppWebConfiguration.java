@@ -111,35 +111,5 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
           .addResourceHandler("/static/**")
           .addResourceLocations("/WEB-INF/views/dist/"); 
     }
-	/*
-
-	@Bean
-	public MultipartResolver multipartResolver() 
-	{
-		return new StandardServletMultipartResolver();
-	}*/
-
-	/*@Bean
-	public ViewResolver contentNegotiationViewResolver(ContentNegotiationManager manager) 
-	{
-
-		List<ViewResolver> viewResolvers = new ArrayList<>();
-		viewResolvers.add(internalResourceViewResolver());
-		viewResolvers.add(new JsonViewResolver());
-
-		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
-		resolver.setViewResolvers(viewResolvers);
-		resolver.setContentNegotiationManager(manager);
-
-		return resolver;
-	}*/
-	
-	/*@Override
-	public void configureContentNegotiation(final  ContentNegotiationConfigurer configurer) {
-		configurer.parameterName("mediaType")
-        .defaultContentType(MediaType.APPLICATION_JSON)
-        .mediaType("xml", MediaType.APPLICATION_XML)
-        .mediaType("json", MediaType.APPLICATION_JSON);
-	}*/
 
 }

@@ -32,6 +32,10 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User insertUser(User user)
 	{		
+		if ( userRepository.findByEmail(user.getEmail()) != null )
+ 		{
+ 			throw new IllegalArgumentException("O usuário não pode ser inserindo.");
+ 		}
 		
 		mailer.send(user); // envio de email
 		
