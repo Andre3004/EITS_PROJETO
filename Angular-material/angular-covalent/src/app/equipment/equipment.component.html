@@ -13,7 +13,6 @@
                     <h3 md-line>Equipamentos</h3>
                 </md-list-item>   
                 <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="equipments | filterNameEquipment: textSearch.value" >
-                  <!--| filterName: textSearch.value"-->
                     <a md-list-item>
                         <md-icon md-list-avatar>select_all</md-icon>
                         <h3 md-line> {{item.name}} </h3>

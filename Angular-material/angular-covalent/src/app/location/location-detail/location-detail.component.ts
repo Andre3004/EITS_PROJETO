@@ -43,18 +43,3 @@ export class LocationDetailComponent
       erro => console.log(erro));
    }
 }
-
-    //   constructor(public userService: UserService, public router: Router, public activatedRouter: ActivatedRoute)
-    // {
-    //   activatedRouter.params.subscribe(params => {
-
-    //       let id = params['id'];
-    //       console.log(id);
-          
-    //       this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
-    //       console.log(this.user);
-    //   });
-    // } 
-
-    
- 
