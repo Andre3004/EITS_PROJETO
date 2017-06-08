@@ -49,6 +49,7 @@ public class User implements UserDetails
 	private String email;
 	
 	@Audited
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
 	
@@ -153,12 +154,13 @@ public class User implements UserDetails
 		this.permission = permission;
 	}
 	
-	@JsonProperty(access = Access.READ_ONLY)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	public static long getSerialversionuid() 
 	{
 		return serialVersionUID;
 	}
 
+	@JsonProperty(access = Access.WRITE_ONLY)
 	public void setPassword(String password) 
 	{
 		this.password = password;
