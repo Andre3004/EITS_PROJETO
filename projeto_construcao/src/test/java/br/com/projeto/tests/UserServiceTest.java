@@ -8,9 +8,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-import br.com.projeto.model.User;
-import br.com.projeto.model.UserRole;
-import br.com.projeto.service.UserService;
+import br.com.projeto.domain.entity.User;
+import br.com.projeto.domain.entity.UserRole;
+import br.com.projeto.domain.entity.UserSex;
+import br.com.projeto.domain.service.UserService;
 
 public class UserServiceTest extends IntegrationTests
 {
@@ -30,7 +31,7 @@ public class UserServiceTest extends IntegrationTests
 		user.setEmail("teste.junit@teste.com.br");
 		user.setPassword("12345");
 		user.setPermission(UserRole.ROLE_ADMIN);
-		user.setSex("MASCULINO");
+		user.setSex(UserSex.MASCULINO);
 		
 		userService.insertUser(user);
 		
@@ -62,7 +63,7 @@ public class UserServiceTest extends IntegrationTests
 		user.setEmail(null);
 		user.setPassword(null);
 		user.setPermission(null);
-		user.setSex("MASCULINO");
+		user.setSex(null);
 		
 		
 		userService.insertUser(user);

@@ -1,16 +1,20 @@
+import { EquipmentService } from './service/equipment.service';
+import { LocationService } from './service/location.service';
+import { UserService } from './service/user.service';
+import { UserComponent } from './manter-usuario/user-list/user.component';
+import { UserDetailComponent } from './manter-usuario/user-detail/user-detail.component';
+import { UserFormComponent } from './manter-usuario/user-form/user-form.component';
+import { LocationComponent } from './manter-localizacao/location-list/location.component';
+import { EquipmentComponent } from './manter-equipamento/equipment-list/equipment.component';
+import { FilterName } from './pipes/user.pipes';
+import { FilterCodLocation } from './pipes/location.pipes';
+import { LocationDetailComponent } from './manter-localizacao/location-detail/location-detail.component';
+import { LocationFormComponent } from './manter-localizacao/location-form/location-form.component';
+import { EquipmentFormComponent } from './manter-equipamento/equipment-form/equipment-form.component';
+import { EquipmentDetailComponent } from './manter-equipamento/equipment-detail/equipment-detail.component';
+import { FilterNameEquipment } from './pipes/equipment.pipes';
 import { AuthService } from './login/auth.service';
-import { FilterNameEquipment } from './equipment/equipment.pipes';
-import { FilterCodLocation } from './location/location.pipes';
-import { EquipmentService } from './equipment/equipment.service';
-import { LocationService } from './location/location.service';
-import { EquipmentComponent } from './equipment/equipment.component';
-import { LocationComponent } from './location/location.component';
-import { UserFormComponent } from './user/user-form/user-form.component';
-import { UserDetailComponent } from './user/user-detail/user-detail.component';
-import { UserComponent } from './user/user.component';
-import { UserService } from './user/user.service';
 import { CommonModule } from '@angular/common';
-import { FilterName } from './user/user.pipes';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -30,10 +34,7 @@ import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
 import { HomeComponent } from './home/home.component';
 import 'rxjs/add/operator/map';
 import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule  } from '@covalent/core';
-import { LocationDetailComponent } from './location/location-detail/location-detail.component';
-import { LocationFormComponent } from './location/location-form/location-form.component';
-import { EquipmentFormComponent } from './equipment/equipment-form/equipment-form.component';
-import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment-detail.component';
+
 
 
 @NgModule({

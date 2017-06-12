@@ -11,8 +11,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import br.com.projeto.conf.AppWebConfiguration;
-import br.com.projeto.conf.JPAConfiguration;
+import br.com.projeto.application.configuration.AppWebConfiguration;
+import br.com.projeto.application.configuration.JPAConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {JPAConfiguration.class, AppWebConfiguration.class})

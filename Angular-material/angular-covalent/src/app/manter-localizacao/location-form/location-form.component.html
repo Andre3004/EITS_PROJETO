@@ -1,0 +1,67 @@
+<td-layout-nav> 
+    <td-layout-card-over cardTitle="Localização"  cardWidth="75"  >
+        <md-card>      
+            <form #myform="ngForm" class="example-form" >
+                <md-input-container class="example-full-width">
+                    <input mdInput placeholder="ID" disabled value="#">
+                </md-input-container>
+
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input required #codLocation maxlength="50" name ="codLocation" [(ngModel)]="location.codLocation" mdInput placeholder="Código localizador">
+                                <md-hint align="end">{{codLocation.value.length}} / 50</md-hint>
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table>
+                    <tr>
+                        <td>
+                            <md-select required name ="responsible" [(ngModel)]="location.responsible" placeholder="Responsável">
+                                <md-option *ngFor="let user of users" [value]="user" >
+                                    {{ user.name }} {{ user.lastName }}
+                                </md-option>
+                            </md-select>
+                        </td> 
+                    </tr>
+                </table>
+                <br>
+                <table>
+                    <tr>
+                        <td>
+                            <md-select name ="viceResponsible" [(ngModel)]="location.viceResponsible" placeholder="Vice Responsável">
+                                <md-option *ngFor="let user of users" [value]="user">
+                                    {{ user.name }} {{ user.lastName }}
+                                </md-option>
+                            </md-select>
+                        </td> 
+                    </tr>
+                </table>
+                <br>
+                <table>
+                    <tr>
+                        <td>
+                            <section class="example-section">
+                                <md-checkbox class="example-margin" name="show" [(ngModel)]="show">Localização principal</md-checkbox>
+                                <br><br><br>
+                                <md-select *ngIf="show" name ="location" [(ngModel)]="location.location" placeholder="Localização">
+                                    <md-option *ngFor="let location of locations" [value]="location">
+                                        {{ location.codLocation }}
+                                    </md-option>
+                                </md-select>
+                            </section>
+                        </td> 
+                    </tr>
+                </table>
+                <br><br>
+                <div class="inset">
+                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertLocation($event)" >Salvar</button>
+                    <button md-raised-button  color="primary" [routerLink]="['/location']" class="button">Cancelar</button>
+                </div>
+            </form>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>

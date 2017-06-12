@@ -7,15 +7,6 @@
 			"^/projeto": ""
 		},
 		"logLevel": "debug"
-	},
-  "/static": {
-		"target": "http://127.0.0.1:8083/projeto/static",
-		"changeOrigin": true,
-		"secure": false,
-		"pathRewrite": {
-			"^/projeto": ""
-		},
-		"logLevel": "debug"
 	}
 }
 

@@ -1,14 +1,14 @@
-import { AuthService } from './login/auth.service';
-import { EquipmentDetailComponent } from './equipment/equipment-detail/equipment-detail.component';
-import { EquipmentFormComponent } from './equipment/equipment-form/equipment-form.component';
-import { LocationDetailComponent } from './location/location-detail/location-detail.component';
-import { LocationFormComponent } from './location/location-form/location-form.component';
-import { UserDetailComponent } from './user/user-detail/user-detail.component';
-import { UserFormComponent } from './user/user-form/user-form.component';
 import { HomeComponent } from './home/home.component';
-import { LocationComponent } from './location/location.component';
-import { EquipmentComponent } from './equipment/equipment.component';
-import { UserComponent } from './user/user.component';
+import { LocationFormComponent } from './manter-localizacao/location-form/location-form.component';
+import { LocationDetailComponent } from './manter-localizacao/location-detail/location-detail.component';
+import { LocationComponent } from './manter-localizacao/location-list/location.component';
+import { EquipmentFormComponent } from './manter-equipamento/equipment-form/equipment-form.component';
+import { EquipmentDetailComponent } from './manter-equipamento/equipment-detail/equipment-detail.component';
+import { EquipmentComponent } from './manter-equipamento/equipment-list/equipment.component';
+import { UserDetailComponent } from './manter-usuario/user-detail/user-detail.component';
+import { UserFormComponent } from './manter-usuario/user-form/user-form.component';
+import { UserComponent } from './manter-usuario/user-list/user.component';
+import { AuthService } from './login/auth.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

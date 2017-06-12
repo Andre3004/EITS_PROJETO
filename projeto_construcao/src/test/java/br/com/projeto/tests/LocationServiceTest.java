@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import br.com.projeto.model.Location;
-import br.com.projeto.model.User;
-import br.com.projeto.service.LocationService;
-import br.com.projeto.service.UserService;
+import br.com.projeto.domain.entity.Location;
+import br.com.projeto.domain.entity.User;
+import br.com.projeto.domain.service.LocationService;
+import br.com.projeto.domain.service.UserService;
 
 public class LocationServiceTest extends IntegrationTests{
 

@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import br.com.projeto.model.Equipment;
-import br.com.projeto.model.Location;
-import br.com.projeto.service.EquipmentService;
-import br.com.projeto.service.LocationService;
+import br.com.projeto.domain.entity.Equipment;
+import br.com.projeto.domain.entity.Location;
+import br.com.projeto.domain.service.EquipmentService;
+import br.com.projeto.domain.service.LocationService;
 
 public class EquipmentServiceTest extends IntegrationTests{
 

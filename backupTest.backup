@@ -1,0 +1,500 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
+
+-- Started on 2017-06-09 11:02:58
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 2196 (class 1262 OID 32788)
+-- Name: bd_projeto; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE bd_projeto WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Portuguese_Brazil.1252' LC_CTYPE = 'Portuguese_Brazil.1252';
+
+
+ALTER DATABASE bd_projeto OWNER TO postgres;
+
+\connect bd_projeto
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12387)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2198 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 583 (class 1247 OID 98747)
+-- Name: enum_tiposexo; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE enum_tiposexo AS ENUM (
+    'Masculino',
+    'Feminino',
+    'Outro'
+);
+
+
+ALTER TYPE enum_tiposexo OWNER TO postgres;
+
+--
+-- TOC entry 586 (class 1247 OID 98754)
+-- Name: enum_tipousuario; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE enum_tipousuario AS ENUM (
+    'Administrador',
+    'Engenheiro'
+);
+
+
+ALTER TYPE enum_tipousuario OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 186 (class 1259 OID 98953)
+-- Name: equipment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE equipment (
+    id bigint NOT NULL,
+    description character varying(144) NOT NULL,
+    name character varying(50) NOT NULL,
+    equipment_id bigint,
+    location_id bigint
+);
+
+
+ALTER TABLE equipment OWNER TO postgres;
+
+--
+-- TOC entry 192 (class 1259 OID 106928)
+-- Name: equipment_aud; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE equipment_aud (
+    id bigint NOT NULL,
+    rev integer NOT NULL,
+    revtype smallint,
+    description character varying(255),
+    name character varying(255),
+    equipment_id bigint,
+    location_id bigint
+);
+
+
+ALTER TABLE equipment_aud OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 98956)
+-- Name: equipment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE equipment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE equipment_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2199 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: equipment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE equipment_id_seq OWNED BY equipment.id;
+
+
+--
+-- TOC entry 196 (class 1259 OID 106955)
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 188 (class 1259 OID 98958)
+-- Name: location; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE location (
+    id bigint NOT NULL,
+    codlocation character varying(50) NOT NULL,
+    location_id bigint,
+    responsible_id bigint NOT NULL,
+    vice_responsible_id bigint
+);
+
+
+ALTER TABLE location OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 106936)
+-- Name: location_aud; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE location_aud (
+    id bigint NOT NULL,
+    rev integer NOT NULL,
+    revtype smallint,
+    codlocation character varying(255),
+    location_id bigint,
+    responsible_id bigint,
+    vice_responsible_id bigint
+);
+
+
+ALTER TABLE location_aud OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 98961)
+-- Name: location_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE location_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE location_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2200 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: location_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE location_id_seq OWNED BY location.id;
+
+
+--
+-- TOC entry 194 (class 1259 OID 106941)
+-- Name: revinfo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE revinfo (
+    rev integer NOT NULL,
+    revtstmp bigint
+);
+
+
+ALTER TABLE revinfo OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 98943)
+-- Name: schema_version; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE schema_version (
+    installed_rank integer NOT NULL,
+    version character varying(50),
+    description character varying(200) NOT NULL,
+    type character varying(20) NOT NULL,
+    script character varying(1000) NOT NULL,
+    checksum integer,
+    installed_by character varying(100) NOT NULL,
+    installed_on timestamp without time zone DEFAULT now() NOT NULL,
+    execution_time integer NOT NULL,
+    success boolean NOT NULL
+);
+
+
+ALTER TABLE schema_version OWNER TO postgres;
+
+--
+-- TOC entry 190 (class 1259 OID 98963)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE users (
+    id bigint NOT NULL,
+    email character varying(144) NOT NULL,
+    name character varying(50) NOT NULL,
+    password character varying(100) NOT NULL,
+    permission character varying(20) NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    lastname character varying(50) NOT NULL,
+    sex character varying(20) NOT NULL
+);
+
+
+ALTER TABLE users OWNER TO postgres;
+
+--
+-- TOC entry 195 (class 1259 OID 106946)
+-- Name: users_aud; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE users_aud (
+    id bigint NOT NULL,
+    rev integer NOT NULL,
+    revtype smallint,
+    active boolean DEFAULT true,
+    email character varying(255),
+    lastname character varying(255),
+    name character varying(255),
+    password character varying(255),
+    permission character varying(255),
+    sex character varying(255)
+);
+
+
+ALTER TABLE users_aud OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 98967)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2201 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- TOC entry 2045 (class 2604 OID 98969)
+-- Name: equipment id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipment ALTER COLUMN id SET DEFAULT nextval('equipment_id_seq'::regclass);
+
+
+--
+-- TOC entry 2046 (class 2604 OID 98970)
+-- Name: location id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY location ALTER COLUMN id SET DEFAULT nextval('location_id_seq'::regclass);
+
+
+--
+-- TOC entry 2048 (class 2604 OID 98971)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- TOC entry 2060 (class 2606 OID 106935)
+-- Name: equipment_aud equipment_aud_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipment_aud
+    ADD CONSTRAINT equipment_aud_pkey PRIMARY KEY (id, rev);
+
+
+--
+-- TOC entry 2054 (class 2606 OID 98973)
+-- Name: equipment equipment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipment
+    ADD CONSTRAINT equipment_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2062 (class 2606 OID 106940)
+-- Name: location_aud location_aud_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY location_aud
+    ADD CONSTRAINT location_aud_pkey PRIMARY KEY (id, rev);
+
+
+--
+-- TOC entry 2056 (class 2606 OID 98975)
+-- Name: location location_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY location
+    ADD CONSTRAINT location_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2064 (class 2606 OID 106945)
+-- Name: revinfo revinfo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY revinfo
+    ADD CONSTRAINT revinfo_pkey PRIMARY KEY (rev);
+
+
+--
+-- TOC entry 2051 (class 2606 OID 98951)
+-- Name: schema_version schema_version_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY schema_version
+    ADD CONSTRAINT schema_version_pk PRIMARY KEY (installed_rank);
+
+
+--
+-- TOC entry 2066 (class 2606 OID 106954)
+-- Name: users_aud users_aud_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users_aud
+    ADD CONSTRAINT users_aud_pkey PRIMARY KEY (id, rev);
+
+
+--
+-- TOC entry 2058 (class 2606 OID 98977)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2052 (class 1259 OID 98952)
+-- Name: schema_version_s_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX schema_version_s_idx ON schema_version USING btree (success);
+
+
+--
+-- TOC entry 2069 (class 2606 OID 98978)
+-- Name: location fk622utfqouo5kfc8hw0dyvh4bp; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY location
+    ADD CONSTRAINT fk622utfqouo5kfc8hw0dyvh4bp FOREIGN KEY (vice_responsible_id) REFERENCES users(id);
+
+
+--
+-- TOC entry 2072 (class 2606 OID 106957)
+-- Name: equipment_aud fkb22p8jg4po0dkgunc19yorkwb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipment_aud
+    ADD CONSTRAINT fkb22p8jg4po0dkgunc19yorkwb FOREIGN KEY (rev) REFERENCES revinfo(rev);
+
+
+--
+-- TOC entry 2073 (class 2606 OID 106962)
+-- Name: location_aud fkgixqx5fln1y2xg74cdu38063o; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY location_aud
+    ADD CONSTRAINT fkgixqx5fln1y2xg74cdu38063o FOREIGN KEY (rev) REFERENCES revinfo(rev);
+
+
+--
+-- TOC entry 2070 (class 2606 OID 98983)
+-- Name: location fkhqf37px2gaymx078go9tx8qeo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY location
+    ADD CONSTRAINT fkhqf37px2gaymx078go9tx8qeo FOREIGN KEY (location_id) REFERENCES location(id);
+
+
+--
+-- TOC entry 2071 (class 2606 OID 98988)
+-- Name: location fkict8ofaal0hnm6g3wo0ug70ng; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY location
+    ADD CONSTRAINT fkict8ofaal0hnm6g3wo0ug70ng FOREIGN KEY (responsible_id) REFERENCES users(id);
+
+
+--
+-- TOC entry 2074 (class 2606 OID 106967)
+-- Name: users_aud fkinrdywgyurfk2ojrfkard4ejn; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users_aud
+    ADD CONSTRAINT fkinrdywgyurfk2ojrfkard4ejn FOREIGN KEY (rev) REFERENCES revinfo(rev);
+
+
+--
+-- TOC entry 2067 (class 2606 OID 98993)
+-- Name: equipment fkiwvidbadttg008whpiqaodxtd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipment
+    ADD CONSTRAINT fkiwvidbadttg008whpiqaodxtd FOREIGN KEY (location_id) REFERENCES location(id);
+
+
+--
+-- TOC entry 2068 (class 2606 OID 98998)
+-- Name: equipment fkp6xvknr37up2bhg05u2c4qykc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipment
+    ADD CONSTRAINT fkp6xvknr37up2bhg05u2c4qykc FOREIGN KEY (equipment_id) REFERENCES equipment(id);
+
+
+-- Completed on 2017-06-09 11:03:00
+
+--
+-- PostgreSQL database dump complete
+--
+

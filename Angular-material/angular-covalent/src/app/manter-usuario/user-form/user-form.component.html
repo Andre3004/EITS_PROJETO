@@ -1,0 +1,100 @@
+<td-layout-nav> 
+    <td-layout-card-over cardTitle="Usuário"  cardWidth="75"  >
+        <md-card>      
+            <form #myform="ngForm" class="example-form">
+                <md-input-container class="example-full-width">
+                    <input mdInput placeholder="ID" disabled value="#">
+                </md-input-container>
+ 
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input required #userName maxlength="50" tdAutoTrim name ="name" [(ngModel)]="user.name" mdInput placeholder="Nome">
+                                <md-hint align="end">{{userName.value.length}} / 50</md-hint>
+                            </md-input-container>
+                        </td>
+                        <td>
+                            <md-input-container class="example-full-width">
+                                <input required #userLastName maxlength="50" name ="lastName" [(ngModel)]="user.lastName" mdInput placeholder="Sobrenome">
+                                <md-hint align="end">{{userLastName.value.length}} / 50</md-hint>
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="example-full-width" cellspacing="0">
+                    <td>
+                        <md-input-container class="example-full-width">
+                            <input required #userPassword minlength="6" maxlength="50" #password="ngModel" name ="password" [(ngModel)]="user.password"  type ="password" mdInput placeholder="Senha">
+                            <md-hint align="end">{{userPassword.value.length}} / 50</md-hint>
+                        </md-input-container>
+                    </td>
+                </table> 
+                <table class="example-full-width" cellspacing="0">
+                    <td>
+                        <md-input-container class="example-full-width">
+                            <input required #userConfirmPassword minlength="6" maxlength="50" #confirmPassword="ngModel" name ="confirmPassword" [(ngModel)]="user.confirmPassword"  type ="password" mdInput placeholder="Confirme a senha">
+                            <md-hint align="end">{{userConfirmPassword.value.length}} / 50</md-hint>
+                        </md-input-container>
+                        <!--<md-hint *ngIf="(userConfirmPassword.value != userPassword.value)  && myform.submitted">
+                            <span>
+                                Senhas não conferem 
+                            </span>
+                        </md-hint>-->
+                        <md-hint>
+                            <span *ngIf="(userConfirmPassword.value != userPassword.value)  && myform.submitted" class="tc-red-600">
+                            <span [hidden]="userConfirmPassword.pristine" >Senhas não conferem</span>
+                            </span>
+                        </md-hint>
+                    </td>
+                </table>
+                <table class="example-full-width" cellspacing="0"><tr>
+                    <td>
+                        <md-input-container class="example-full-width">
+                            <input  mdInput 
+                                    required 
+                                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                    maxlength="144" 
+                                    #email name ="email" 
+                                    [(ngModel)]="user.email" 
+                                    type ="email"
+                                    placeholder="Email">
+                            <md-hint align="end">{{email.value.length}} / 144</md-hint>
+                        </md-input-container>
+                    </td>
+                </table> 
+                <br>
+                <table>
+                    <tr>
+                        <td>
+                            <md-select required name ="permission" [(ngModel)]="user.permission" placeholder="Permissão">
+                                <md-option *ngFor="let role of roles" [value]="role.value">
+                                    {{ role.viewValue }}
+                                </md-option>
+                            </md-select>
+                        </td> 
+                    </tr>
+                </table>
+                <br><br>
+
+                <table >
+                    <tr>
+                        <td>
+                            <md-select required name ="sex" [(ngModel)]="user.sex" placeholder="Sexo">
+                                <md-option *ngFor="let sex of sexs" [value]="sex.value">
+                                    {{ sex.viewValue }}
+                                </md-option>
+                            </md-select>
+                        </td> 
+                    </tr>
+                </table>
+
+                <div class="inset">
+                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertUser($event)" >Salvar</button>
+                    <button md-raised-button  color="primary" [routerLink]="['/user']" class="button">Cancelar</button>
+                </div>
+            </form>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>
