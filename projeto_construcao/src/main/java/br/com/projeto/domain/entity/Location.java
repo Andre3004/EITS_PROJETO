@@ -27,44 +27,36 @@ public class Location
 	@NotBlank
 	private String codLocation;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "responsible_id")
 	@NotNull
 	private User responsible;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "vice_responsible_id")
 	private User viceResponsible;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "location_id")
 	private Location location;
 	
 	
+	
 
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public void setCodLocation(String codLocation) {
-		this.codLocation = codLocation;
-	}
-
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	public String getCodLocation() {
 		return codLocation;
+	}
+
+	public void setCodLocation(String codLocation) {
+		this.codLocation = codLocation;
 	}
 
 	public User getResponsible() {
@@ -81,6 +73,14 @@ public class Location
 
 	public void setViceResponsible(User viceResponsible) {
 		this.viceResponsible = viceResponsible;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	@Override

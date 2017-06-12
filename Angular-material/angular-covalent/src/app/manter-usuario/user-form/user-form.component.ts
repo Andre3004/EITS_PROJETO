@@ -1,8 +1,10 @@
+import { TdLoadingService, LoadingType, LoadingMode } from '@covalent/core';
 import { UserService } from './../../service/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { inject } from '@angular/core/testing';
 import { Component, OnInit, Input } from '@angular/core';
 import { MdInputModule, MdSnackBar} from '@angular/material';
+import { Broker } from 'eits-ng2';
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -25,7 +27,7 @@ export class UserFormComponent
             {value: 'ROLE_USER', viewValue: 'Engenheiro'},
           ];
           
-          constructor(public snackBar: MdSnackBar, public userService: UserService, public router: Router, public activatedRouter: ActivatedRoute)
+          constructor(private _loadingService: TdLoadingService, public snackBar: MdSnackBar, public userService: UserService, public router: Router, public activatedRouter: ActivatedRoute)
           {
             activatedRouter.params.subscribe(params => {
                
@@ -37,6 +39,13 @@ export class UserFormComponent
                 }
                 
             });
+            this._loadingService.create({
+              name: 'configFullscreenDemo',
+              mode: LoadingMode.Indeterminate,
+              type: LoadingType.Linear,
+              color: 'accent',
+            });
+            
           }
 
           openSnackBar(msg, action) 
@@ -50,6 +59,10 @@ export class UserFormComponent
           insertUser(event)
           { 
             console.log(this.user);
+            this._loadingService.register('configFullscreenDemo');
+            setTimeout(() => {
+              this._loadingService.resolve('configFullscreenDemo');
+            }, 4000);
             this.userService.insertUser(this.user).subscribe(() => 
             {
               this.router.navigate(['/user']);

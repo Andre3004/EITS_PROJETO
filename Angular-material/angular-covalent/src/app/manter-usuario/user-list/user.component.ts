@@ -1,10 +1,10 @@
+import { Broker } from 'eits-ng2';
 import { UserService } from './../../service/user.service';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MdInputModule, MdSnackBar, MdDialogModule } from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
 import { TdDialogService } from '@covalent/core';
-
 @Component(
   {
     selector: 'app-user',
@@ -17,6 +17,7 @@ export class UserComponent
     users: Object[] = [];
     userCurrent : Object;
     permission = false;
+    loading: boolean = true;
 
   constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router, 
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef)
@@ -34,6 +35,14 @@ export class UserComponent
       }, 
       erro => console.log(erro));
       
+      Broker.of("userService").promise("helloWorld")
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((message) => {
+      //this.messagesService.toastError( message );
+      });
+      
   }
  
   openSnackBar(msg, action) 
@@ -43,10 +52,6 @@ export class UserComponent
       duration: 5000,
     });
   }
-
-  //   teste(id){
-  //   this.router.navigate(['users/edit', id], { relativeTo: this.route });
-  // }
 
   openConfirm(event, user): void 
   {
@@ -68,6 +73,12 @@ export class UserComponent
             this.userService.activateUser(user).subscribe(() => 
             {
                 this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
+                this.userService.listAllUser().subscribe(users => 
+                { 
+                  console.log(users);
+                  this.users = users;
+                },  
+                erro => console.log(erro));
             },
             erro => 
             {
@@ -81,6 +92,12 @@ export class UserComponent
             this.userService.deactivateUser(user).subscribe(() => 
             {
                 this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
+                this.userService.listAllUser().subscribe(users => 
+                { 
+                  console.log(users);
+                  this.users = users;
+                },  
+                erro => console.log(erro));
             },
             erro => 
             {
@@ -97,3 +114,6 @@ export class UserComponent
       })
   }
 }
+
+
+

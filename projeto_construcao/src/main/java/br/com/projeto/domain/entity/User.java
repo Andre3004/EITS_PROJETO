@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "users")
-@DataTransferObject(javascript = "User")
+@DataTransferObject(javascript = "user")
 @Audited
 public class User implements UserDetails 
 {
@@ -62,7 +62,6 @@ public class User implements UserDetails
 	@NotBlank
 	private String password;
 	
-	@NotNull(message = "Senhas não conferem")
 	@Transient
 	private String confirmPassword;
 
@@ -270,14 +269,14 @@ public class User implements UserDetails
 		return this.active;
 	}
 
-	public boolean isValid(User user)
+	public boolean isValid()
 	{
-		if ( user.getPassword() != user.getConfirmPassword() ) 
+		if ( this.password.equals(this.confirmPassword)) 
 		{
-			return false;
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 
 }

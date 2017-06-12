@@ -3,39 +3,34 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-	
+
 	<session-config>
 		<session-timeout>5</session-timeout>
 	</session-config>
-	
-	
-	
+
+
+	<!-- Inovcação -->
 	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
 		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		<init-param>
+			<param-name>classes</param-name>
+			<param-value>
+				br.com.projeto.domain.entity.*
+			</param-value>
+		</init-param>
 		<init-param>
 			<param-name>debug</param-name>
 			<param-value>true</param-value>
 		</init-param>
 	</servlet>
 	
-
+	<!-- Mapeamento -->
 	<servlet-mapping>
 		<servlet-name>dwr-invoker</servlet-name>
 		<url-pattern>/broker/*</url-pattern>
 	</servlet-mapping>
-	
-	<servlet>
-	  <description>DWR controller servlet</description>
-	  <servlet-name>DWR controller servlet</servlet-name>
-	  <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
-	  <init-param>
-	    <param-name>classes</param-name>
-	    <param-value>
-	      com.example.RemoteFunctions,
-	      com.example.RemoteBean
-	    </param-value>
-	  </init-param>
-	</servlet>
-
 </web-app>
+	
+	
+	

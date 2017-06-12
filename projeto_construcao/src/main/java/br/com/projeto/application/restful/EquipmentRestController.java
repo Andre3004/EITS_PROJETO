@@ -22,42 +22,36 @@ public class EquipmentRestController
 	@Autowired
 	EquipmentService equipmentService;
 
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/insertEquipment", method = RequestMethod.POST)
 	public void insertEquipment(@RequestBody Equipment equipment)
 	{
 		equipmentService.insertEquipment(equipment);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/listAllEquipment", method = RequestMethod.GET)
 	public List<Equipment> listAllEquipment()
 	{
 		return equipmentService.listAllEquipment();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/listAllSubEquipment/{id}", method = RequestMethod.GET)
 	public List<Equipment> listAllSubEquipment(@PathVariable("id") Long id)
 	{
 		return equipmentService.listAllSubEquipment(id);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/findEquipmentById/{id}", method = RequestMethod.GET)
 	public Equipment findEquipmentById(@PathVariable Long id)
 	{
 		return equipmentService.findEquipmentById(id);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/deleteEquipment/{id}", method = RequestMethod.DELETE)
 	public void deleteEquipment(@PathVariable Long id)
 	{
 		equipmentService.deleteEquipment(id);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/updateEquipment", method = RequestMethod.PUT)
 	public void updateEquipment(@RequestBody Equipment equipment)
 	{

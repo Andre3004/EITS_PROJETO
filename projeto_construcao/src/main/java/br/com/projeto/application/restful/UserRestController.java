@@ -26,50 +26,38 @@ public class UserRestController
 		return userService.insertUser(user);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/listAllUser", method = RequestMethod.GET)
 	public List<User> listAllUser()
 	{
 		return userService.listAllUser();
 	}
-	@CrossOrigin(origins = "http://localhost:4200")
+
 	@RequestMapping(value = "/getCurrentUser", method = RequestMethod.GET)
 	public User getCurrent()
 	{
 		return userService.getCurrent();
 	}
-	
-	/*@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/deleteUser/{id}", method = RequestMethod.DELETE)
-	public void deleteUser(@PathVariable("id") Long id)
-	{
-		userService.deleteUser(id);
-	}*/
-	
-	@CrossOrigin(origins = "http://localhost:4200")
+
 	@RequestMapping(value = "/findUserById/{id}", method = RequestMethod.GET)
 	public User findUserById(@PathVariable Long id)
 	{
 		return userService.findUserById(id);
 	}
-	
-	@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin
 	@RequestMapping(value = "/activateUser/{id}", method = RequestMethod.PATCH)
 	public void activateUser(@PathVariable Long id)
 	{
 		userService.activateUser(userService.findUserById(id));
 	}
-	
-	@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin
 	@RequestMapping(value = "/deactivateUser/{id}", method = RequestMethod.PATCH)
 	public void deactivateUser(@PathVariable Long id)
 	{
+		System.out.println(id);
 		userService.deactivateUser(userService.findUserById(id));
 	}
-	
-	
-	/*@Transactional(readOnly = false)*/
-	@CrossOrigin(origins = "http://localhost:4200")
+
+	@CrossOrigin
 	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
 	public void updateUser(@RequestBody User user)
 	{

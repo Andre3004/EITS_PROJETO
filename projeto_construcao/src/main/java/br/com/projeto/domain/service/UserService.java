@@ -36,11 +36,11 @@ public class UserService
  		{
  			throw new IllegalArgumentException("Este email já está cadastrado.");
  		}
-		if ( !user.isValid(user) )
+		if ( !user.isValid() )
 		{
 			throw new IllegalArgumentException("Senhas não conferem.");
 		}
-		
+
 		mailer.send(user); // envio de email
 		
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); // criptografando a senha para o banco
@@ -73,6 +73,13 @@ public class UserService
 		return userRepository.findByEmail(email);
 	}
 	
+	@RemoteMethod
+	public String helloWorld() 
+	{
+		return "Olá Mundo";
+	}
+	
+	
 	public User getCurrent()
 	{
 //		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -97,11 +104,11 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User deactivateUser(User user) 
 	{
-		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if ( ( user.getId() == 1 ) || ( userCurrent.getId() == user.getId() ) )
-		{
-			throw new IllegalArgumentException("O usuário não pode ser desativado.");
-		}
+//		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if ( ( user.getId() == 1 ) || ( userCurrent.getId() == user.getId() ) )
+//		{
+//			throw new IllegalArgumentException("O usuário não pode ser desativado.");
+//		}
 		user.setActive(false);
 		return userRepository.saveAndFlush(user);
 	}

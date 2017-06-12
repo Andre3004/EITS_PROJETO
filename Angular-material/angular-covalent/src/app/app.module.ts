@@ -16,7 +16,7 @@ import { FilterNameEquipment } from './pipes/equipment.pipes';
 import { AuthService } from './login/auth.service';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -24,7 +24,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSliderModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule, MdSlideToggleModule } from '@angular/material';
+import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSliderModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule, MdSlideToggleModule, MdProgressSpinnerModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule, CovalentDialogsModule } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
@@ -33,7 +33,8 @@ import { CovalentMarkdownModule } from '@covalent/markdown';
 import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
 import { HomeComponent } from './home/home.component';
 import 'rxjs/add/operator/map';
-import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule  } from '@covalent/core';
+import {Broker} from 'eits-ng2';
+import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, CovalentLoadingModule } from '@covalent/core';
 
 
 
@@ -86,10 +87,12 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule  
     CovalentDialogsModule,
     MdSliderModule, 
     CovalentFileModule, 
-    HttpModule
+    HttpModule, 
+    MdProgressSpinnerModule,
+    CovalentLoadingModule
   ],
   exports: [ FilterName, FilterCodLocation, FilterNameEquipment ],
-  providers: [TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService],
+  providers: [Broker, TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService, TdLoadingService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

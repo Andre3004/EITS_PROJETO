@@ -7,8 +7,25 @@
 			"^/projeto": ""
 		},
 		"logLevel": "debug"
+	},
+
+	"/broker": {
+		"target": "http://127.0.0.1:8083/projeto/broker",
+		"changeOrigin": true,
+		"secure": false,
+		"pathRewrite": {
+			"^/broker": ""
+		},
+		"logLevel": "debug"
+	},
+
+	"/static": {
+		"target": "http://127.0.0.1:8083/projeto/static",
+		"changeOrigin": true,
+		"secure": false,
+		"pathRewrite": {
+			"^/static": ""
+		},
+		"logLevel": "debug"
 	}
 }
-
-
-

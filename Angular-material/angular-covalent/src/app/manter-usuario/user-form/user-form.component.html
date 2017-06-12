@@ -22,11 +22,10 @@
                         </td>
                     </tr>
                 </table>
-                <br>
                 <table class="example-full-width" cellspacing="0">
                     <td>
                         <md-input-container class="example-full-width">
-                            <input required #userPassword minlength="6" maxlength="50" #password="ngModel" name ="password" [(ngModel)]="user.password"  type ="password" mdInput placeholder="Senha">
+                            <input required #userPassword maxlength="50" #password="ngModel" name ="password" [(ngModel)]="user.password"  type ="password" mdInput placeholder="Senha">
                             <md-hint align="end">{{userPassword.value.length}} / 50</md-hint>
                         </md-input-container>
                     </td>
@@ -34,17 +33,12 @@
                 <table class="example-full-width" cellspacing="0">
                     <td>
                         <md-input-container class="example-full-width">
-                            <input required #userConfirmPassword minlength="6" maxlength="50" #confirmPassword="ngModel" name ="confirmPassword" [(ngModel)]="user.confirmPassword"  type ="password" mdInput placeholder="Confirme a senha">
+                            <input required #userConfirmPassword maxlength="50" #confirmPassword="ngModel" name ="confirmPassword" [(ngModel)]="user.confirmPassword"  type ="password" mdInput placeholder="Confirme a senha">
                             <md-hint align="end">{{userConfirmPassword.value.length}} / 50</md-hint>
                         </md-input-container>
-                        <!--<md-hint *ngIf="(userConfirmPassword.value != userPassword.value)  && myform.submitted">
-                            <span>
-                                Senhas não conferem 
-                            </span>
-                        </md-hint>-->
                         <md-hint>
                             <span *ngIf="(userConfirmPassword.value != userPassword.value)  && myform.submitted" class="tc-red-600">
-                            <span [hidden]="userConfirmPassword.pristine" >Senhas não conferem</span>
+                                 <span [hidden]="userConfirmPassword.pristine" >Senhas não conferem</span>
                             </span>
                         </md-hint>
                     </td>
