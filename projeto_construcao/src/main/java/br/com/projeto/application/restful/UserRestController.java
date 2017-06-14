@@ -20,24 +20,28 @@ public class UserRestController
 	@Autowired
 	private UserService userService;
 	
+	@CrossOrigin
 	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
 	public User insertUser(@RequestBody User user)
 	{
 		return userService.insertUser(user);
 	}
 	
+	@CrossOrigin
 	@RequestMapping(value = "/listAllUser", method = RequestMethod.GET)
 	public List<User> listAllUser()
 	{
 		return userService.listAllUser();
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/getCurrentUser", method = RequestMethod.GET)
 	public User getCurrent()
 	{
 		return userService.getCurrent();
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/findUserById/{id}", method = RequestMethod.GET)
 	public User findUserById(@PathVariable Long id)
 	{
@@ -62,6 +66,13 @@ public class UserRestController
 	public void updateUser(@RequestBody User user)
 	{
 		userService.editUser(user);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/updateUserToPassword", method = RequestMethod.PUT)
+	public void updateUserToPassword(@RequestBody User user)
+	{
+		userService.updateUserToPassword(user);
 	}
 
 }

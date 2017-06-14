@@ -50,4 +50,8 @@ export class UserService
   {
     return this.http.get(this.url + 'getCurrentUser').map(res => res.json());;
   }
+  updateUserToPassword(user): Observable<Response>
+  {
+    return this.http.put(this.url + 'updateUserToPassword', JSON.stringify(user), { headers: this.headers });
+  }
 }

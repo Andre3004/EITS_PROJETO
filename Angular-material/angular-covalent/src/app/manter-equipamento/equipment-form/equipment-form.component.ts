@@ -1,3 +1,4 @@
+import { TdLoadingService, LoadingType, LoadingMode } from '@covalent/core';
 import { LocationService } from './../../service/location.service';
 import { EquipmentService } from './../../service/equipment.service';
 import { MdSnackBar } from '@angular/material';
@@ -16,7 +17,8 @@ export class EquipmentFormComponent {
   equipment: Object = {};
 
   constructor(public locationService: LocationService, public equipmentService: EquipmentService, 
-              private activatedRoute: ActivatedRoute, public snackBar: MdSnackBar, public router: Router) 
+              private activatedRoute: ActivatedRoute, public snackBar: MdSnackBar, public router: Router,
+              private _loadingService: TdLoadingService) 
   {
       locationService.listAllLocation().subscribe(locations => 
       { 
@@ -38,6 +40,14 @@ export class EquipmentFormComponent {
         }
           
       });
+
+      this._loadingService.create(
+      {
+        name: 'configFullscreen',
+        mode: LoadingMode.Indeterminate,
+        type: LoadingType.Linear,
+        color: 'accent',
+      });
   }
 
   openSnackBar(msg, action) 
@@ -49,14 +59,27 @@ export class EquipmentFormComponent {
   }
   insertEquipment(equipment)
   { 
+    this._loadingService.register('configFullscreen');
+    setTimeout(() => 
+    {
+      this._loadingService.resolve('configFullscreen');
+    }, 1000000);
+
     this.equipmentService.insertEquipment(this.equipment).subscribe(() => 
     {  
+      setTimeout(() => 
+      {
+        this._loadingService.resolve('configFullscreen');
+      }, 0);  
       this.router.navigate(['/equipment']);
       this.openSnackBar('Equipamento salvo com sucesso ', 'Sucesso!');
     }, 
     erro => 
     {  
-      console.log(erro)
+      setTimeout(() => 
+      {
+        this._loadingService.resolve('configFullscreen');
+      }, 0);  
       this.openSnackBar('Não foi possível salvar o equipamento ', 'Erro!');
     });
   }

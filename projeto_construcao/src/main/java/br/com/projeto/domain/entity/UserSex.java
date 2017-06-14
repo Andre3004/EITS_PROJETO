@@ -1,5 +1,8 @@
 package br.com.projeto.domain.entity;
 
+import org.directwebremoting.annotations.DataTransferObject;
+
+@DataTransferObject(type = "enum")
 public enum UserSex 
 {
 	MASCULINO("Masculino"),

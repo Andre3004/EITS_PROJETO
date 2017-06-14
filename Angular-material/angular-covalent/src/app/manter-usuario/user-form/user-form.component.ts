@@ -14,7 +14,6 @@ export class UserFormComponent
 {
 
     user : Object = {};
-    @Input() permission;
           sexs = 
           [
             {value: 'MASCULINO', viewValue: 'Masculino'},
@@ -22,7 +21,7 @@ export class UserFormComponent
             {value: 'OUTRO', viewValue: 'Outro'}
           ];
           roles = 
-          [
+          [ 
             {value: 'ROLE_ADMIN', viewValue: 'Administrador'},
             {value: 'ROLE_USER', viewValue: 'Engenheiro'},
           ];
@@ -40,7 +39,7 @@ export class UserFormComponent
                 
             });
             this._loadingService.create({
-              name: 'configFullscreenDemo',
+              name: 'configFullscreen',
               mode: LoadingMode.Indeterminate,
               type: LoadingType.Linear,
               color: 'accent',
@@ -59,22 +58,43 @@ export class UserFormComponent
           insertUser(event)
           { 
             console.log(this.user);
-            this._loadingService.register('configFullscreenDemo');
+            this._loadingService.register('configFullscreen');
+
             setTimeout(() => {
-              this._loadingService.resolve('configFullscreenDemo');
-            }, 4000);
+              this._loadingService.resolve('configFullscreen');
+            }, 1000000);
+
             this.userService.insertUser(this.user).subscribe(() => 
             {
+
+              setTimeout(() => {
+              this._loadingService.resolve('configFullscreen');
+               }, 0);
+
               this.router.navigate(['/user']);
               this.openSnackBar('Usuário salvo com sucesso ', 'Sucesso!');
             }, 
             erro => 
             {
+
+              setTimeout(() => {
+              this._loadingService.resolve('configFullscreenDemo');
+               }, 0);
+
               console.log(erro)
               this.openSnackBar('Não foi possível salvar o usuário ', 'Erro!');
             });
           } 
 
+            updatePassword(user)
+            {
+               this.userService.updateUserToPassword(user).subscribe(() => 
+              {
+                this.openSnackBar('Senha Atualizada com sucesso', 'Sucesso!');
+              }, 
+              erro => 
+                this.openSnackBar('Não foi possível salvar a senha', 'Erro!'));
+            }
 
 }
 //window.location.reload();

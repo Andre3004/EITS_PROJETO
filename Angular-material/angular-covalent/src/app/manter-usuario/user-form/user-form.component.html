@@ -1,11 +1,10 @@
 <td-layout-nav> 
     <td-layout-card-over cardTitle="Usuário"  cardWidth="75"  >
-        <md-card>      
+        <md-card  >      
             <form #myform="ngForm" class="example-form">
                 <md-input-container class="example-full-width">
-                    <input mdInput placeholder="ID" disabled value="#">
+                    <input mdInput placeholder="ID" disabled  [value]="user?.id">
                 </md-input-container>
- 
                 <table class="example-full-width" cellspacing="0">
                     <tr>
                         <td>
@@ -22,18 +21,18 @@
                         </td>
                     </tr>
                 </table>
-                <table class="example-full-width" cellspacing="0">
+                <table [hidden]="user.id" class="example-full-width" cellspacing="0">
                     <td>
                         <md-input-container class="example-full-width">
-                            <input required #userPassword maxlength="50" #password="ngModel" name ="password" [(ngModel)]="user.password"  type ="password" mdInput placeholder="Senha">
+                            <input [required]="!user.id" #userPassword maxlength="50" #password="ngModel" name ="password" [(ngModel)]="user.password"  type ="password" mdInput placeholder="Senha">
                             <md-hint align="end">{{userPassword.value.length}} / 50</md-hint>
                         </md-input-container>
                     </td>
                 </table> 
-                <table class="example-full-width" cellspacing="0">
+                <table [hidden]="user.id" class="example-full-width" cellspacing="0">
                     <td>
                         <md-input-container class="example-full-width">
-                            <input required #userConfirmPassword maxlength="50" #confirmPassword="ngModel" name ="confirmPassword" [(ngModel)]="user.confirmPassword"  type ="password" mdInput placeholder="Confirme a senha">
+                            <input [required]="!user.id"  #userConfirmPassword maxlength="50" #confirmPassword="ngModel" name ="confirmPassword" [(ngModel)]="user.confirmPassword"  type ="password" mdInput placeholder="Confirme a senha">
                             <md-hint align="end">{{userConfirmPassword.value.length}} / 50</md-hint>
                         </md-input-container>
                         <md-hint>
@@ -83,9 +82,36 @@
                         </td> 
                     </tr>
                 </table>
+                <br><br>
+                <!--<button *ngIf="user.id" color="accent" md-raised-button>Alterar senha</button>-->
+                <td-expansion-panel *ngIf="user.id" [expand]="false">
+                <ng-template td-expansion-panel-label>
+                    <md-icon>security</md-icon>
+                    <span>Alterar senha</span>
+                </ng-template>
 
+                <form #passwordForm="ngForm"  class="md-padding" layout="column">
+                    
+                    <md-input-container flex>
+                         <input mdInput [required]="user.id" #newPassword maxlength="50" mdInput tdAutoTrim type="password" name ="password" [(ngModel)]="user.password" placeholder="Nova senha"/>
+                    </md-input-container>
+                    <md-input-container flex>
+                         <input mdInput [required]="user.id" #confirmNewPassword maxlength="50" mdInput tdAutoTrim type="password" name ="confirmPassword" [(ngModel)]="user.confirmPassword" placeholder="Confirme a senha"/>
+                    </md-input-container>
+                    <md-hint>
+                        <span *ngIf="(newPassword.value != confirmNewPassword.value)  && passwordForm.submitted" class="tc-red-600">
+                                <span [hidden]="confirmNewPassword.pristine" >Senhas não conferem</span>
+                        </span>
+                    </md-hint>
+                    <md-divider></md-divider>
+                    <div layout="row" layout-margin layout-align="end center">
+                        <button md-button [disabled]="passwordForm.form.invalid" color="accent" (click)="updatePassword(user)" class="text-upper">Salvar senha</button>
+                    </div>
+
+                </form>
+                </td-expansion-panel>
                 <div class="inset">
-                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertUser($event)" >Salvar</button>
+                    <button md-raised-button  color="primary" type="submit" class="button" [disabled]="myform.form.invalid" (click)="insertUser($event)" >Salvar</button>
                     <button md-raised-button  color="primary" [routerLink]="['/user']" class="button">Cancelar</button>
                 </div>
             </form>

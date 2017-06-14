@@ -17,10 +17,12 @@
                     </tr>
                 </table>
                 <br>
-                <table>
+                <table >
                     <tr>
                         <td>
                             <md-select required name ="responsible" [(ngModel)]="location.responsible" placeholder="Responsável">
+                                <md-option [value]="null">Nenhum</md-option>
+                                <md-option *ngIf="location.id && location.responsible != null" [value]="location.responsible">{{ location?.responsible?.name }} {{ location?.responsible?.lastName }}</md-option>
                                 <md-option *ngFor="let user of users" [value]="user" >
                                     {{ user.name }} {{ user.lastName }}
                                 </md-option>
@@ -33,6 +35,8 @@
                     <tr>
                         <td>
                             <md-select name ="viceResponsible" [(ngModel)]="location.viceResponsible" placeholder="Vice Responsável">
+                                <md-option [value]="null">Nenhum</md-option>
+                                <md-option *ngIf="location.id && location.viceResponsible != null" [value]="location.viceResponsible">{{ location?.viceResponsible?.name }} {{ location?.viceResponsible?.lastName }}</md-option>
                                 <md-option *ngFor="let user of users" [value]="user">
                                     {{ user.name }} {{ user.lastName }}
                                 </md-option>
@@ -42,12 +46,14 @@
                 </table>
                 <br>
                 <table>
-                    <tr>
+                    <tr> 
                         <td>
                             <section class="example-section">
-                                <md-checkbox class="example-margin" name="show" [(ngModel)]="show">Localização principal</md-checkbox>
+                                <md-checkbox #checkBox [checked]="location.location != null" class="example-margin">Localização principal</md-checkbox>
                                 <br><br><br>
-                                <md-select *ngIf="show" name ="location" [(ngModel)]="location.location" placeholder="Localização">
+                                <md-select *ngIf=checkBox.checked name ="location" [(ngModel)]="location.location" placeholder="Localização">
+                                    <md-option [value]="null">Nenhum</md-option>
+                                    <md-option *ngIf="location.id && location.location != null" [value]="location.location">{{ location?.location?.codLocation }}</md-option>                               
                                     <md-option *ngFor="let location of locations" [value]="location">
                                         {{ location.codLocation }}
                                     </md-option>

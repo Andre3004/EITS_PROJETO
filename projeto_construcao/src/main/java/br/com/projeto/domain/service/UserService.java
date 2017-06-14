@@ -79,7 +79,7 @@ public class UserService
 		return "Olá Mundo";
 	}
 	
-	
+	@RemoteMethod
 	public User getCurrent()
 	{
 //		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -93,14 +93,14 @@ public class UserService
 	{
 		userRepository.delete(id);
 	}*/
-	
+	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void activateUser(User user) 
 	{
 		user.setActive(true);
 		userRepository.saveAndFlush(user);
 	}
-	
+	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User deactivateUser(User user) 
 	{
@@ -112,11 +112,24 @@ public class UserService
 		user.setActive(false);
 		return userRepository.saveAndFlush(user);
 	}
-
+	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void editUser(User user) 
 	{
-		System.out.println(user.getPassword());
+		User currentUser = new User();
+		currentUser = userRepository.findOne(user.getId());
+		user.setPassword(currentUser.getPassword());
+		userRepository.saveAndFlush(user);	 
+	}
+	
+	@RemoteMethod
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void updateUserToPassword(User user) 
+	{
+		if ( !user.isValid() )
+		{
+			throw new IllegalArgumentException("Senhas não conferem.");
+		}
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(hash);
 		userRepository.saveAndFlush(user);	 

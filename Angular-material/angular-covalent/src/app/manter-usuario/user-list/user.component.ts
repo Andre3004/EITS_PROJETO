@@ -35,13 +35,14 @@ export class UserComponent
       }, 
       erro => console.log(erro));
       
-      Broker.of("userService").promise("helloWorld")
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((message) => {
-      //this.messagesService.toastError( message );
-      });
+      // Broker.of("userService").promise("listAllUser")
+      // .then((result) => {
+      //   console.log(result);
+      // })
+      // .catch((message) => {
+      // //this.messagesService.toastError( message );
+      // console.log(message);
+      // });
       
   }
  

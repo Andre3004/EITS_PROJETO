@@ -12,6 +12,6 @@
 
        <dwr:configuration />
        <dwr:annotation-config id="dwr"/>
-       <dwr:annotation-scan base-package="br.com.projeto.*"/>
+       <dwr:annotation-scan base-package="br.com.projeto.**"/>
 
 </beans>

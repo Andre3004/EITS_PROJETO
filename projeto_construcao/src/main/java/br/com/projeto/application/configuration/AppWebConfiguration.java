@@ -2,9 +2,16 @@ package br.com.projeto.application.configuration;
 
 import java.util.List;
 
+import org.directwebremoting.annotations.DataTransferObject;
+import org.directwebremoting.spring.DwrAnnotationPostProcessor;
+import org.directwebremoting.spring.DwrClassPathBeanDefinitionScanner;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -113,5 +120,24 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
           .addResourceHandler("/static/**")
           .addResourceLocations("/WEB-INF/views/dist/"); 
     }
+	
+	//---------
+		// DWR
+		//---------
+		/**
+		 * Process all spring beans with @RemoteProxy
+		 * @return
+		 */
+		@Bean
+		public DwrAnnotationPostProcessor dwrAnnotationPostProcessor( ApplicationContext applicationContext )
+		{
+			final BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) applicationContext.getAutowireCapableBeanFactory();
+			final ClassPathBeanDefinitionScanner scanner = new DwrClassPathBeanDefinitionScanner(beanDefinitionRegistry);
+	        scanner.addIncludeFilter(new AnnotationTypeFilter(DataTransferObject.class));
+	        scanner.scan("br.com.projeto.domain.entity.**");
+	        
+			return new DwrAnnotationPostProcessor();
+		}
+		
 
 }

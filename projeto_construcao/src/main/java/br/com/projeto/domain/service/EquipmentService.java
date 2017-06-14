@@ -46,10 +46,10 @@ public class EquipmentService
 
 	public void updateEquipment(Equipment equipment) 
 	{
-		if ( equipment.getEquipment().getId() == equipment.getId() )
-		{
-			throw new IllegalArgumentException("Nâo foi possível salvar o equipamento.");
-		}
+//		if ( equipment.getEquipment().getId() == equipment.getId() )
+//		{
+//			throw new IllegalArgumentException("Nâo foi possível salvar o equipamento.");
+//		}
 		equipmentRepository.saveAndFlush(equipment);
 	}
 	

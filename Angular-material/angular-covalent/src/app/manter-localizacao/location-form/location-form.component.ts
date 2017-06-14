@@ -1,3 +1,4 @@
+import { TdLoadingService, LoadingMode, LoadingType } from '@covalent/core';
 import { LocationService } from './../../service/location.service';
 import { UserService } from './../../service/user.service';
 import { MdSnackBar } from '@angular/material';
@@ -17,7 +18,8 @@ export class LocationFormComponent {
   location: Object = {};
 
   constructor(public userService: UserService, public locationService: LocationService, 
-              private activatedRoute: ActivatedRoute, public snackBar: MdSnackBar, public router: Router) 
+              private activatedRoute: ActivatedRoute, public snackBar: MdSnackBar, public router: Router, 
+              private _loadingService: TdLoadingService) 
   {
       userService.listAllUser().subscribe(users => 
       { 
@@ -31,7 +33,7 @@ export class LocationFormComponent {
       },erro => console.log(erro)); 
 
       activatedRoute.params.subscribe(params => {
-               
+                
         let id = params['id'];
         if (id)
         {
@@ -39,25 +41,46 @@ export class LocationFormComponent {
         }
           
       });
+
+      this._loadingService.create(
+      {
+        name: 'configFullscreen',
+        mode: LoadingMode.Indeterminate,
+        type: LoadingType.Linear,
+        color: 'accent',
+      });
   }
 
   openSnackBar(msg, action) 
   {
     this.snackBar.open(msg, action, 
     {
-      duration: 5000,
+      duration: 5000, 
     }); 
   }
   insertLocation(event)
   { 
+    this._loadingService.register('configFullscreen');
+    setTimeout(() => 
+    {
+      this._loadingService.resolve('configFullscreen');
+    }, 1000000);
+
     this.locationService.insertLocation(this.location).subscribe(() => 
     {  
+      setTimeout(() => 
+      {
+        this._loadingService.resolve('configFullscreen');
+      }, 0);  
       this.router.navigate(['/location']);
       this.openSnackBar('Localização salva com sucesso ', 'Sucesso!');
     }, 
     erro => 
     {  
-      console.log(erro)
+      setTimeout(() => 
+      {
+        this._loadingService.resolve('configFullscreen');
+      }, 0);
       this.openSnackBar('Não foi possível salvar a Localização ', 'Erro!');
     });
   }

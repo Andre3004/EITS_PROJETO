@@ -24,7 +24,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSliderModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule, MdSlideToggleModule, MdProgressSpinnerModule } from '@angular/material';
+import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSliderModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule, MdSlideToggleModule, MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule, CovalentDialogsModule } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
@@ -89,7 +89,8 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     CovalentFileModule, 
     HttpModule, 
     MdProgressSpinnerModule,
-    CovalentLoadingModule
+    CovalentLoadingModule,
+    MdProgressBarModule
   ],
   exports: [ FilterName, FilterCodLocation, FilterNameEquipment ],
   providers: [Broker, TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService, TdLoadingService ],
