@@ -1,29 +1,27 @@
 import { UserService } from './../../service/user.service';
-import { EquipmentService } from './../../service/equipment.service';
+import { LocationService } from './../../service/location.service';
 import { TdDialogService } from '@covalent/core';
-
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MdInputModule, MdSnackBar} from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
 
 @Component({
-  selector: 'app-equipment',
-  templateUrl: './equipment.component.html',
-  styleUrls: ['./equipment.component.css']
+  selector: 'app-location',
+  templateUrl: './location-list.component.html',
+  styleUrls: ['./location-list.component.css']
 })
-export class EquipmentComponent{
- 
-   equipments: Object[] = [];
-   userCurrent : Object;
-   
+export class LocationListComponent {
 
-  constructor(public snackBar: MdSnackBar, public equipmentService: EquipmentService, private router: Router,
+   locations: Object[] = [];
+   userCurrent : Object;
+
+  constructor(public snackBar: MdSnackBar, public locationService: LocationService, private router: Router,
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef, public userService: UserService)
   {
-      equipmentService.listAllEquipment().subscribe(equipments => 
+      locationService.listAllLocation().subscribe(locations => 
       { 
-        this.equipments = equipments;
+        this.locations = locations;
       },erro => console.log(erro)); 
 
       userService.getCurrentUser().subscribe(user => 
@@ -42,14 +40,14 @@ export class EquipmentComponent{
     }); 
   }
  
-  openConfirm(equipment): void 
+  openConfirm(location): void 
     {
         this._dialogService.openConfirm(
         {
-            message:'Tem certeza que deseja excluir ' + equipment.name +  ' ?',
+            message:'Tem certeza que deseja excluir ' + location.codLocation +  ' ?',
             disableClose: false, 
             viewContainerRef: this._viewContainerRef,
-            title: 'Excluir equipamento', 
+            title: 'Excluir localização', 
             cancelButton: 'Não',
             acceptButton: 'Sim', 
         }).
@@ -57,17 +55,18 @@ export class EquipmentComponent{
         {
           if (accept) 
           {
-              this.equipmentService.deleteEquipment(equipment).subscribe(() => 
+              this.locationService.deleteLocation(location).subscribe(() => 
               {
-                  let equipments = this.equipments.slice(0);
-                  let indice = equipments.indexOf(equipment);
-                  equipments.splice(indice, 1);
-                  this.equipments = equipments;
-                  this.openSnackBar('Equipamento removido com sucesso', 'Sucesso!');
+                  let locations = this.locations.slice(0);
+                  let indice = locations.indexOf(location);
+                  locations.splice(indice, 1);
+                  this.locations = locations;
+                  this.openSnackBar('Localização removida com sucesso', 'Sucesso!');
               },
               erro => 
               {
-                this.openSnackBar('Não foi possível remover o Equipamento ' + equipment.name, 'Erro!');
+                console.log(erro);
+                this.openSnackBar('Não foi possível remover a Localização ' + location.codLocation, 'Erro!');
               }
               );
           }
@@ -78,4 +77,3 @@ export class EquipmentComponent{
         })
     }
 }
- 

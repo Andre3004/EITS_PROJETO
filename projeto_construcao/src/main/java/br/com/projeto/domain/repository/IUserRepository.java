@@ -23,5 +23,7 @@ public interface IUserRepository extends JpaRepository<User, Long>
 	
 	@Query("select u from User u where u.name like %:pFilter% or u.email like %:pFilter%")
 	public Page<User> listUsersByFilters(@Param("pFilter") String filter, Pageable pageable);
+	
+	
 
 }

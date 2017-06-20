@@ -1,29 +1,49 @@
+import { PageRequest } from './../../service/PageRequest';
 import { Broker } from 'eits-ng2';
 import { UserService } from './../../service/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MdInputModule, MdSnackBar, MdDialogModule } from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
-import { TdDialogService } from '@covalent/core';
+import { TdDialogService, IPageChangeEvent } from '@covalent/core';
+
 @Component(
   {
     selector: 'app-user',
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.css']
+    templateUrl: './user-list.component.html',
+    styleUrls: ['./user-list.component.css']
   })
-export class UserComponent  
+export class UserListComponent  implements OnInit
 { 
 
-    users: Object[] = [];
+    users: PageRequest ; 
+
+
     userCurrent : Object;
     permission = false;
     loading: boolean = true;
+    page: number;
+    total: Number;
+
+  ngOnInit()
+  {
+    this.route.queryParams.subscribe(
+      (queryParams: any) => 
+      {
+        this.page = queryParams['page'] - 1;
+        console.log("Teste page " + this.page );
+      }
+    )
+  }
 
   constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router, 
-              private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef)
+              private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef,
+              private route: ActivatedRoute)
   {
-      userService.listAllUser().subscribe(users => 
+      userService.listUsers(0,5).subscribe(users => 
       { 
+        this.total = users.totalElements;
+        console.log(users)
         this.users = users;
       },  
       erro => console.log(erro));
@@ -34,7 +54,6 @@ export class UserComponent
         console.log(this.userCurrent);
       }, 
       erro => console.log(erro));
-      
       // Broker.of("userService").promise("listAllUser")
       // .then((result) => {
       //   console.log(result);
@@ -44,6 +63,18 @@ export class UserComponent
       // console.log(message);
       // });
       
+  }
+
+  change(event: IPageChangeEvent): void 
+  {
+       this.userService.listUsers(event.page.valueOf() - 1, 5).subscribe(users => 
+       { 
+         this.users = users;
+       },  
+       erro => console.log(erro));
+       this.router.navigate(['/user'],
+       {queryParams: {'page': event.page.valueOf()}});
+
   }
  
   openSnackBar(msg, action) 
@@ -77,7 +108,6 @@ export class UserComponent
                 this.userService.listAllUser().subscribe(users => 
                 { 
                   console.log(users);
-                  this.users = users;
                 },  
                 erro => console.log(erro));
             },
@@ -96,7 +126,6 @@ export class UserComponent
                 this.userService.listAllUser().subscribe(users => 
                 { 
                   console.log(users);
-                  this.users = users;
                 },  
                 erro => console.log(erro));
             },

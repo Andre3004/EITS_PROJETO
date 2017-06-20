@@ -2,7 +2,7 @@
     <td-layout-card-over cardTitle="Usuário"  cardWidth="75"  >
         <md-card  >      
             <form #myform="ngForm" class="example-form">
-                <md-input-container class="example-full-width">
+                <md-input-container *ngIf="user.id" class="example-full-width">
                     <input mdInput placeholder="ID" disabled  [value]="user?.id">
                 </md-input-container>
                 <table class="example-full-width" cellspacing="0">
@@ -111,8 +111,8 @@
                 </form>
                 </td-expansion-panel>
                 <div class="inset">
-                    <button md-raised-button  color="primary" type="submit" class="button" [disabled]="myform.form.invalid" (click)="insertUser($event)" >Salvar</button>
-                    <button md-raised-button  color="primary" [routerLink]="['/user']" class="button">Cancelar</button>
+                    <button md-raised-button  color="accent" type="submit" class="button" [disabled]="myform.form.invalid" (click)="insertUser($event)" >Salvar</button>
+                    <button md-raised-button  color="accent" [routerLink]="['/user']" class="button">Cancelar</button>
                 </div>
             </form>
      </md-card> 

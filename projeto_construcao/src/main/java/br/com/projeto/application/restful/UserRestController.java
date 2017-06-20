@@ -3,11 +3,13 @@ package br.com.projeto.application.restful;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projeto.domain.entity.User;
@@ -32,6 +34,16 @@ public class UserRestController
 	public List<User> listAllUser()
 	{
 		return userService.listAllUser();
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/listUsers/{page}", method = RequestMethod.GET)
+	public Page<User> listUsers(@PathVariable int page)
+	{
+		int size = 5;
+		Page<User> users =  userService.listUsers(page, size);
+		System.out.println(users.getTotalElements());
+		return users;
 	}
 
 	@CrossOrigin

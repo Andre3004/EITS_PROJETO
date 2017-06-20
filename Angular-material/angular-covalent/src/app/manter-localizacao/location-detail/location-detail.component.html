@@ -1,56 +1,45 @@
 <td-layout-nav> 
-    <td-layout-card-over cardTitle="Localização"  class="card" cardWidth="75">
-        <md-card >    
-
-            <form class="example-form">
-                <md-input-container class="example-full-width">
-                    <input mdInput placeholder="ID" [value]="location.id" disabled>
-                </md-input-container>
-
-                <table class="example-full-width" cellspacing="0">
-                    <tr>
-                        <td>
-                            <md-input-container class="example-full-width">
-                                <input mdInput disabled [value]="location.codLocation" placeholder="Código Localizador">
-                            </md-input-container>
-                        </td>
-                    </tr>
-                </table>
-                <table class="example-full-width" cellspacing="0">
-                    <tr>
-                        <td>
-                            <md-input-container class="example-full-width">
-                                <input mdInput disabled [value]="location?.responsible?.name" placeholder="Responsável">
-                            </md-input-container>
-                        </td>
-                    </tr>
-                </table>
-                <table class="example-full-width" cellspacing="0">
-                    <tr>
-                        <td>
-                            <md-input-container class="example-full-width">
-                                <input mdInput disabled [value]="location?.viceResponsible?.name" placeholder="Vice Responsável">
-                            </md-input-container>
-                        </td>
-                    </tr>
-                </table>
-                
-                
-
+    <td-layout-card-over  cardWidth="75"  >
+        <md-card>    
+                <md-card-title>{{location.codLocation}}</md-card-title>
+                <md-divider></md-divider>
                 <md-list>
-                    <h3 md-subheader>Sub localizações</h3>
+                    <md-list-item>
+                        <md-icon mdTooltip="Localização" md-list-avatar>location_on</md-icon>
+                        <h1 md-line >Código localizador: {{location.codLocation}}</h1>
+                    </md-list-item>
+                    <md-divider md-inset></md-divider>
+                    <md-list-item>
+                        <md-icon mdTooltip="Responsável" md-list-avatar>perm_identity</md-icon>
+                        <h1 md-line>Responsável: {{location?.responsible?.name}}</h1>
+                        <p md-line>{{location?.responsible?.email}}<p>
+                    </md-list-item>
+                    <md-divider md-inset></md-divider>
+                    <md-list-item *ngIf="location.viceResponsible != null">
+                        <md-icon mdTooltip="Vice Responsável" md-list-avatar>person_outline</md-icon>
+                        <h1 md-line>Vice Responsável: {{location?.viceResponsible?.name}}</h1>
+                        <p md-line>{{location?.viceResponsible?.email}}<p>
+                    </md-list-item>
+                    </md-list>
+                    <md-list>
+                    <md-divider></md-divider>
+                    <!--<md-list-item *ngIf="subLocations != null">
+                        <md-icon md-list-icon>my_location</md-icon>
+                        <h4 md-line>Sub localizações</h4>
+                    </md-list-item>-->
                     <md-list-item *ngFor="let sublocation of sublocations">
-                        <md-icon md-list-icon>location_on</md-icon>
-                        <h4 md-line>{{sublocation?.codLocation}}</h4>
-                        <p md-line> Responsável: {{sublocation?.responsible?.name }} </p>
-                        <p md-line> Vice Responsável: {{sublocation?.viceResponsible?.name }} </p>
+                        <md-icon md-list-icon mdTooltip="Sub localização">location_on</md-icon>
+                        <h4 md-line>Sub Localização: {{sublocation?.codLocation}}</h4>
+                        <p md-line> Responsável: {{sublocation?.responsible?.name }} {{sublocation?.responsible?.lastName }}</p>
+                        <p md-line *ngIf="sublocation.viceResponsible != null"> Vice Responsável: {{sublocation?.viceResponsible?.name }} {{sublocation?.viceResponsible?.lastName }}</p>
+                        <button md-button mdTooltip="Editar" class="button" [routerLink]="['/location-edit', sublocation.id]" class="text-upper"><md-icon md-list-avatar>edit</md-icon></button> 
                     </md-list-item>
                 </md-list>
-              
-                <div class="inset">
-                    <button md-raised-button  color="primary" [routerLink]="['/location']" class="button">Voltar</button>
-                </div>
-            </form>
+                <md-divider></md-divider>
+                <md-card-actions class="button" >
+                    <button md-raised-button class="button" color="accent" [routerLink]="['/location-edit', location.id]" class="text-upper">Editar</button> 
+                    <button md-raised-button class="button" color="accent" [routerLink]="['/location']"class="text-upper">Voltar</button>
+                </md-card-actions>
      </md-card> 
   </td-layout-card-over>
 </td-layout-nav>

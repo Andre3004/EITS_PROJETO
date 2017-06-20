@@ -1,20 +1,20 @@
+import { UserListComponent } from './user-list.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocationComponent } from './location.component';
 
-describe('LocationComponent', () => {
-  let component: LocationComponent;
-  let fixture: ComponentFixture<LocationComponent>;
+describe('UserComponent', () => {
+  let component: UserListComponent;
+  let fixture: ComponentFixture<UserListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LocationComponent ]
+      declarations: [ UserListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LocationComponent);
+    fixture = TestBed.createComponent(UserListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

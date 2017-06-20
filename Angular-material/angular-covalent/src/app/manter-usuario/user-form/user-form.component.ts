@@ -78,7 +78,7 @@ export class UserFormComponent
             {
 
               setTimeout(() => {
-              this._loadingService.resolve('configFullscreenDemo');
+              this._loadingService.resolve('configFullscreen');
                }, 0);
 
               console.log(erro)

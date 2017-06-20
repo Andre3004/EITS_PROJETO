@@ -6,6 +6,7 @@ import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +22,6 @@ import br.com.projeto.infrastructure.Mailer;
 @Service("userService")
 public class UserService
 {
-	
 	@Autowired
 	private IUserRepository userRepository;
 	
@@ -53,6 +53,12 @@ public class UserService
 	public List<User> listAllUser() 
 	{
 		return userRepository.findAll();
+	}
+	
+	@RemoteMethod
+	public Page<User> listUsers(int page, int size) 
+	{
+		return userRepository.findAll(new PageRequest(page, size));
 	}
 	
 	@RemoteMethod

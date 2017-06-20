@@ -1,3 +1,4 @@
+import { PageRequest } from './PageRequest';
 import { User } from './../login/User';
 
 import { Observable } from 'rxjs/Observable';
@@ -33,6 +34,12 @@ export class UserService
   {
     return this.http.get(this.url + 'listAllUser').map(res => res.json());
   }
+  listUsers(page: number, size: number): Observable<PageRequest>
+  {
+    return this.http.get(this.url + 'listUsers/'+ page).map(res => res.json());
+  }
+
+  
   
   activateUser(user): Observable<Response>
   {

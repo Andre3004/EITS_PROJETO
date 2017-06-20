@@ -1,20 +1,20 @@
+import { LocationListComponent } from './location-list.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EquipmentComponent } from './equipment.component';
 
-describe('EquipmentComponent', () => {
-  let component: EquipmentComponent;
-  let fixture: ComponentFixture<EquipmentComponent>;
+describe('LocationComponent', () => {
+  let component: LocationListComponent;
+  let fixture: ComponentFixture<LocationListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EquipmentComponent ]
+      declarations: [ LocationListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EquipmentComponent);
+    fixture = TestBed.createComponent(LocationListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

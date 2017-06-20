@@ -46,7 +46,7 @@
                         <td>
                             <md-checkbox class="example-margin" [checked]="equipment.equipment != null" #checkBox >Equipamento principal</md-checkbox>
                             <br><br><br>
-                            <md-select *ngIf="checkBox.checked" name ="equipment" [(ngModel)]="equipment.equipment" placeholder="Equipamento">                            
+                            <md-select required *ngIf="checkBox.checked" name ="equipment" [(ngModel)]="equipment.equipment" placeholder="Equipamento">                            
                                 <md-option [value]="null">Nenhum</md-option>
                                 <md-option *ngIf="equipment.id && equipment.equipment != null" [value]="equipment.equipment">{{ equipment?.equipment?.name }}</md-option>                                                                
                                 <md-option *ngFor="let equipment of equipments" [value]="equipment">
@@ -58,8 +58,8 @@
                 </table>
                 <br><br>
                 <div class="inset">
-                    <button md-raised-button  color="primary" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertEquipment(equipment)" >Salvar</button>
-                    <button md-raised-button  color="primary" [routerLink]="['/equipment']" class="button">Cancelar</button>
+                    <button md-raised-button  color="accent" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertEquipment(equipment)" >Salvar</button>
+                    <button md-raised-button  color="accent" [routerLink]="['/equipment']" class="button">Cancelar</button>
                 </div>
             </form>
      </md-card> 

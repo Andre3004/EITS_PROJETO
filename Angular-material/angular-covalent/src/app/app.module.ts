@@ -1,11 +1,12 @@
+import { PageRequest } from './service/PageRequest';
+import { EquipmentListComponent } from './manter-equipamento/equipment-list/equipment-list.component';
+import { LocationListComponent } from './manter-localizacao/location-list/location-list.component';
+import { UserListComponent } from './manter-usuario/user-list/user-list.component';
 import { EquipmentService } from './service/equipment.service';
 import { LocationService } from './service/location.service';
 import { UserService } from './service/user.service';
-import { UserComponent } from './manter-usuario/user-list/user.component';
 import { UserDetailComponent } from './manter-usuario/user-detail/user-detail.component';
 import { UserFormComponent } from './manter-usuario/user-form/user-form.component';
-import { LocationComponent } from './manter-localizacao/location-list/location.component';
-import { EquipmentComponent } from './manter-equipamento/equipment-list/equipment.component';
 import { FilterName } from './pipes/user.pipes';
 import { FilterCodLocation } from './pipes/location.pipes';
 import { LocationDetailComponent } from './manter-localizacao/location-detail/location-detail.component';
@@ -21,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -34,7 +36,7 @@ import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
 import { HomeComponent } from './home/home.component';
 import 'rxjs/add/operator/map';
 import {Broker} from 'eits-ng2';
-import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, CovalentLoadingModule } from '@covalent/core';
+import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, CovalentLoadingModule, CovalentDataTableModule, CovalentPagingModule } from '@covalent/core';
 
 
 
@@ -42,11 +44,11 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
   declarations: [
     AppComponent,
     HomeComponent,
-    UserComponent,
+    UserListComponent,
     UserDetailComponent,
     UserFormComponent,
-    LocationComponent,
-    EquipmentComponent,
+    LocationListComponent,
+    EquipmentListComponent,
     FilterName,
     FilterCodLocation,
     FilterNameEquipment,
@@ -90,10 +92,12 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     HttpModule, 
     MdProgressSpinnerModule,
     CovalentLoadingModule,
-    MdProgressBarModule
+    MdProgressBarModule,
+    CovalentDataTableModule,
+    CovalentPagingModule,
   ],
-  exports: [ FilterName, FilterCodLocation, FilterNameEquipment ],
-  providers: [Broker, TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService, TdLoadingService ],
+  exports: [ FilterName, FilterCodLocation, FilterNameEquipment],
+  providers: [Broker,PageRequest, TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService, TdLoadingService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

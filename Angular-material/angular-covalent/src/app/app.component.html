@@ -40,7 +40,7 @@
         <router-outlet></router-outlet>
         <md-sidenav #sidenav class="example-sidenav">
             <li routerLinkActive="active">
-                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/user">Usuários</button>
+                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/user" [queryParams]="{page:1}">Usuários</button>
             </li>
             <li routerLinkActive="active">
                 <button class="botao-lateral" (click)="sidenav.close()" routerLink="/location">Localização</button>
