@@ -13,7 +13,7 @@ import br.com.projeto.domain.service.AuthenticationService;
 
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = AuthenticationService.class)
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+//@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
 	

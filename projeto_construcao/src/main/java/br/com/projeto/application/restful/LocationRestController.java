@@ -12,14 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projeto.domain.entity.Location;
 import br.com.projeto.domain.service.LocationService;
-
+/**
+ * 
+ * @author André
+ *
+ */
 @RestController
 @RequestMapping("location")
 public class LocationRestController 
 {
 	@Autowired
 	LocationService locationService;
-
+	/**
+	 * 
+	 * @param location
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/insertLocation", method = RequestMethod.POST)
 	public void insertLocation(@RequestBody Location location)
@@ -28,35 +35,52 @@ public class LocationRestController
 		System.out.println(location.getResponsible().getName());
 		locationService.insertLocation(location);
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/listAllLocation", method = RequestMethod.GET)
 	public List<Location> listAllLocation()
 	{
 		return locationService.listAllLocation();
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/listAllSubLocation/{id}", method = RequestMethod.GET)
 	public List<Location> listAllSubLocation(@PathVariable("id") Long id)
 	{
 		return locationService.listAllSubLocation(id);
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/findLocationById/{id}", method = RequestMethod.GET)
 	public Location findLocationById(@PathVariable Long id)
 	{
 		return locationService.findLocationById(id);
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/deleteLocation/{id}", method = RequestMethod.DELETE)
 	public void deleteLocation(@PathVariable Long id)
 	{
 		locationService.deleteLocation(id);
 	}
-	
+	/**
+	 * 
+	 * @param location
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/updateLocation", method = RequestMethod.PUT)
 	public void updateLocation(@RequestBody Location location)

@@ -36,7 +36,7 @@ export class UserService
   }
   listUsers(page: number, size: number): Observable<PageRequest>
   {
-    return this.http.get(this.url + 'listUsers/'+ page).map(res => res.json());
+    return this.http.get(this.url + 'listUsers/'+ page + '/' + size).map(res => res.json());
   }
 
   

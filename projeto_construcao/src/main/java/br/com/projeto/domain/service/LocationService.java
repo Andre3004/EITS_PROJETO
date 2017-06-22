@@ -7,7 +7,6 @@ import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.com.projeto.domain.entity.Location;
 import br.com.projeto.domain.repository.ILocationRepository;

@@ -9,14 +9,13 @@
             </md-card-title>
             <md-list class="pull-top">
                 <md-list-item>
-                    <md-icon md-list-avatar>bug_report</md-icon>
+                    <md-icon mdTooltip="Equipamentos" md-list-avatar>bug_report</md-icon>
                     <h3 md-line>Equipamentos</h3>
                 </md-list-item>   
                 <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="equipments | filterNameEquipment: textSearch.value" >
                     <a md-list-item>
-                        <md-icon md-list-avatar>select_all</md-icon>
                         <h3 md-line> {{item.name}} </h3>
-                        <p md-line> {{item?.location?.codLocation}} </p>
+                        <p md-line *ngIf="item.location"> Localização: {{item?.location?.codLocation}} </p>
                         <span flex></span>
                         <button md-button mdTooltip="Detalhar"  [routerLink]="['/equipment-detail', item.id]" ><md-icon md-list-avatar>details</md-icon></button>
                         <button md-button mdTooltip="Editar"  [routerLink]="['/equipment-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>

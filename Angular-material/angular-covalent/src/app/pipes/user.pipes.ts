@@ -1,3 +1,4 @@
+import { UserService } from './../service/user.service';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe(
@@ -7,8 +8,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class FilterName implements PipeTransform
 {
+    constructor (userService: UserService){}
     transform(users, text)
     {
-        return users.filter( user => user.name.toLowerCase().includes(text.toLowerCase() ) );
+        return users.content.filter( user => user.name.toLowerCase().includes(text.toLowerCase() ) );
     }
 }

@@ -40,7 +40,7 @@ export class UserListComponent  implements OnInit
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef,
               private route: ActivatedRoute)
   {
-      userService.listUsers(0,5).subscribe(users => 
+      userService.listUsers(0, 5).subscribe(users => 
       { 
         this.total = users.totalElements;
         console.log(users)
@@ -67,8 +67,10 @@ export class UserListComponent  implements OnInit
 
   change(event: IPageChangeEvent): void 
   {
-       this.userService.listUsers(event.page.valueOf() - 1, 5).subscribe(users => 
+       this.userService.listUsers(event.page.valueOf() - 1, event.pageSize.valueOf() ).subscribe(users => 
        { 
+         console.log('page ' , event.page.valueOf() - 1);
+         console.log('size ',event.pageSize.valueOf());
          this.users = users;
        },  
        erro => console.log(erro));
