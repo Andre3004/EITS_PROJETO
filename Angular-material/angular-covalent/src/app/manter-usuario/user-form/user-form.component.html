@@ -83,7 +83,6 @@
                     </tr>
                 </table>
                 <br><br>
-                <!--<button *ngIf="user.id" color="accent" md-raised-button>Alterar senha</button>-->
                 <td-expansion-panel *ngIf="user.id" [expand]="false">
                 <ng-template td-expansion-panel-label>
                     <md-icon>security</md-icon>
@@ -112,9 +111,9 @@
                 </td-expansion-panel>
                 <div class="inset">
                     <button md-raised-button  color="accent" type="submit" class="button" [disabled]="myform.form.invalid" (click)="insertUser($event)" >Salvar</button>
-                    <button md-raised-button  color="accent" [routerLink]="['/user']" class="button">Cancelar</button>
+                    <button md-raised-button  color="accent" routerLink="/user" [queryParams]="{page:1}" class="button">Cancelar</button>
                 </div>
             </form>
      </md-card> 
   </td-layout-card-over>
-</td-layout-nav>
+</td-layout-nav> 

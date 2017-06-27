@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 import { TdLoadingService, LoadingType, LoadingMode } from '@covalent/core';
 import { UserService } from './../../service/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -24,19 +25,18 @@ export class UserFormComponent
           [ 
             {value: 'ROLE_ADMIN', viewValue: 'Administrador'},
             {value: 'ROLE_USER', viewValue: 'Engenheiro'},
-          ];
+          ]; 
           
           constructor(private _loadingService: TdLoadingService, public snackBar: MdSnackBar, public userService: UserService, public router: Router, public activatedRouter: ActivatedRoute)
           {
-            activatedRouter.params.subscribe(params => {
-               
+            activatedRouter.params.subscribe(params => 
+            {
                 let id = params['id'];
                 if (id)
                 {
                   this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
                   console.log(this.user);
                 }
-                
             });
             this._loadingService.create({
               name: 'configFullscreen',
@@ -65,13 +65,12 @@ export class UserFormComponent
             }, 1000000);
 
             this.userService.insertUser(this.user).subscribe(() => 
-            {
+            { 
 
               setTimeout(() => {
               this._loadingService.resolve('configFullscreen');
                }, 0);
-
-              this.router.navigate(['/user']);
+              this.router.navigate(['/user'], { queryParams: {page:1}}) ;
               this.openSnackBar('Usuário salvo com sucesso ', 'Sucesso!');
             }, 
             erro => 
@@ -88,13 +87,13 @@ export class UserFormComponent
 
             updatePassword(user)
             {
-               this.userService.updateUserToPassword(user).subscribe(() => 
+               this.userService.updateUserToPassword(user).subscribe(sucess => 
               {
-                this.openSnackBar('Senha Atualizada com sucesso', 'Sucesso!');
+                this.openSnackBar(Object(sucess)._body, 'Sucesso!');
               }, 
               erro => 
-                this.openSnackBar('Não foi possível salvar a senha', 'Erro!'));
-            }
+                this.openSnackBar(erro._body, 'Erro!'));
+              
+          }
 
 }
-//window.location.reload();

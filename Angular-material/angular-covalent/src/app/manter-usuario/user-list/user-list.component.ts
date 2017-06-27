@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MdInputModule, MdSnackBar, MdDialogModule } from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
-import { TdDialogService, IPageChangeEvent } from '@covalent/core';
+import { TdDialogService, IPageChangeEvent, ITdDataTableColumn, TdDataTableSortingOrder, TdDataTableService, ITdDataTableSortChangeEvent } from '@covalent/core';
 
 @Component(
   {
@@ -16,31 +16,30 @@ import { TdDialogService, IPageChangeEvent } from '@covalent/core';
 export class UserListComponent  implements OnInit
 { 
 
-    users: PageRequest ; 
-
-
+    users: PageRequest  = new PageRequest(); 
     userCurrent : Object;
-    permission = false;
-    loading: boolean = true;
-    page: number;
+    page: number = 1;
+    size: number = 5;
+    order: String ="ASC";
+    property: String="name";;
     total: Number;
+    sortBy : String ="";
 
   ngOnInit()
   {
     this.route.queryParams.subscribe(
       (queryParams: any) => 
       {
-        this.page = queryParams['page'] - 1;
-        console.log("Teste page " + this.page );
+        this.page = queryParams['page'] ;
       }
     )
   }
 
   constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router, 
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef,
-              private route: ActivatedRoute)
+              private route: ActivatedRoute, private _dataTableService: TdDataTableService)
   {
-      userService.listUsers(0, 5).subscribe(users => 
+      userService.listUsers(this.page - 1, this.size, this.property , this.order).subscribe(users => 
       { 
         this.total = users.totalElements;
         console.log(users)
@@ -51,7 +50,6 @@ export class UserListComponent  implements OnInit
       userService.getCurrentUser().subscribe(user => 
       { 
         this.userCurrent = user;
-        console.log(this.userCurrent);
       }, 
       erro => console.log(erro));
       // Broker.of("userService").promise("listAllUser")
@@ -64,19 +62,70 @@ export class UserListComponent  implements OnInit
       // });
       
   }
+  columns: ITdDataTableColumn[] = 
+  [
+    { 
+      name: 'name', label: 'Nome' , sortable: true
+    },
+    { 
+      name: 'lastName', label: 'Sobrenome' , sortable: true
+    },
+    { 
+      name: 'email', label: 'Email' , sortable: true
+    },
+    { 
+      name: '', label: '' , sortable: false
+    }
+  ];
+  search(textSearch: String)
+  {
+    if (textSearch === '')
+    {
+      this.userService.listUsers(this.page -1 , this.size , this.property ,this.order).subscribe(users=>
+      {
+        this.users = users;
+        this.total = users.totalElements;
+      },erro => console.log(erro));
+    }
+    else
+    {
+      this.userService.listUsersByFilters(0 , this.size , this.property ,this.order, textSearch ).subscribe(users=>
+      {
+        this.users = users;
+        this.total = users.totalElements;
+      },
+      erro => console.log(erro));
+    }
+    this.router.navigate(['/user'],
+    {queryParams: {'page': this.page}});
+  }
 
   change(event: IPageChangeEvent): void 
   {
-       this.userService.listUsers(event.page.valueOf() - 1, event.pageSize.valueOf() ).subscribe(users => 
+       this.page = event.page.valueOf();
+       this.size = event.pageSize.valueOf();
+       this.userService.listUsers(this.page -1 , this.size , this.property ,this.order ).subscribe(users => 
        { 
-         console.log('page ' , event.page.valueOf() - 1);
-         console.log('size ',event.pageSize.valueOf());
          this.users = users;
+         this.total = users.totalElements;
        },  
        erro => console.log(erro));
        this.router.navigate(['/user'],
-       {queryParams: {'page': event.page.valueOf()}});
+       {queryParams: {'page': this.page}});
 
+  }
+  sortEvent(sortEvent: ITdDataTableSortChangeEvent): void 
+  {
+    this.sortBy = sortEvent.name;
+    this.order = sortEvent.order === TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; ;
+    console.log(sortEvent.order.valueOf().toString());
+    console.log(sortEvent.name);
+    this.property= sortEvent.name; 
+    this.userService.listUsers(this.page -1 , this.size , this.property ,this.order ).subscribe(users => 
+    { 
+      this.users = users;
+    },  
+    erro => console.log(erro));
   }
  
   openSnackBar(msg, action) 
@@ -107,9 +156,9 @@ export class UserListComponent  implements OnInit
             this.userService.activateUser(user).subscribe(() => 
             {
                 this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
-                this.userService.listAllUser().subscribe(users => 
+                this.userService.listUsers(this.page -1 , this.size , this.property ,this.order ).subscribe(users => 
                 { 
-                  console.log(users);
+                  this.users = users;
                 },  
                 erro => console.log(erro));
             },
@@ -125,9 +174,9 @@ export class UserListComponent  implements OnInit
             this.userService.deactivateUser(user).subscribe(() => 
             {
                 this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
-                this.userService.listAllUser().subscribe(users => 
+                this.userService.listUsers(this.page -1 , this.size , this.property ,this.order ).subscribe(users => 
                 { 
-                  console.log(users);
+                  this.users = users;
                 },  
                 erro => console.log(erro));
             },

@@ -58,7 +58,7 @@ public class User implements UserDetails
 	private String email;
 
 	@JsonProperty(access = Access.WRITE_ONLY)
-	@Size(min = 6, max = 100, message = "O tamanho da senha deve estar entre 6 e 50")
+	@Size(min = 6, max = 100)
 	@NotBlank
 	private String password;
 	

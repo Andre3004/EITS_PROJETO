@@ -34,9 +34,9 @@ export class UserService
   {
     return this.http.get(this.url + 'listAllUser').map(res => res.json());
   }
-  listUsers(page: number, size: number): Observable<PageRequest>
+  listUsers(page: number, size: number, property: String, order: String): Observable<PageRequest>
   {
-    return this.http.get(this.url + 'listUsers/'+ page + '/' + size).map(res => res.json());
+    return this.http.get(this.url + 'listUsers/'+ page + '/' + size + '/' + property + '/' + order).map(res => res.json());
   }
 
   
@@ -56,9 +56,13 @@ export class UserService
   getCurrentUser(): Observable<User>
   {
     return this.http.get(this.url + 'getCurrentUser').map(res => res.json());;
-  }
+  } 
   updateUserToPassword(user): Observable<Response>
   {
     return this.http.put(this.url + 'updateUserToPassword', JSON.stringify(user), { headers: this.headers });
+  }
+  listUsersByFilters(page: number, size: number, property: String, order: String, textSearch: String): Observable<PageRequest>
+  {
+    return this.http.get(this.url + 'listUsersByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + textSearch).map(res => res.json());
   }
 }

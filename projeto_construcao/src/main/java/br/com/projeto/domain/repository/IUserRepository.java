@@ -1,5 +1,7 @@
 package br.com.projeto.domain.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,9 +23,11 @@ public interface IUserRepository extends JpaRepository<User, Long>
 	@Query("select u from User u where u.email = :email")
 	public User findByEmail(@Param("email") String email);
 	
-	@Query("select u from User u where u.name like %:pFilter% or u.email like %:pFilter%")
+	@Query("select u from User u where u.name like %:pFilter% or u.email like %:pFilter% or u.lastName like %:pFilter%")
 	public Page<User> listUsersByFilters(@Param("pFilter") String filter, Pageable pageable);
-	
+
+	@Query("select u from User u where u.email = :email or u.name = :name")
+	public List<User> findByEmailAndName(@Param("name")String name, @Param("email")String email);
 	
 
 }

@@ -1,5 +1,7 @@
 package br.com.projeto.domain.service;
 
+import java.nio.charset.IllegalCharsetNameException;
+import java.util.IllformedLocaleException;
 import java.util.List;
 
 import org.directwebremoting.annotations.RemoteMethod;
@@ -7,8 +9,10 @@ import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,15 +34,15 @@ public class UserService
 	
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public User insertUser(User user)
+	public ResponseEntity<String>  insertUser(User user)
 	{		
-		if ( userRepository.findByEmail(user.getEmail()) != null )
- 		{
- 			throw new IllegalArgumentException("Este email já está cadastrado.");
- 		}
+		if ( userRepository.findByEmailAndName(user.getName(), user.getEmail()) != null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Os valores preenchidos não atendem a restrição de unicidade");
+		}
 		if ( !user.isValid() )
 		{
-			throw new IllegalArgumentException("Senhas não conferem.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}
 
 		mailer.send(user); // envio de email
@@ -46,7 +50,8 @@ public class UserService
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); // criptografando a senha para o banco
 		user.setPassword(hash);// set senha criptografada
 		user.setActive(true);
-		return userRepository.save(user); // inserindo o usuario
+	    userRepository.save(user); // inserindo o usuario
+	    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Senha atualizada com sucesso!");
 	}
 	
 	@RemoteMethod
@@ -56,10 +61,24 @@ public class UserService
 	}
 	
 	@RemoteMethod
-	public Page<User> listUsers(int page, int size) 
+	public Page<User> listUsers(int page, int size, String property, String order) 
 	{
-		return userRepository.findAll(new PageRequest(page, size));
+		Direction asc;
+		
+		if (order.equals("ASC"))
+		{
+			asc = Direction.ASC;
+		}
+		else
+		{
+			asc = Direction.DESC;
+		}
+		
+		PageRequest pageable = new PageRequest(page, size, asc, property);
+	    System.out.println(pageable);
+		return userRepository.findAll(pageable);
 	}
+	
 	
 	@RemoteMethod
 	public Page<User> listUsersByFilters(String filter)
@@ -130,14 +149,32 @@ public class UserService
 	
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void updateUserToPassword(User user) 
+	public ResponseEntity<String> updateUserToPassword(User user) 
 	{
 		if ( !user.isValid() )
 		{
-			throw new IllegalArgumentException("Senhas não conferem.");
+			 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(hash);
 		userRepository.saveAndFlush(user);	 
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Senha atualizada com sucesso!");
+	}
+
+	public Page<User> listUsersByFilters(int page, int size, String property, String order, String filter) 
+	{
+		Direction asc;
+		
+		if (order.equals("ASC"))
+		{
+			asc = Direction.ASC;
+		}
+		else
+		{
+			asc = Direction.DESC;
+		}
+		PageRequest pageable = new PageRequest(page, size, asc, property);
+	    System.out.println(pageable);
+		return userRepository.listUsersByFilters(filter, pageable);
 	}
 }

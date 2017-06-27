@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,34 +34,42 @@ public class UserRestController
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
-	public User insertUser(@RequestBody User user)
+	public ResponseEntity<String> insertUser(@RequestBody User user)
 	{
 		return userService.insertUser(user);
 	}
 	/**
 	 * 
-	 * @return 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @return
 	 */
 	@CrossOrigin
-	@RequestMapping(value = "/listAllUser", method = RequestMethod.GET)
-	public List<User> listAllUser()
+	@RequestMapping(value = "/listUsers/{page}/{size}/{property}/{order} ", method = RequestMethod.GET)
+	public Page<User> listUsers(@PathVariable int page, @PathVariable int size,
+							    @PathVariable String property, @PathVariable String order)
 	{
-		return userService.listAllUser();
+		Page<User> users =  userService.listUsers(page, size, property, order);
+		return users;
 	}
-	
 	/**
 	 * 
 	 * @param page
 	 * @param size
+	 * @param property
+	 * @param order
+	 * @param filter
 	 * @return
 	 */
 	@CrossOrigin
-	@RequestMapping(value = "/listUsers/{page}/{size}", method = RequestMethod.GET)
-	public Page<User> listUsers(@PathVariable int page, @PathVariable int size)
+	@RequestMapping(value = "/listUsersByFilters/{page}/{size}/{property}/{order}/{filter} ", method = RequestMethod.GET)
+	public Page<User> listUsersByFilters(@PathVariable int page, @PathVariable int size,
+									     @PathVariable String property, @PathVariable String order,
+									     @PathVariable String filter)
 	{
-		System.out.println("Page " + page);
-		System.out.println("Size " + size);
-		Page<User> users =  userService.listUsers(page, size);
+		Page<User> users =  userService.listUsersByFilters(page, size, property, order, filter);
 		return users;
 	}
     /**
@@ -118,12 +127,13 @@ public class UserRestController
 	/**
 	 * 
 	 * @param user
+	 * @return 
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/updateUserToPassword", method = RequestMethod.PUT)
-	public void updateUserToPassword(@RequestBody User user)
+	public ResponseEntity<String> updateUserToPassword(@RequestBody User user)
 	{
-		userService.updateUserToPassword(user);
+		return userService.updateUserToPassword(user);
 	}
 
 }

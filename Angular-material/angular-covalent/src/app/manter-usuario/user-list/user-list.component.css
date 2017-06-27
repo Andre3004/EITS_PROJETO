@@ -36,3 +36,13 @@ html, body, material-app, md-sidenav-container, .my-content
     bottom:20px; 
     z-index: 1; 
 }
+.Empty
+{
+    position: fixed;
+    left: 45%;
+}
+.buttons
+{
+    position: relative;
+    left: 10%;
+}
