@@ -1,5 +1,6 @@
 package br.com.projeto.application.configuration;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -18,6 +19,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -137,6 +141,24 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
 	        scanner.scan("br.com.projeto.domain.entity.**");
 	        
 			return new DwrAnnotationPostProcessor();
+		}
+		
+		/*@Bean(name="multipartResolver") 
+	    public CommonsMultipartResolver getResolver() throws IOException{
+	        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+	         
+	        //Set the maximum allowed size (in bytes) for each individual file.
+	        resolver.setMaxUploadSizePerFile(5242880);//5MB
+	         
+	        //You may also set other available properties.
+	         
+	        return resolver;
+	    }*/
+		
+		@Bean
+		public MultipartResolver multipartResolver()
+		{
+			return new StandardServletMultipartResolver();
 		}
 		
 

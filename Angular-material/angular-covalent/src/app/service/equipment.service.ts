@@ -1,3 +1,4 @@
+import { PageRequest } from './PageRequest';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -44,5 +45,13 @@ export class EquipmentService {
   findEquipmentbyId(id): Observable<Object>
   {
     return this.http.get(this.url + 'findEquipmentById/' + id).map(res => res.json());;
+  }
+  listEquipmentsByFilters(page: number, size: number, property: String, order: String, filter: String): Observable<PageRequest>
+  {
+    return this.http.get(this.url + 'listEquipmentsByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + filter).map(res => res.json());
+  }
+  listEquipments(page: number, size: number, property: String, order: String): Observable<PageRequest>
+  {
+    return this.http.get(this.url + 'listEquipments/'+ page + '/' + size + '/' + property + '/' + order ).map(res => res.json());
   }
 }

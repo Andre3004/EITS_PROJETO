@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.css']
 })
-export class LocationFormComponent {
+export class LocationFormComponent { 
 
   users: Object[] = [];
   locations : Object[] = [];
@@ -72,7 +72,8 @@ export class LocationFormComponent {
       {
         this._loadingService.resolve('configFullscreen');
       }, 0);  
-      this.router.navigate(['/location']);
+      this.router.navigate(['/location'],  { queryParams: {page:1}});
+      
       this.openSnackBar('Localização salva com sucesso ', 'Sucesso!');
     }, 
     erro => 

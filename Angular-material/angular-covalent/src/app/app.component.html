@@ -43,10 +43,10 @@
                 <button class="botao-lateral" (click)="sidenav.close()" routerLink="/user" [queryParams]="{page:1}">Usuários</button>
             </li>
             <li routerLinkActive="active">
-                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/location">Localização</button>
+                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/location" [queryParams]="{page:1}">Localização</button>
             </li>
             <li routerLinkActive="active">
-                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/equipment">Equipamentos</button>
+                <button class="botao-lateral" (click)="sidenav.close()" routerLink="/equipment" [queryParams]="{page:1}">Equipamentos</button>
             </li>
         </md-sidenav>
 

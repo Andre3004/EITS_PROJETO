@@ -24,12 +24,11 @@ export class UserService
     {
        return this.http.put(this.url + 'updateUser', JSON.stringify(user), { headers: this.headers });
     }
-    else
+    else 
     {
        return this.http.post(this.url + 'insertUser', JSON.stringify(user), { headers: this.headers });
     }
   }
- 
   listAllUser(): Observable<User[]>
   {
     return this.http.get(this.url + 'listAllUser').map(res => res.json());
@@ -38,9 +37,6 @@ export class UserService
   {
     return this.http.get(this.url + 'listUsers/'+ page + '/' + size + '/' + property + '/' + order).map(res => res.json());
   }
-
-  
-  
   activateUser(user): Observable<Response>
   {
     return this.http.patch(this.url + 'activateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
@@ -64,5 +60,5 @@ export class UserService
   listUsersByFilters(page: number, size: number, property: String, order: String, textSearch: String): Observable<PageRequest>
   {
     return this.http.get(this.url + 'listUsersByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + textSearch).map(res => res.json());
-  }
+  } 
 }

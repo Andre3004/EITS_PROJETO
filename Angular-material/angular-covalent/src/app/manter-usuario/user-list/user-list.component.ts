@@ -2,7 +2,7 @@ import { PageRequest } from './../../service/PageRequest';
 import { Broker } from 'eits-ng2';
 import { UserService } from './../../service/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Input } from '@angular/core';
 import { MdInputModule, MdSnackBar, MdDialogModule } from '@angular/material';
 import { ViewContainerRef } from '@angular/core';
 import { TdDialogService, IPageChangeEvent, ITdDataTableColumn, TdDataTableSortingOrder, TdDataTableService, ITdDataTableSortChangeEvent } from '@covalent/core';
@@ -24,6 +24,7 @@ export class UserListComponent  implements OnInit
     property: String="name";;
     total: Number;
     sortBy : String ="";
+    filter : String = "";
 
   ngOnInit()
   {
@@ -52,6 +53,7 @@ export class UserListComponent  implements OnInit
         this.userCurrent = user;
       }, 
       erro => console.log(erro));
+      
       // Broker.of("userService").promise("listAllUser")
       // .then((result) => {
       //   console.log(result);
@@ -61,6 +63,26 @@ export class UserListComponent  implements OnInit
       // console.log(message);
       // });
       
+  }
+  getUsers()
+  {
+    if (this.filter === '')
+    {
+      this.userService.listUsers(this.page -1 , this.size , this.property ,this.order).subscribe(users=>
+      {
+        this.users = users;
+        this.total = users.totalElements;
+      },erro => console.log(erro));
+    }
+    else
+    {
+      this.userService.listUsersByFilters(0 , this.size , this.property ,this.order, this.filter ).subscribe(users=>
+      {
+        this.users = users;
+        this.total = users.totalElements;
+      },
+      erro => console.log(erro));
+    }
   }
   columns: ITdDataTableColumn[] = 
   [
@@ -77,25 +99,10 @@ export class UserListComponent  implements OnInit
       name: '', label: '' , sortable: false
     }
   ];
-  search(textSearch: String)
+  search(textSearch: String) 
   {
-    if (textSearch === '')
-    {
-      this.userService.listUsers(this.page -1 , this.size , this.property ,this.order).subscribe(users=>
-      {
-        this.users = users;
-        this.total = users.totalElements;
-      },erro => console.log(erro));
-    }
-    else
-    {
-      this.userService.listUsersByFilters(0 , this.size , this.property ,this.order, textSearch ).subscribe(users=>
-      {
-        this.users = users;
-        this.total = users.totalElements;
-      },
-      erro => console.log(erro));
-    }
+    this.filter = textSearch;
+    this.getUsers();
     this.router.navigate(['/user'],
     {queryParams: {'page': this.page}});
   }
@@ -104,12 +111,7 @@ export class UserListComponent  implements OnInit
   {
        this.page = event.page.valueOf();
        this.size = event.pageSize.valueOf();
-       this.userService.listUsers(this.page -1 , this.size , this.property ,this.order ).subscribe(users => 
-       { 
-         this.users = users;
-         this.total = users.totalElements;
-       },  
-       erro => console.log(erro));
+       this.getUsers();
        this.router.navigate(['/user'],
        {queryParams: {'page': this.page}});
 
@@ -118,14 +120,8 @@ export class UserListComponent  implements OnInit
   {
     this.sortBy = sortEvent.name;
     this.order = sortEvent.order === TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; ;
-    console.log(sortEvent.order.valueOf().toString());
-    console.log(sortEvent.name);
     this.property= sortEvent.name; 
-    this.userService.listUsers(this.page -1 , this.size , this.property ,this.order ).subscribe(users => 
-    { 
-      this.users = users;
-    },  
-    erro => console.log(erro));
+    this.getUsers();
   }
  
   openSnackBar(msg, action) 
@@ -156,15 +152,10 @@ export class UserListComponent  implements OnInit
             this.userService.activateUser(user).subscribe(() => 
             {
                 this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
-                this.userService.listUsers(this.page -1 , this.size , this.property ,this.order ).subscribe(users => 
-                { 
-                  this.users = users;
-                },  
-                erro => console.log(erro));
+                this.getUsers();
             },
             erro => 
             {
-              console.log(erro);
               this.openSnackBar('Não foi possível ativar o usuário ', 'Erro!');
             }
             );
@@ -174,11 +165,7 @@ export class UserListComponent  implements OnInit
             this.userService.deactivateUser(user).subscribe(() => 
             {
                 this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
-                this.userService.listUsers(this.page -1 , this.size , this.property ,this.order ).subscribe(users => 
-                { 
-                  this.users = users;
-                },  
-                erro => console.log(erro));
+                this.getUsers();
             },
             erro => 
             {
@@ -187,10 +174,6 @@ export class UserListComponent  implements OnInit
             }
             );
           }
-        }
-        else
-        {
-          
         }
       })
   }

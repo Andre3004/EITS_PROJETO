@@ -36,7 +36,7 @@ import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
 import { HomeComponent } from './home/home.component';
 import 'rxjs/add/operator/map';
 import {Broker} from 'eits-ng2';
-import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, CovalentLoadingModule, CovalentDataTableModule, CovalentPagingModule, CovalentSearchModule } from '@covalent/core';
+import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, CovalentLoadingModule, CovalentDataTableModule, CovalentPagingModule, CovalentSearchModule, CovalentCommonModule } from '@covalent/core';
 
 
 
@@ -95,7 +95,8 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     MdProgressBarModule,
     CovalentDataTableModule,
     CovalentPagingModule,
-    CovalentSearchModule
+    CovalentSearchModule,
+    CovalentCommonModule 
   ],
   exports: [ FilterName, FilterCodLocation, FilterNameEquipment],
   providers: [Broker,PageRequest, TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService, TdLoadingService ],

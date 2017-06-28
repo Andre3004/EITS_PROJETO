@@ -13,3 +13,13 @@
     position:relative;
     left: 80%;
 }
+.deactivate
+{
+  color: white;
+  background-color: red;
+}
+.active
+{
+  color: white;
+  background-color: green;
+}

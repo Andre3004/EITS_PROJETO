@@ -29,3 +29,14 @@ html, body, material-app, md-sidenav-container, .my-content
     bottom:20px; 
     z-index: 1; 
 }
+.buttons
+{
+    position: absolute;
+    z-index: 1; 
+    left: 83%;
+}
+.Empty
+{
+    position: fixed;
+    left: 45%;
+}

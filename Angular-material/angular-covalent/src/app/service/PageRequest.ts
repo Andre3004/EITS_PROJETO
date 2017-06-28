@@ -2,16 +2,8 @@ export class PageRequest
 {
     content: 
     [
-    {
-        id: Number,
-        name: String,
-        lastName: String,
-        email: String,
-        active: Boolean,
-        sex: String,
-        permission: String,
-        valid: Boolean
-    }
+        {
+        }
     ];
     last: Boolean;
     totalPages: Number;

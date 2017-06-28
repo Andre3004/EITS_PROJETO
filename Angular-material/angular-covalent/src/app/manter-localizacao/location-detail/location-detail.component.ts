@@ -14,7 +14,7 @@ export class LocationDetailComponent
   location : Object = 
   { 
     id: Number,
-    codLocation: String,
+    codLocation: String, 
     responsible: Object,
     viceResponsible: Object,
   };

@@ -1,4 +1,72 @@
 <td-layout-nav> 
+    <td-layout-card-over cardTitle="Lista de Localizações"  cardWidth="75"  >
+        <md-card>      
+            <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+                <td-search-box [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" placeholder="Procurar Localizações" (searchDebounce)="search(textSearch.value)" flex>
+                </td-search-box>
+            </div>
+            <md-divider></md-divider>
+            <table td-data-table #dataTable>
+                <th td-data-table-column
+                     [name]="column.name"
+                     [active]="sortBy == column.name"
+                     [sortable]="column.sortable"
+                     [sortOrder]="order"
+                     (sortChange)="sortEvent($event)"
+                    *ngFor="let column of columns">
+                    {{column.label}}
+                </th>
+                <tr td-data-table-row *ngFor="let location of locations.content">
+                    <td td-data-table-cell>
+                      <span>
+                        {{location?.codLocation | truncate:20}}
+                     </span>
+                    </td>
+                    <td td-data-table-cell *ngIf="location.location != null">
+                      <span>  
+                        {{location?.location?.codLocation | truncate:20}} 
+                     </span>
+                    </td>
+                    <td td-data-table-cell *ngIf="location.location == null">
+                      <span>  
+                        - 
+                     </span>
+                    </td> 
+                    <td td-data-table-cell>
+                      <span>  
+                        {{location.responsible.name | truncate:15}} {{location.responsible.lastName | truncate:15}} 
+                     </span>
+                    </td>
+                    <td>
+                    </td>
+                    <td td-data-table-row class="buttons" layout-align="left left">
+                        <button md-icon-button mdTooltip="Remover"  *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" (click)="openConfirm(location)"><md-icon md-list-avatar>delete</md-icon></button>
+                        <button md-icon-button mdTooltip="Editar"  [routerLink]="['/location-edit', location.id]"><md-icon md-list-avatar>edit</md-icon></button>       
+                        <button md-icon-button mdTooltip="Detalhar" [routerLink]="['/location-detail', location.id]" ><md-icon md-list-avatar>details</md-icon></button>
+                    </td>
+                </tr>
+                <div class="Empty" *ngIf="!total" layout-align="center center">
+                    <h3 class="Empty">Sem resultados.</h3>
+                </div>
+            </table>
+             <td-paging-bar #pagingBar [firstLast]="true" 
+                         [pageSizeAll]="false" [pageSizes]="[5,10,20]"
+                pageLinkCount="5" [initialPage]="1" [pageSize]="5" [total]="total" (change)="change($event)">
+                    {{pagingBar.range}} 
+                <span hide-xs>
+                    of {{pagingBar.total}}
+                </span>
+            </td-paging-bar>
+          <a md-fab td-sidenav-content *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" color="accent" [routerLink]="['/location-new']" class="buttonAdd" > 
+              <md-icon mdTooltip="Novo" >add</md-icon>
+          </a>
+     </md-card> 
+  </td-layout-card-over>
+</td-layout-nav>
+
+
+
+<!--<td-layout-nav> 
     <td-layout-card-over cardTitle="Lista de localizações"  cardWidth="75"  >
         <md-card>      
             <md-card-title layout>
@@ -32,4 +100,4 @@
 </td-layout-nav>
 
 
-
+-->

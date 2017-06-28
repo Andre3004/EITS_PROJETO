@@ -79,9 +79,7 @@ export class UserFormComponent
               setTimeout(() => {
               this._loadingService.resolve('configFullscreen');
                }, 0);
-
-              console.log(erro)
-              this.openSnackBar('Não foi possível salvar o usuário ', 'Erro!');
+              this.openSnackBar(erro._body, 'Erro!');
             });
           } 
 

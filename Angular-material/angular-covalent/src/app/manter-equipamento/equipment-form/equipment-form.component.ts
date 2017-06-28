@@ -71,7 +71,7 @@ export class EquipmentFormComponent {
       {
         this._loadingService.resolve('configFullscreen');
       }, 0);  
-      this.router.navigate(['/equipment']);
+      this.router.navigate(['/equipment'],  { queryParams: {page:1}});
       this.openSnackBar('Equipamento salvo com sucesso ', 'Sucesso!');
     }, 
     erro => 
@@ -84,4 +84,4 @@ export class EquipmentFormComponent {
     });
   }
 
-}
+} 

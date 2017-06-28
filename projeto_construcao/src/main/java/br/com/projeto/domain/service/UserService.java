@@ -1,7 +1,5 @@
 package br.com.projeto.domain.service;
 
-import java.nio.charset.IllegalCharsetNameException;
-import java.util.IllformedLocaleException;
 import java.util.List;
 
 import org.directwebremoting.annotations.RemoteMethod;
@@ -36,7 +34,7 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String>  insertUser(User user)
 	{		
-		if ( userRepository.findByEmailAndName(user.getName(), user.getEmail()) != null )
+		if (  !(userRepository.findByEmailAndName(user.getName(), user.getEmail()).isEmpty()) )
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Os valores preenchidos não atendem a restrição de unicidade");
 		}
@@ -51,7 +49,7 @@ public class UserService
 		user.setPassword(hash);// set senha criptografada
 		user.setActive(true);
 	    userRepository.save(user); // inserindo o usuario
-	    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Senha atualizada com sucesso!");
+	    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário salvo com sucesso!");
 	}
 	
 	@RemoteMethod
@@ -175,6 +173,6 @@ public class UserService
 		}
 		PageRequest pageable = new PageRequest(page, size, asc, property);
 	    System.out.println(pageable);
-		return userRepository.listUsersByFilters(filter, pageable);
+		return userRepository.listUsersByFilters(filter.toLowerCase(), pageable);
 	}
 }

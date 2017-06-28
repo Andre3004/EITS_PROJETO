@@ -17,16 +17,16 @@ import br.com.projeto.domain.entity.User;
 public interface IUserRepository extends JpaRepository<User, Long>
 {
 
-	@Query("select u from User u where u.email = :email and active = true")
+	@Query("select user from User user where user.email = :email and active = true")
 	public User findByEmailAndActive(@Param("email") String email);
 	
-	@Query("select u from User u where u.email = :email")
+	@Query("select user from User user where user.email = :email")
 	public User findByEmail(@Param("email") String email);
 	
-	@Query("select u from User u where u.name like %:pFilter% or u.email like %:pFilter% or u.lastName like %:pFilter%")
+	@Query("select user from User user where LOWER(name) like %:pFilter% or LOWER(email) like %:pFilter% or LOWER(lastName) like %:pFilter%")
 	public Page<User> listUsersByFilters(@Param("pFilter") String filter, Pageable pageable);
 
-	@Query("select u from User u where u.email = :email or u.name = :name")
+	@Query("select user from User user where LOWER(email) = :email or LOWER(name) = :name")
 	public List<User> findByEmailAndName(@Param("name")String name, @Param("email")String email);
 	
 

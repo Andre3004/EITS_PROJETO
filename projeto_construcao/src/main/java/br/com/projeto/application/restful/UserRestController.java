@@ -27,6 +27,8 @@ public class UserRestController
 {
 	@Autowired
 	private UserService userService;
+	
+	
 	/**
 	 * 
 	 * @param user
@@ -54,6 +56,14 @@ public class UserRestController
 		Page<User> users =  userService.listUsers(page, size, property, order);
 		return users;
 	}
+	/*RETIRAR*/
+	@CrossOrigin
+	@RequestMapping(value = "/listAllUser", method = RequestMethod.GET)
+	public List<User> listAllUser()
+	{
+		return userService.listAllUser();
+	}
+	/**************************/
 	/**
 	 * 
 	 * @param page

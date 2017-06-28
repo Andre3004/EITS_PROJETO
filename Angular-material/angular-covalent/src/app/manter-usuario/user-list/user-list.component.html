@@ -18,18 +18,24 @@
                 </th>
                 <tr td-data-table-row *ngFor="let user of users.content">
                     <td td-data-table-cell>
-                        {{user.name}}
+                      <span>
+                        {{user.name | truncate:15}}
+                     </span>
+                    </td> 
+                    <td td-data-table-cell>
+                      <span>  
+                        {{user.lastName | truncate:15}} 
+                     </span>
                     </td>
                     <td td-data-table-cell>
-                        {{user.lastName}}
+                     <span>
+                        {{user.email | truncate:25}}
+                     </span>
                     </td>
-                    <td td-data-table-cell>
-                        {{user.email}}
-                    </td>
-                    <td td-data-table-cell class="buttons" layout-align="left left">
-                        <button md-button mdTooltip="Status" (click)="openConfirm($event, user)" ><md-icon *ngIf="( (userCurrent?.permission == 'ROLE_ADMIN') && ( user.id != 1 ) )" [ngClass]="(user?.active)?'activateButton':'deactivateButton'" >power_settings_new</md-icon></button>
-                        <button md-button mdTooltip="Editar" [routerLink]="['/user-edit', user.id]"><md-icon md-list-avatar *ngIf="( (userCurrent?.permission == 'ROLE_ADMIN') && ( user.id != 1 ) )">edit</md-icon></button>
-                        <button md-button mdTooltip="Detalhar" [routerLink]="['/user-detail', user.id]" ><md-icon md-list-avatar>details</md-icon></button>
+                    <td td-data-table-row class="buttons" layout-align="left left">
+                        <button md-icon-button mdTooltip="Status" (click)="openConfirm($event, user)" ><md-icon *ngIf="( (userCurrent?.permission == 'ROLE_ADMIN') )" [ngClass]="(user?.active)?'activateButton':'deactivateButton'" >power_settings_new</md-icon></button>
+                        <button md-icon-button mdTooltip="Editar" [routerLink]="['/user-edit', user.id]"><md-icon md-list-avatar *ngIf="( (userCurrent?.permission == 'ROLE_ADMIN'))">edit</md-icon></button>
+                        <button md-icon-button mdTooltip="Detalhar" [routerLink]="['/user-detail', user.id]" ><md-icon md-list-avatar>details</md-icon></button>
                     </td>
                 </tr>
                 <div class="Empty" *ngIf="!total" layout-align="center center">

@@ -20,26 +20,26 @@
                         <h1 md-line>Vice Responsável: {{location?.viceResponsible?.name}}</h1>
                         <p md-line>{{location?.viceResponsible?.email}}<p>
                     </md-list-item>
-                    </md-list>
+                    </md-list> 
                     <md-list>
                     <md-divider></md-divider>
-                    <!--<md-list-item *ngIf="subLocations != null">
-                        <md-icon md-list-icon>my_location</md-icon>
-                        <h4 md-line>Sub localizações</h4>
-                    </md-list-item>-->
+                    <md-list-item *ngIf="sublocations?.length == 0">
+                        <md-icon md-list-icon>hourglass_empty</md-icon>
+                        <h4 md-line>Não possui sub localizações</h4>
+                    </md-list-item> 
                     <md-list-item *ngFor="let sublocation of sublocations">
                         <md-icon md-list-icon mdTooltip="Sub localização">location_on</md-icon>
                         <h4 md-line>Sub Localização: {{sublocation?.codLocation}}</h4>
                         <p md-line> Responsável: {{sublocation?.responsible?.name }} {{sublocation?.responsible?.lastName }}</p>
                         <p md-line *ngIf="sublocation.viceResponsible != null"> Vice Responsável: {{sublocation?.viceResponsible?.name }} {{sublocation?.viceResponsible?.lastName }}</p>
-                        <button md-button mdTooltip="Editar" class="button" [routerLink]="['/location-edit', sublocation.id]" class="text-upper"><md-icon md-list-avatar>edit</md-icon></button> 
+                        <button md-button mdTooltip="Editar" class="button" [routerLink]="['/location-edit', sublocation.id]" class="text-upper"><md-icon >edit</md-icon></button> 
                     </md-list-item>
                 </md-list>
                 <md-divider></md-divider>
                 <md-card-actions class="button" >
                     <button md-raised-button class="button" color="accent" [routerLink]="['/location-edit', location.id]" class="text-upper">Editar</button> 
-                    <button md-raised-button class="button" color="accent" [routerLink]="['/location']"class="text-upper">Voltar</button>
+                    <button md-raised-button class="button" color="accent" routerLink="/location" [queryParams]="{page:1}" class="text-upper">Voltar</button>
                 </md-card-actions>
      </md-card> 
   </td-layout-card-over>
-</td-layout-nav>
+</td-layout-nav> 

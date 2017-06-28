@@ -18,15 +18,13 @@
                         <md-icon md-list-avatar mdTooltip="Descrição">description</md-icon>
                         <h1 md-line>Descrição: {{equipment.description}}</h1>
                     </md-list-item>
-        
-                </md-list>
+                </md-list> 
                     <md-list>
                     <md-divider></md-divider>
-                    <!--<md-list-item *ngIf="subLocations != null">
-                        <md-icon md-list-icon>my_location</md-icon>
-                        <h4 md-line>Sub localizações</h4>
-                    </md-list-item>-->
-                    <md-list>
+                    <md-list-item *ngIf="subequipments?.length == 0">
+                        <md-icon md-list-icon>hourglass_empty</md-icon>
+                        <h4 md-line>Não possui sub localizações</h4>
+                    </md-list-item> 
                     <h3 *ngIf="subequipment" md-subheader>Sub equipamentos</h3>
                     <md-list-item *ngFor="let subequipment of subequipments">
                         <md-icon mdTooltip="Sub Equipamento" md-list-icon>android</md-icon> 
@@ -35,10 +33,9 @@
                         <button md-button mdTooltip="Editar" class="button" [routerLink]="['/equipment-edit', equipment.id]" class="text-upper"><md-icon md-list-avatar>edit</md-icon></button> 
                     </md-list-item>
                 </md-list>
-                </md-list>
                 <md-card-actions class="button" >
                     <button md-raised-button class="button" color="accent" [routerLink]="['/equipment-edit', equipment.id]" class="text-upper">Editar</button> 
-                    <button md-raised-button class="button" color="accent" [routerLink]="['/equipment']"class="text-upper">Voltar</button>
+                    <button md-raised-button class="button" color="accent" routerLink="/equipment" [queryParams]="{page:1}" class="text-upper">Voltar</button>
                 </md-card-actions>
      </md-card> 
   </td-layout-card-over>

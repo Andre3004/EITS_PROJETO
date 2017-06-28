@@ -2,15 +2,15 @@
     <td-layout-card-over cardTitle="Equipamento"  cardWidth="75"  >
         <md-card>      
             <form #myform="ngForm" class="example-form">
-                <md-input-container class="example-full-width">
-                    <input mdInput placeholder="ID" disabled value="#">
+                <md-input-container  *ngIf="equipment.id" class="example-full-width">
+                    <input mdInput placeholder="ID" disabled [value]="equipment?.id">
                 </md-input-container>
 
                 <table class="example-full-width" cellspacing="0">
                     <tr>
                         <td> 
                             <md-input-container class="example-full-width">
-                                <input required #equipmentName max="50" name ="name" [(ngModel)]="equipment.name" mdInput placeholder="Nome do equipamento">
+                                <input required #equipmentName maxlength="50" name ="name" [(ngModel)]="equipment.name" mdInput placeholder="Nome do equipamento">
                                 <md-hint align="end">{{equipmentName.value.length}} / 50</md-hint>
                             </md-input-container>
                         </td>
@@ -20,12 +20,12 @@
                     <tr>
                         <td>
                             <md-input-container class="example-full-width">
-                                <textarea  required #equipmentDescription max="144" name ="description" [(ngModel)]="equipment.description" mdInput placeholder="Descrição"></textarea>
+                                <textarea  required #equipmentDescription maxlength="144" name ="description" [(ngModel)]="equipment.description" mdInput placeholder="Descrição"></textarea>
                                 <md-hint align="end">{{equipmentDescription.value.length}} / 144</md-hint>
                             </md-input-container>
                         </td>
                     </tr>
-                </table> 
+                </table>   
                 <br>
                 <table>
                     <tr>
@@ -44,7 +44,7 @@
                 <table>
                     <tr>
                         <td>
-                            <md-checkbox class="example-margin" [checked]="equipment.equipment != null" #checkBox >Equipamento principal</md-checkbox>
+                            <md-checkbox class="example-margin" [checked]="equipment.equipment != null" #checkBox >Vincular equipamento principal</md-checkbox>
                             <br><br><br>
                             <md-select required *ngIf="checkBox.checked" name ="equipment" [(ngModel)]="equipment.equipment" placeholder="Equipamento">                            
                                 <md-option [value]="null">Nenhum</md-option>
@@ -59,7 +59,7 @@
                 <br><br>
                 <div class="inset">
                     <button md-raised-button  color="accent" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertEquipment(equipment)" >Salvar</button>
-                    <button md-raised-button  color="accent" [routerLink]="['/equipment']" class="button">Cancelar</button>
+                    <button md-raised-button  color="accent" routerLink="/equipment" [queryParams]="{page:1}" class="button">Cancelar</button>
                 </div>
             </form>
      </md-card> 

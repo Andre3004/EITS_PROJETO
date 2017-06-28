@@ -1,8 +1,10 @@
 package br.com.projeto.application.configuration;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -45,5 +47,13 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 		servletContext.addListener(RequestContextListener.class); 
 		servletContext.setInitParameter("spring.profiles.active", "dev"); 
 	}
+	
+	@Override
+	protected void customizeRegistration(Dynamic registration) 
+	{
+		registration.setMultipartConfig(new MultipartConfigElement(""));
+	}
+	
+	
 	
 }

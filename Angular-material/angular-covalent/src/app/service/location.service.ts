@@ -1,3 +1,4 @@
+import { PageRequest } from './PageRequest';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -46,9 +47,15 @@ export class LocationService
   {
     return this.http.get(this.url + 'findLocationById/' + id).map(res => res.json());;
   }
+  listLocationsByFilters(page: number, size: number, property: String, order: String, filter: String): Observable<PageRequest>
+  {
+    return this.http.get(this.url + 'listLocationsByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + filter).map(res => res.json());
+  }
+  listLocations(page: number, size: number, property: String, order: String): Observable<PageRequest>
+  {
+    return this.http.get(this.url + 'listLocations/'+ page + '/' + size + '/' + property + '/' + order ).map(res => res.json());
+  }
 
-  
 
 
-
-}
+} 
