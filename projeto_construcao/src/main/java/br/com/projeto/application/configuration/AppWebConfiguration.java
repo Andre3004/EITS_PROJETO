@@ -1,7 +1,8 @@
 package br.com.projeto.application.configuration;
 
-import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.MultipartConfigElement;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.directwebremoting.spring.DwrAnnotationPostProcessor;
@@ -20,7 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -154,6 +154,11 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
 	         
 	        return resolver;
 	    }*/
+		 @Bean
+	    public MultipartConfigElement multipartConfigElement() 
+		{
+	        return new MultipartConfigElement("");
+	    }	
 		
 		@Bean
 		public MultipartResolver multipartResolver()

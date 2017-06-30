@@ -1,5 +1,6 @@
-import { PageRequest } from './PageRequest';
-import { User } from './../login/User';
+import { PageRequest } from './../model/PageRequest';
+import { User } from './../model/User';
+
 
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response } from '@angular/http';

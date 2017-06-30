@@ -1,3 +1,4 @@
+import { User } from './../../model/User';
 import { Response } from '@angular/http';
 import { TdLoadingService, LoadingType, LoadingMode } from '@covalent/core';
 import { UserService } from './../../service/user.service';
@@ -14,18 +15,18 @@ import { Broker } from 'eits-ng2';
 export class UserFormComponent 
 {
 
-    user : Object = {};
-          sexs = 
-          [
-            {value: 'MASCULINO', viewValue: 'Masculino'},
-            {value: 'FEMININO', viewValue: 'Feminino'},
-            {value: 'OUTRO', viewValue: 'Outro'}
-          ];
-          roles = 
-          [ 
-            {value: 'ROLE_ADMIN', viewValue: 'Administrador'},
-            {value: 'ROLE_USER', viewValue: 'Engenheiro'},
-          ]; 
+    user : User;
+    sexs = 
+    [
+      {value: 'MASCULINO', viewValue: 'Masculino'},
+      {value: 'FEMININO', viewValue: 'Feminino'},
+      {value: 'OUTRO', viewValue: 'Outro'}
+    ];
+    roles = 
+    [ 
+      {value: 'ROLE_ADMIN', viewValue: 'Administrador'},
+      {value: 'ROLE_USER', viewValue: 'Engenheiro'},
+    ]; 
           
           constructor(private _loadingService: TdLoadingService, public snackBar: MdSnackBar, public userService: UserService, public router: Router, public activatedRouter: ActivatedRoute)
           {

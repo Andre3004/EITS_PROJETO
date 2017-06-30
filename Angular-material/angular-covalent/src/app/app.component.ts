@@ -1,4 +1,5 @@
-import { AuthService } from './login/auth.service';
+import { AuthService } from './authentication/auth.service';
+
 import { TdMediaService } from '@covalent/core';
 import { Component } from '@angular/core';
 

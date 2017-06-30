@@ -1,4 +1,6 @@
-import { PageRequest } from './PageRequest';
+import { Equipment } from './../model/Equipment';
+import { PageRequest } from './../model/PageRequest';
+
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -7,12 +9,15 @@ import { Injectable } from '@angular/core';
 export class EquipmentService {
 
   headers: Headers;
+  headersFile: Headers;
   url: String = '/projeto/equipment/';
 
   constructor(public http: Http) 
   { 
     this.headers = new Headers();
+    this.headersFile = new Headers();
     this.headers.append('Content-Type', 'application/json');
+    this.headersFile.append('Content-Type', 'multipart/form-data');
   }
 
   insertEquipment(equipment): Observable<Response>
@@ -26,23 +31,29 @@ export class EquipmentService {
        return this.http.post(this.url + 'insertEquipment', JSON.stringify(equipment), { headers: this.headers });
     }
   }
- 
-  listAllEquipment(): Observable<Object[]>
+  downloadFile(id)
+  {
+    return this.http.get(this.url + 'downloadFile/' + id);
+  }
+  updateFile(file, id): Observable<Response>
+  {
+    console.log('Teste: ',file);
+    console.log('id: ', id)
+    return this.http.post(this.url + 'uploadFile/' + id, file);
+  }
+  listAllEquipment(): Observable<Equipment[]>
   {
     return this.http.get(this.url + 'listAllEquipment').map(res => res.json());
   }
-
-  listAllSubEquipment(id): Observable<Object[]>
+  listAllSubEquipment(id): Observable<Equipment[]>
   {
     return this.http.get(this.url + 'listAllSubEquipment/' + id).map(res => res.json());
-  }
-  
+  }  
   deleteEquipment(equipment): Observable<Response>
   {
     return this.http.delete(this.url + 'deleteEquipment/' + equipment.id);
   }
-
-  findEquipmentbyId(id): Observable<Object>
+  findEquipmentbyId(id): Observable<Equipment>
   {
     return this.http.get(this.url + 'findEquipmentById/' + id).map(res => res.json());;
   }

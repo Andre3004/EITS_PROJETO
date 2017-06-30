@@ -1,3 +1,4 @@
+import { Location } from './../../model/Location';
 import { LocationService } from './../../service/location.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -11,14 +12,8 @@ import { TdDialogService } from '@covalent/core';
 export class LocationDetailComponent 
 {
 
-  location : Object = 
-  { 
-    id: Number,
-    codLocation: String, 
-    responsible: Object,
-    viceResponsible: Object,
-  };
-  sublocations : Object[] ;
+  location : Location;
+  sublocations : Location[] ;
   id: number;
 
   constructor(private _dialogService: TdDialogService, public locationService: LocationService, public router: Router, public activatedRouter: ActivatedRoute) 

@@ -1,6 +1,13 @@
 package br.com.projeto.domain.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,9 +16,12 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.projeto.domain.entity.Equipment;
 import br.com.projeto.domain.repository.IEquipmentRepository;
+import br.com.projeto.infrastructure.EquipmentFile;
 
 @Service
 @Transactional
@@ -20,6 +30,9 @@ public class EquipmentService
 	
 	@Autowired
 	private IEquipmentRepository equipmentRepository;
+	
+	@Autowired
+	private EquipmentFile equipmentFile;
 	
 	public void insertEquipment(Equipment equipment)
 	{
@@ -90,7 +103,22 @@ public class EquipmentService
 	    System.out.println(pageable);
 		return equipmentRepository.findAll(pageable);
 	}
-	
-	
 
+	public void uploadFile(MultipartFile file, Long id) 
+	{
+		equipmentFile.write("equipment-files", file);
+		
+		Equipment equipment = equipmentRepository.findOne(id);
+			
+		equipment.setFilePath("equipment-files\\" + file.getOriginalFilename() );
+		
+		this.updateEquipment(equipment);
+		
+	}
+
+	public void downloadFile(HttpServletResponse response, Long id) throws IOException 
+	{
+    	String path = equipmentRepository.findOne(id).getFilePath();
+		equipmentFile.read(response, id, path);
+	}
 }

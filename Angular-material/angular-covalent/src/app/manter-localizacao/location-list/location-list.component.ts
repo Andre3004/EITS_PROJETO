@@ -1,4 +1,5 @@
-import { PageRequest } from './../../service/PageRequest';
+import { PageRequest } from './../../model/PageRequest';
+import { User } from './../../model/User';
 import { UserService } from './../../service/user.service';
 import { LocationService } from './../../service/location.service';
 import { TdDialogService, ITdDataTableColumn, IPageChangeEvent, ITdDataTableSortChangeEvent, TdDataTableSortingOrder } from '@covalent/core';
@@ -15,7 +16,7 @@ import { ViewContainerRef } from '@angular/core';
 export class LocationListComponent implements OnInit {
 
    locations: PageRequest  = new PageRequest();
-   userCurrent : Object;
+   userCurrent : User;
    page: number = 1;
    size: number = 5;
    order: String ="ASC";

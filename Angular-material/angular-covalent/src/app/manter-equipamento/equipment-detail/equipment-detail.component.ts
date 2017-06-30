@@ -1,3 +1,4 @@
+import { Equipment } from './../../model/Equipment';
 import { EquipmentService } from './../../service/equipment.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TdDialogService } from '@covalent/core';
@@ -11,16 +12,8 @@ import { Component, OnInit } from '@angular/core';
 export class EquipmentDetailComponent 
 {
 
-  equipment : Object = 
-  { 
-    id: Number,
-    name: String,
-    description: String,
-    archivePath: String,
-    location: Object,
-    equipment: Object,
-  };
-  subequipments : Object[] ;
+  equipment : Equipment;
+  subequipments : Equipment[] ;
   id: number;
 
   constructor(private _dialogService: TdDialogService, public equipmentService: EquipmentService, public router: Router, public activatedRouter: ActivatedRoute) 
@@ -43,5 +36,10 @@ export class EquipmentDetailComponent
         this.subequipments = subequipments;
       }, 
       erro => console.log(erro));
+   }
+
+   downloadFile()
+   {
+        window.location.assign("/projeto/equipment/downloadFile/" + this.id);
    }
 }

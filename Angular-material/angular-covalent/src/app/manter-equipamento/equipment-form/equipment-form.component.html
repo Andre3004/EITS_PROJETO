@@ -41,6 +41,23 @@
                     </tr>
                 </table>
                 <br>
+                 <table *ngIf="equipment.id">
+                    <tr>
+                        <td>
+                            <!--<form method="POST" enctype="multipart/form-data"
+                                action="http://localhost:8083/projeto/equipment/upload">
+                                    File to upload: <input type="file" name="file"><br />
+                                <input type="submit" value="file">
+                            </form>-->
+                             <!--<td-file-input #file color="primary" (select)="selectEvent($event)"
+                                        accept=".jpg" [disabled]="disabled" type="file"  enctype="multipart/form-data" >
+                            <md-icon>attach_file</md-icon><span>Choose a file...</span>
+                            </td-file-input>-->
+                            <input type="file"  (change)="selectEvent($event, equipment?.id)" [multiple]="false" #fileInput>
+                        </td> 
+                    </tr>
+                </table>
+                <br>
                 <table>
                     <tr>
                         <td>
@@ -62,6 +79,7 @@
                     <button md-raised-button  color="accent" routerLink="/equipment" [queryParams]="{page:1}" class="button">Cancelar</button>
                 </div>
             </form>
+            
      </md-card> 
   </td-layout-card-over>
 </td-layout-nav>

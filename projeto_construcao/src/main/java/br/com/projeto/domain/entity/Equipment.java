@@ -37,6 +37,20 @@ public class Equipment
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "equipment_id")
 	private Equipment equipment;
+	
+	private String filePath;
+
+	
+	
+	public String getFilePath() 
+	{
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) 
+	{
+		this.filePath = filePath;
+	}
 
 	public Long getId() 
 	{

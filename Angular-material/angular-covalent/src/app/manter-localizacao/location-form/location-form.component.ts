@@ -1,3 +1,5 @@
+import { Location } from './../../model/Location';
+import { User } from './../../model/User';
 import { TdLoadingService, LoadingMode, LoadingType } from '@covalent/core';
 import { LocationService } from './../../service/location.service';
 import { UserService } from './../../service/user.service';
@@ -13,9 +15,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationFormComponent { 
 
-  users: Object[] = [];
-  locations : Object[] = [];
-  location: Object = {};
+  users: User[] ;
+  locations : Location[] ;
+  location: Location ;
 
   constructor(public userService: UserService, public locationService: LocationService, 
               private activatedRoute: ActivatedRoute, public snackBar: MdSnackBar, public router: Router, 

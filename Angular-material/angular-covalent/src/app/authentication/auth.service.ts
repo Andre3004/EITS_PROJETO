@@ -1,5 +1,5 @@
+import { User } from './../model/User';
 import { UserService } from './../service/user.service';
-import { User } from './User';
 import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers } from '@angular/http';

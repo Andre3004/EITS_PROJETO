@@ -1,4 +1,7 @@
-import { PageRequest } from './service/PageRequest';
+import { PageRequest } from './model/PageRequest';
+import { User } from './model/User';
+import { Location } from './model/Location';
+import { Equipment } from './model/Equipment';
 import { EquipmentListComponent } from './manter-equipamento/equipment-list/equipment-list.component';
 import { LocationListComponent } from './manter-localizacao/location-list/location-list.component';
 import { UserListComponent } from './manter-usuario/user-list/user-list.component';
@@ -7,14 +10,11 @@ import { LocationService } from './service/location.service';
 import { UserService } from './service/user.service';
 import { UserDetailComponent } from './manter-usuario/user-detail/user-detail.component';
 import { UserFormComponent } from './manter-usuario/user-form/user-form.component';
-import { FilterName } from './pipes/user.pipes';
-import { FilterCodLocation } from './pipes/location.pipes';
 import { LocationDetailComponent } from './manter-localizacao/location-detail/location-detail.component';
 import { LocationFormComponent } from './manter-localizacao/location-form/location-form.component';
 import { EquipmentFormComponent } from './manter-equipamento/equipment-form/equipment-form.component';
 import { EquipmentDetailComponent } from './manter-equipamento/equipment-detail/equipment-detail.component';
-import { FilterNameEquipment } from './pipes/equipment.pipes';
-import { AuthService } from './login/auth.service';
+import { AuthService } from './authentication/auth.service';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, TemplateRef } from '@angular/core';
@@ -49,9 +49,6 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     UserFormComponent,
     LocationListComponent,
     EquipmentListComponent,
-    FilterName,
-    FilterCodLocation,
-    FilterNameEquipment,
     LocationDetailComponent,
     LocationFormComponent,
     EquipmentFormComponent,
@@ -98,8 +95,8 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     CovalentSearchModule,
     CovalentCommonModule 
   ],
-  exports: [ FilterName, FilterCodLocation, FilterNameEquipment],
-  providers: [Broker,PageRequest, TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService, TdLoadingService ],
+  exports: [ ],
+  providers: [Broker,Equipment, User, Location, PageRequest, TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService, TdLoadingService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

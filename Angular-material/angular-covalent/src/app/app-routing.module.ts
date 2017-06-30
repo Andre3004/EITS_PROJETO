@@ -8,7 +8,7 @@ import { EquipmentFormComponent } from './manter-equipamento/equipment-form/equi
 import { EquipmentDetailComponent } from './manter-equipamento/equipment-detail/equipment-detail.component';
 import { UserDetailComponent } from './manter-usuario/user-detail/user-detail.component';
 import { UserFormComponent } from './manter-usuario/user-form/user-form.component';
-import { AuthService } from './login/auth.service';
+import { AuthService } from './authentication/auth.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

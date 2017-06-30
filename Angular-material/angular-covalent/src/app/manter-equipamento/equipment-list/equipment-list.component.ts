@@ -1,4 +1,5 @@
-import { PageRequest } from './../../service/PageRequest';
+import { PageRequest } from './../../model/PageRequest';
+import { User } from './../../model/User';
 import { UserService } from './../../service/user.service';
 import { EquipmentService } from './../../service/equipment.service';
 import { TdDialogService, ITdDataTableColumn, IPageChangeEvent, ITdDataTableSortChangeEvent, TdDataTableSortingOrder } from '@covalent/core';
@@ -16,7 +17,7 @@ import { ViewContainerRef } from '@angular/core';
 export class EquipmentListComponent implements OnInit{
  
    equipments: PageRequest  = new PageRequest();
-   userCurrent : Object;
+   userCurrent : User;
    page: number = 1;
    size: number = 5;
    order: String ="ASC";
@@ -122,6 +123,11 @@ export class EquipmentListComponent implements OnInit{
     }); 
   }
  
+  downloadFile(equipment)
+  {
+      window.location.assign("/projeto/equipment/downloadFile/" + equipment.id);
+  }
+
   openConfirm(equipment): void 
     {
         this._dialogService.openConfirm(

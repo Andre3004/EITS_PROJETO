@@ -18,6 +18,12 @@
                         <md-icon md-list-avatar mdTooltip="Descrição">description</md-icon>
                         <h1 md-line>Descrição: {{equipment.description}}</h1>
                     </md-list-item>
+                    <md-divider md-inset></md-divider>
+                    <md-list-item *ngIf="equipment?.filePath != null">
+                        <button md-icon-button (click)="downloadFile()" >
+                            <md-icon md-list-avatar mdTooltip="Manual download">cloud_download</md-icon>
+                        </button>
+                    </md-list-item>
                 </md-list> 
                     <md-list>
                     <md-divider></md-divider>

@@ -1,4 +1,6 @@
-import { PageRequest } from './../../service/PageRequest';
+import { User } from './../../model/User';
+import { PageRequest } from './../../model/PageRequest';
+
 import { Broker } from 'eits-ng2';
 import { UserService } from './../../service/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,7 +19,7 @@ export class UserListComponent  implements OnInit
 { 
 
     users: PageRequest  = new PageRequest(); 
-    userCurrent : Object;
+    userCurrent : User;
     page: number = 1;
     size: number = 5;
     order: String ="ASC";

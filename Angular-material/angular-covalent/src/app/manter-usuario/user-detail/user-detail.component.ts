@@ -1,3 +1,4 @@
+import { User } from './../../model/User';
 import { UserService } from './../../service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Inject } from '@angular/core';
@@ -10,7 +11,7 @@ import { Component, Inject } from '@angular/core';
 })
 export class UserDetailComponent  
 {
-    user : Object = {};
+    user : User;
 
     constructor(public userService: UserService, public router: Router, public activatedRouter: ActivatedRoute)
     {
