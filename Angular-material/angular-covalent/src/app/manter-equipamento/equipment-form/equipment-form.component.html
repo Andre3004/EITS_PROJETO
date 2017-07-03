@@ -44,16 +44,28 @@
                  <table *ngIf="equipment.id">
                     <tr>
                         <td>
-                            <!--<form method="POST" enctype="multipart/form-data"
-                                action="http://localhost:8083/projeto/equipment/upload">
-                                    File to upload: <input type="file" name="file"><br />
-                                <input type="submit" value="file">
-                            </form>-->
-                             <!--<td-file-input #file color="primary" (select)="selectEvent($event)"
-                                        accept=".jpg" [disabled]="disabled" type="file"  enctype="multipart/form-data" >
-                            <md-icon>attach_file</md-icon><span>Choose a file...</span>
-                            </td-file-input>-->
-                            <input type="file"  (change)="selectEvent($event, equipment?.id)" [multiple]="false" #fileInput>
+                            <div layout="row">
+                                <md-input-container tdFileDrop
+                                                    (fileDrop)="file = $event"
+                                                    (click)="fileInput.inputElement.click()"
+                                                    (keyup.enter)="fileInput.inputElement.click()"
+                                                    (keyup.delete)="fileInput.clear()"
+                                                    (keyup.backspace)="fileInput.clear()"
+                                                    flex>
+                                    <input mdInput
+                                        placeholder="Selecione ou araste"
+                                        [value]="file?.length ? (file?.length + ' file') : file?.name"
+                                        [disabled]="disabled"
+                                        readonly/>
+                                </md-input-container>
+                                <button md-icon-button *ngIf="file" (click)="fileInput.clear()" (keyup.enter)="fileInput.clear()">
+                                    <md-icon>cancel</md-icon>
+                                </button>
+                                <td-file-input color="accent" #fileInput name="file" [(ngModel)]="file"  [multiple]="false" [disabled]="disabled">
+                                    <md-icon>attach_file</md-icon>
+                                    <span >Selecionar...</span>
+                                </td-file-input>
+                           </div>
                         </td> 
                     </tr>
                 </table>
@@ -66,13 +78,32 @@
                             <md-select required *ngIf="checkBox.checked" name ="equipment" [(ngModel)]="equipment.equipment" placeholder="Equipamento">                            
                                 <md-option [value]="null">Nenhum</md-option>
                                 <md-option *ngIf="equipment.id && equipment.equipment != null" [value]="equipment.equipment">{{ equipment?.equipment?.name }}</md-option>                                                                
-                                <md-option *ngFor="let equipment of equipments" [value]="equipment">
+                                <md-option *ngFor="let equipment of equipments?.content" [value]="equipment">
                                     {{ equipment.name }}
                                 </md-option>
                             </md-select>
                         </td> 
                     </tr>
                 </table>
+                <br>
+                <md-tab-group>
+                    <md-tab label="Desvincular Sub equipamentos">
+                        <md-list>
+                            <md-list-item *ngIf="subequipments?.length == 0">
+                                <md-icon md-list-icon>hourglass_empty</md-icon>
+                                <h4 md-line>Não possui sub equipamentos</h4>
+                            </md-list-item> 
+                            <h3 *ngIf="subequipment" md-subheader>Sub equipamentos</h3>
+                            <md-list-item *ngFor="let subequipment of subequipments">
+                                <md-icon mdTooltip="Sub Equipamento" md-list-icon>android</md-icon> 
+                                <h4 md-line>Sub equipamento: {{subequipment?.name}}</h4>
+                                <p md-line> Descrição: {{subequipment?.description }} </p>
+                                <button md-button mdTooltip="Desvincular" class="button" (click)="openConfirm(subequipment)" class="text-upper"><md-icon md-list-avatar>do_not_disturb_alt</md-icon></button> 
+                                <button md-button mdTooltip="Detalhar" class="button" [routerLink]="['/equipment-detail', subequipment.id]" class="text-upper"><md-icon md-list-avatar>details</md-icon></button> 
+                            </md-list-item>
+                        </md-list>
+                    </md-tab>
+                </md-tab-group>
                 <br><br>
                 <div class="inset">
                     <button md-raised-button  color="accent" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertEquipment(equipment)" >Salvar</button>

@@ -15,45 +15,96 @@ import { ViewContainerRef } from '@angular/core';
 })
 export class LocationListComponent implements OnInit {
 
+    /*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   */
    locations: PageRequest  = new PageRequest();
-   userCurrent : User;
+   /**
+    * 
+    */
+   userCurrent : User = new User();
+   /**
+    * 
+    */
    page: number = 1;
+   /**
+    * 
+    */
    size: number = 5;
+   /**
+    * 
+    */
    order: String ="ASC";
-   property: String="location";;
+   /**
+    * 
+    */
+   property: String="location";
+   /**
+    * 
+    */
    total: Number;
+   /**
+    * 
+    */
    sortBy : String ="";
+   /**
+    * 
+    */
    filter : String = "";
 
-    ngOnInit() 
-    {
-      this.route.queryParams.subscribe(
-        (queryParams: any) => 
-        {
-          this.page = queryParams['page'] ;
-        }
-      )
-    }
+   /*-------------------------------------------------------------------
+	 * 		 					ONINIT
+	 *-------------------------------------------------------------------*/
+  ngOnInit() 
+  {
+    this.route.queryParams.subscribe(
+      (queryParams: any) => 
+      {
+        this.page = queryParams['page'] ;
+      }
+    )
+  }
+   /*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTOR
+	 *-------------------------------------------------------------------*/
+  
+  /**
+   * 
+   * @param snackBar 
+   * @param locationService 
+   * @param router 
+   * @param _dialogService 
+   * @param _viewContainerRef 
+   * @param userService 
+   * @param route 
+   */
   constructor(public snackBar: MdSnackBar, public locationService: LocationService, private router: Router,
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef, 
               public userService: UserService,private route: ActivatedRoute)
   {
-      locationService.listLocations(this.page - 1, this.size, this.property , this.order).subscribe(locations => 
-      { 
-        this.total = locations.totalElements;
-        console.log(locations)
-        this.locations = locations;
-      },  
-      erro => console.log(erro));
+    locationService.listLocations(this.page - 1, this.size, this.property , this.order).subscribe(locations => 
+    { 
+      this.total = locations.totalElements;
+      console.log(locations)
+      this.locations = locations;
+    },  
+    erro => console.log(erro));
 
-      userService.getCurrentUser().subscribe(user => 
-      { 
-        this.userCurrent = user;
-      }, 
-      erro => console.log(erro));
-
-      
+    userService.getCurrentUser().subscribe(user => 
+    { 
+      this.userCurrent = user;
+    }, 
+    erro => console.log(erro));
   }
+  /*-------------------------------------------------------------------
+  *                           BEHAVIORS
+  *-------------------------------------------------------------------*/
+  /**
+   * 
+   */
   getLocations()
   {
     if (this.filter === '')
@@ -74,6 +125,9 @@ export class LocationListComponent implements OnInit {
       erro => console.log(erro));
     }
   }
+  /**
+   * 
+   */
   columns: ITdDataTableColumn[] = 
   [
     { 
@@ -89,6 +143,10 @@ export class LocationListComponent implements OnInit {
       name: '', label: '' , sortable: false
     }
   ];
+  /**
+   * 
+   * @param textSearch 
+   */
   search(textSearch: String) 
   {
     this.filter = textSearch;
@@ -97,6 +155,10 @@ export class LocationListComponent implements OnInit {
     this.router.navigate(['/location'],
     {queryParams: {'page': this.page}});
   }
+  /**
+   * 
+   * @param event 
+   */
   change(event: IPageChangeEvent): void 
   {
        this.page = event.page.valueOf();
@@ -106,6 +168,10 @@ export class LocationListComponent implements OnInit {
        {queryParams: {'page': this.page}});
 
   }
+  /**
+   * 
+   * @param sortEvent 
+   */
   sortEvent(sortEvent: ITdDataTableSortChangeEvent): void 
   {
     this.sortBy = sortEvent.name;
@@ -113,7 +179,11 @@ export class LocationListComponent implements OnInit {
     this.property = sortEvent.name; 
     this.getLocations();
   }
-
+  /**
+   * 
+   * @param msg 
+   * @param action 
+   */
   openSnackBar(msg, action) 
   {
     this.snackBar.open(msg, action, 
@@ -121,34 +191,36 @@ export class LocationListComponent implements OnInit {
       duration: 5000,
     }); 
   }
- 
+  /**
+   * 
+   * @param location 
+   */
   openConfirm(location): void 
-    {
-        this._dialogService.openConfirm(
+  {
+      this._dialogService.openConfirm(
+      {
+          message:'Tem certeza que deseja excluir ' + location.codLocation +  ' ?',
+          disableClose: false, 
+          viewContainerRef: this._viewContainerRef,
+          title: 'Excluir localização', 
+          cancelButton: 'Não',
+          acceptButton: 'Sim', 
+      }).
+      afterClosed().subscribe((accept: boolean) => 
+      { 
+        if (accept) 
         {
-            message:'Tem certeza que deseja excluir ' + location.codLocation +  ' ?',
-            disableClose: false, 
-            viewContainerRef: this._viewContainerRef,
-            title: 'Excluir localização', 
-            cancelButton: 'Não',
-            acceptButton: 'Sim', 
-        }).
-        afterClosed().subscribe((accept: boolean) => 
-        { 
-          if (accept) 
-          {
-              this.locationService.deleteLocation(location).subscribe(() => 
-              {
-                  this.openSnackBar('Localização removida com sucesso', 'Sucesso!');
-                  this.getLocations();
-              },
-              erro => 
-              {
-                console.log(erro);
-                this.openSnackBar('Não foi possível remover a Localização ' + location.codLocation, 'Erro!');
-              }
-              );
-          }
-        })
-    }
+            this.locationService.deleteLocation(location).subscribe(() => 
+            {
+                this.openSnackBar('Localização removida com sucesso', 'Sucesso!');
+                this.getLocations();
+            },
+            erro => 
+            {
+              console.log(erro);
+              this.openSnackBar('Não foi possível remover a Localização ' + location.codLocation, 'Erro!');
+            });
+        }
+      })
+  }
 }

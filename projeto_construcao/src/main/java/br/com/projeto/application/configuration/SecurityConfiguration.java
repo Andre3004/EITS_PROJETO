@@ -11,15 +11,33 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.projeto.domain.service.AuthenticationService;
 
+/**
+ * 
+ * @author André
+ *
+ */
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = AuthenticationService.class)
 //@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
 	
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	//Service
+	/**
+	 * 
+	 */
 	@Autowired
 	private AuthenticationService authentication;
 	
+	/*-------------------------------------------------------------------
+	 * 		 					 OVERRIDES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception 
 	{
@@ -60,6 +78,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 		}
 
 
+	//---------
+	// Authentication Manager
+	//---------
+	/**
+	 * 
+	 * 
+	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception 
 	{

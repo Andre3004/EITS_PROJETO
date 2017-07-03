@@ -15,17 +15,50 @@ import { ViewContainerRef } from '@angular/core';
   styleUrls: ['./equipment-list.component.css']
 })
 export class EquipmentListComponent implements OnInit{
- 
+  
+    /*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   */
    equipments: PageRequest  = new PageRequest();
-   userCurrent : User;
+   /**
+    * 
+    */
+   userCurrent : User = new User();
+   /**
+    * 
+    */
    page: number = 1;
+   /**
+    * 
+    */
    size: number = 5;
+   /**
+    * 
+    */
    order: String ="ASC";
+   /**
+    * 
+    */
    property: String="name";;
+   /**
+    * 
+    */
    total: Number;
+   /**
+    * 
+    */
    sortBy : String ="";
+   /**
+    * 
+    */
    filter : String = "";
 
+    /*-------------------------------------------------------------------
+	 * 		 					ONINIT
+	 *-------------------------------------------------------------------*/
     ngOnInit() 
     {
       this.route.queryParams.subscribe(
@@ -35,7 +68,19 @@ export class EquipmentListComponent implements OnInit{
         }
       )
     }
-
+   /*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTOR
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param snackBar 
+   * @param equipmentService 
+   * @param router 
+   * @param route 
+   * @param _dialogService 
+   * @param _viewContainerRef 
+   * @param userService 
+   */
   constructor(public snackBar: MdSnackBar, public equipmentService: EquipmentService, private router: Router,private route: ActivatedRoute,
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef, public userService: UserService)
   {
@@ -54,6 +99,12 @@ export class EquipmentListComponent implements OnInit{
       erro => console.log(erro));
   }
 
+   /*-------------------------------------------------------------------
+  *                           BEHAVIORS
+  *-------------------------------------------------------------------*/
+  /**
+   * 
+   */
   getEquipments()
   {
     if (this.filter === '')
@@ -74,7 +125,9 @@ export class EquipmentListComponent implements OnInit{
       erro => console.log(erro));
     }
   }
-
+  /**
+   * 
+   */
   columns: ITdDataTableColumn[] = 
   [
     { 
@@ -84,20 +137,27 @@ export class EquipmentListComponent implements OnInit{
       name: 'description', label: 'Descrição' , sortable: true
     },
     { 
-      name: 'equipment', label: 'Equipamento principal' , sortable: true
+      name: 'location', label: 'Localização' , sortable: true
     },
     { 
       name: '', label: '' , sortable: false
     }
   ];
-
-   search(textSearch: String) 
+  /**
+   * 
+   * @param textSearch 
+   */
+  search(textSearch: String) 
   {
     this.filter = textSearch;
     this.getEquipments();
     this.router.navigate(['/equipment'],
     {queryParams: {'page': this.page}});
   }
+  /**
+   * 
+   * @param event 
+   */
   change(event: IPageChangeEvent): void 
   {
        this.page = event.page.valueOf();
@@ -107,6 +167,10 @@ export class EquipmentListComponent implements OnInit{
        {queryParams: {'page': this.page}});
 
   }
+  /**
+   * 
+   * @param sortEvent 
+   */
   sortEvent(sortEvent: ITdDataTableSortChangeEvent): void 
   {
     this.sortBy = sortEvent.name;
@@ -114,7 +178,11 @@ export class EquipmentListComponent implements OnInit{
     this.property = sortEvent.name; 
     this.getEquipments();
   }
-
+  /**
+   * 
+   * @param msg 
+   * @param action 
+   */
   openSnackBar(msg, action) 
   {
     this.snackBar.open(msg, action, 
@@ -122,12 +190,18 @@ export class EquipmentListComponent implements OnInit{
       duration: 5000,
     }); 
   }
- 
+  /**
+   * 
+   * @param equipment 
+   */
   downloadFile(equipment)
   {
       window.location.assign("/projeto/equipment/downloadFile/" + equipment.id);
   }
-
+  /**
+   * 
+   * @param equipment 
+   */
   openConfirm(equipment): void 
     {
         this._dialogService.openConfirm(

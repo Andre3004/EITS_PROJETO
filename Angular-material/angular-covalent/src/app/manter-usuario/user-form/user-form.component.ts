@@ -14,85 +14,133 @@ import { Broker } from 'eits-ng2';
 })
 export class UserFormComponent 
 {
-
-    user : User;
+    /*-------------------------------------------------------------------
+    * 		 					ATTRIBUTES
+    *-------------------------------------------------------------------*/
+    /**
+     * 
+     */
+    user : User = new User();
+    /**
+     * 
+     */
     sexs = 
     [
-      {value: 'MASCULINO', viewValue: 'Masculino'},
-      {value: 'FEMININO', viewValue: 'Feminino'},
-      {value: 'OUTRO', viewValue: 'Outro'}
+      {
+        value: 'MASCULINO', viewValue: 'Masculino'
+      },
+      {
+        value: 'FEMININO', viewValue: 'Feminino'
+      },
+      {
+        value: 'OUTRO', viewValue: 'Outro'
+      }
     ];
+    /**
+     * 
+     */
     roles = 
     [ 
-      {value: 'ROLE_ADMIN', viewValue: 'Administrador'},
-      {value: 'ROLE_USER', viewValue: 'Engenheiro'},
+      {
+        value: 'ROLE_ADMIN', viewValue: 'Administrador'
+      },
+      {
+        value: 'ROLE_USER', viewValue: 'Engenheiro'
+      },
     ]; 
-          
-          constructor(private _loadingService: TdLoadingService, public snackBar: MdSnackBar, public userService: UserService, public router: Router, public activatedRouter: ActivatedRoute)
-          {
-            activatedRouter.params.subscribe(params => 
-            {
-                let id = params['id'];
-                if (id)
-                {
-                  this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
-                  console.log(this.user);
-                }
-            });
-            this._loadingService.create({
-              name: 'configFullscreen',
-              mode: LoadingMode.Indeterminate,
-              type: LoadingType.Linear,
-              color: 'accent',
-            });
-            
-          }
 
-          openSnackBar(msg, action) 
+    /*-------------------------------------------------------------------
+    * 		 					CONSTRUCTOR
+    *-------------------------------------------------------------------*/   
+    /**
+     * 
+     * @param _loadingService 
+     * @param snackBar 
+     * @param userService 
+     * @param router 
+     * @param activatedRouter 
+     */
+    constructor(private _loadingService: TdLoadingService,
+                public snackBar: MdSnackBar, public userService: UserService, 
+                public router: Router, public activatedRouter: ActivatedRoute)
+    {
+      activatedRouter.params.subscribe(params => 
+      {
+          let id = params['id'];
+          if (id)
           {
-              this.snackBar.open(msg, action, 
-              {
-                duration: 5000,
-              });
-          }
- 
-          insertUser(event)
-          { 
+            this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
             console.log(this.user);
-            this._loadingService.register('configFullscreen');
-
-            setTimeout(() => {
-              this._loadingService.resolve('configFullscreen');
-            }, 1000000);
-
-            this.userService.insertUser(this.user).subscribe(() => 
-            { 
-
-              setTimeout(() => {
-              this._loadingService.resolve('configFullscreen');
-               }, 0);
-              this.router.navigate(['/user'], { queryParams: {page:1}}) ;
-              this.openSnackBar('Usuário salvo com sucesso ', 'Sucesso!');
-            }, 
-            erro => 
-            {
-
-              setTimeout(() => {
-              this._loadingService.resolve('configFullscreen');
-               }, 0);
-              this.openSnackBar(erro._body, 'Erro!');
-            });
-          } 
-
-            updatePassword(user)
-            {
-               this.userService.updateUserToPassword(user).subscribe(sucess => 
-              {
-                this.openSnackBar(Object(sucess)._body, 'Sucesso!');
-              }, 
-              erro => 
-                this.openSnackBar(erro._body, 'Erro!'));
-              
           }
+      });
+      this._loadingService.create({
+        name: 'configFullscreen',
+        mode: LoadingMode.Indeterminate,
+        type: LoadingType.Linear,
+        color: 'accent',
+      });
+      
+    }
+
+    /*-------------------------------------------------------------------
+     *                           BEHAVIORS
+     *-------------------------------------------------------------------*/
+    /**
+     * 
+     * @param msg 
+     * @param action 
+     */
+    openSnackBar(msg, action) 
+    {
+        this.snackBar.open(msg, action, 
+        {
+          duration: 5000,
+        });
+    }
+    /**
+     * 
+     * @param event 
+     */
+    insertUser(event)
+    { 
+      console.log(this.user);
+      this._loadingService.register('configFullscreen');
+
+      setTimeout(() => {
+        this._loadingService.resolve('configFullscreen');
+      }, 1000000);
+
+      this.userService.insertUser(this.user).subscribe(() => 
+      { 
+
+        setTimeout(() => {
+        this._loadingService.resolve('configFullscreen');
+          }, 0);
+        this.router.navigate(['/user'], { queryParams: {page:1}}) ;
+        this.openSnackBar('Usuário salvo com sucesso ', 'Sucesso!');
+      }, 
+      erro => 
+      {
+
+        setTimeout(() => {
+        this._loadingService.resolve('configFullscreen');
+          }, 0);
+        this.openSnackBar(erro._body, 'Erro!');
+      });
+    } 
+    /**
+     * 
+     * @param user 
+     */
+    updatePassword(user)
+    {
+        this.userService.updateUserToPassword(user).subscribe(sucess => 
+      {
+        this.openSnackBar(Object(sucess)._body, 'Sucesso!');
+      }, 
+      erro => 
+        this.openSnackBar(erro._body, 'Erro!'));
+      
+    }
 
 }

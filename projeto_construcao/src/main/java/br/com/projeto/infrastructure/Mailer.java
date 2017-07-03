@@ -9,17 +9,38 @@ import org.springframework.stereotype.Component;
 
 import br.com.projeto.domain.entity.User;
 
+/**
+ * 
+ * @author André
+ * @category Component
+ *
+ */
 @Component
 @PropertySource({"classpath:env/email.properties"})
 public class Mailer 
 {
-	
+	/*-------------------------------------------------------------------
+	 *                          ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private Environment env;
 	
+	/*-------------------------------------------------------------------
+	 *                          BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 * @param user
+	 */
 	public void send(User user)
 	{
 		SimpleMailMessage mensagem = new SimpleMailMessage();

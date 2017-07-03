@@ -11,11 +11,31 @@ import { TdDialogService } from '@covalent/core';
 })
 export class LocationDetailComponent 
 {
-
-  location : Location;
+   /*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   */
+  location : Location = new Location();
+  /**
+   * 
+   */
   sublocations : Location[] ;
+  /**
+   * 
+   */
   id: number;
-
+   /*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTOR
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param _dialogService 
+   * @param locationService 
+   * @param router 
+   * @param activatedRouter 
+   */
   constructor(private _dialogService: TdDialogService, public locationService: LocationService, public router: Router, public activatedRouter: ActivatedRoute) 
   { 
 

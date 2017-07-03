@@ -1,5 +1,6 @@
 package br.com.projeto.domain.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +21,6 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-//import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,67 +28,116 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+
+
+/**
+ * 
+ * @author André
+ * @category Entity
+ *
+ */
 @Entity
 @Table(name = "users")
 @DataTransferObject(javascript = "user")
 @Audited
-public class User implements UserDetails 
+public class User implements Serializable, UserDetails 
 {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4737052671651923602L;
+	
 
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	/**
+	 * 
+	 */
 	@NotBlank
 	@Column(length = 50, unique=true)
 	private String name;
 
+	/**
+	 * 
+	 */
 	@NotBlank
 	@Column(length = 50)
 	private String lastName;
 
+	/**
+	 * 
+	 */
 	@Email
 	@Column(length = 144, unique=true)
 	@NotBlank
 	private String email;
 
+	/**
+	 * 
+	 */
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@Size(min = 6, max = 100)
 	@NotBlank
 	private String password;
 	
+	/**
+	 * 
+	 */
 	@Transient
 	private String confirmPassword;
 
+	/**
+	 * 
+	 */
 	@Column(name = "active", nullable = false, columnDefinition = "boolean default true")
 	private boolean active;
 
+	/**
+	 * 
+	 */
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
 	private UserSex sex;
 
+	/**
+	 * 
+	 */
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
 	private UserRole permission;
 
+	/*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	public User()
 	{
 
 	}
 
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
+	/**
+	 * 
+	 * @param id
+	 * @param confirmPassword
+	 * @param name
+	 * @param email
+	 * @param password
+	 * @param active
+	 * @param permission
+	 * @param lastName
+	 * @param sex
+	 */
 	public User(Long id, String confirmPassword, String name, String email, String password, boolean active, UserRole permission, String lastName, UserSex sex)
 	{
 		super();
@@ -103,6 +152,104 @@ public class User implements UserDetails
 		this.permission = permission;
 	}
 	
+	/*-------------------------------------------------------------------
+	 *							BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
+	@JsonIgnore
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() 
+	{
+		List<UserRole> users = new ArrayList<>();
+		users.add(permission);
+		return users;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.core.userdetails.UserDetails#getPassword()
+	 */
+	@Override
+	public String getPassword() 
+	{
+		return this.password;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.core.userdetails.UserDetails#getUsername()
+	 */
+	@JsonIgnore
+	@Override
+	public String getUsername() 
+	{
+		return this.email;
+	}
+	
+	/**
+	 * 
+	 */
+	@JsonIgnore
+	@Override
+	public boolean isAccountNonExpired() 
+	{
+		return true;
+	}
+	/**
+	 * 
+	 */
+	@JsonIgnore
+	@Override
+	public boolean isAccountNonLocked() 
+	{
+		return true;
+	}
+	/**
+	 * 
+	 */
+	@JsonIgnore
+	@Override
+	public boolean isCredentialsNonExpired() 
+	{
+		return true;
+	}
+
+	/**
+	 * 
+	 */
+	@JsonIgnore
+	@Override
+	public boolean isEnabled() 
+	{
+		return this.active;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isValid()
+	{
+		if ( this.password.equals(this.confirmPassword)) 
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/*-------------------------------------------------------------------
+	 *						GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 	
 	public String getConfirmPassword() {
 		return confirmPassword;
@@ -195,6 +342,14 @@ public class User implements UserDetails
 		this.password = password;
 	}
 
+	/*-------------------------------------------------------------------
+	 *						HASH AND EQUALS
+	 *-------------------------------------------------------------------*/
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode()
 	{
@@ -204,6 +359,10 @@ public class User implements UserDetails
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) 
 	{
@@ -217,66 +376,6 @@ public class User implements UserDetails
 		if (id != other.id)
 			return false;
 		return true;
-	}
-	
-	@JsonIgnore
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() 
-	{
-		List<UserRole> users = new ArrayList<>();
-		users.add(permission);
-		return users;
-	}
-	
-	@Override
-	public String getPassword() 
-	{
-		return this.password;
-	}
-
-	@JsonIgnore
-	@Override
-	public String getUsername() 
-	{
-		return this.email;
-	}
-	
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonExpired() 
-	{
-		return true;
-	}
-	
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonLocked() 
-	{
-		return true;
-	}
-	
-	@JsonIgnore
-	@Override
-	public boolean isCredentialsNonExpired() 
-	{
-		return true;
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isEnabled() 
-	{
-		return this.active;
-	}
-
-	public boolean isValid()
-	{
-		if ( this.password.equals(this.confirmPassword)) 
-		{
-			return true;
-		}
-		
-		return false;
 	}
 
 }

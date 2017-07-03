@@ -32,17 +32,65 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * 
+ * @author André
+ * @category Configuration
+ *
+ */
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"br.com.projeto"})
 public class AppWebConfiguration extends WebMvcConfigurerAdapter
 {
+	/*-------------------------------------------------------------------
+	 * 		 					 OVERRIDES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer)
 	{
 		configurer.enable();
 	}
+	/**
+	 * 
+	 */
+	@Override
+	public void addCorsMappings(CorsRegistry registry)
+	{
+		registry.addMapping("/**");
+	}
 	
+	/**
+	 * 
+	 */
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
+	{
+		converters.add(jacksonConverter());
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) 
+	{
+        registry
+          .addResourceHandler("/static/**")
+          .addResourceLocations("/WEB-INF/views/dist/"); 
+    }
+	
+	/*-------------------------------------------------------------------
+	 * 		 						BEANS
+	 *-------------------------------------------------------------------*/	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public CorsFilter corsFilter() 
 	{
@@ -74,25 +122,21 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
         return new CorsFilter(source);
 	
 	 }
-    
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
-	{
-		converters.add(jacksonConverter());
-	}
 	
-	@Override
-	public void addCorsMappings(CorsRegistry registry)
-	{
-		registry.addMapping("/**");
-	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public SimpleControllerHandlerAdapter simpleControllerHandlerAdapter()
 	{
 		return new SimpleControllerHandlerAdapter();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public ObjectMapper objectMapper()
 	{
@@ -101,6 +145,10 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
 				.build();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public MappingJackson2HttpMessageConverter jacksonConverter()
 	{
@@ -108,6 +156,10 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
 	}
 	
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public InternalResourceViewResolver internalResourceViewResolver() 
 	{
@@ -118,53 +170,45 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
 		return resolver;
 	}
 	
-	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-          .addResourceHandler("/static/**")
-          .addResourceLocations("/WEB-INF/views/dist/"); 
-    }
+	
 	
 	//---------
-		// DWR
-		//---------
-		/**
-		 * Process all spring beans with @RemoteProxy
-		 * @return
-		 */
-		@Bean
-		public DwrAnnotationPostProcessor dwrAnnotationPostProcessor( ApplicationContext applicationContext )
-		{
-			final BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) applicationContext.getAutowireCapableBeanFactory();
-			final ClassPathBeanDefinitionScanner scanner = new DwrClassPathBeanDefinitionScanner(beanDefinitionRegistry);
-	        scanner.addIncludeFilter(new AnnotationTypeFilter(DataTransferObject.class));
-	        scanner.scan("br.com.projeto.domain.entity.**");
-	        
-			return new DwrAnnotationPostProcessor();
-		}
-		
-		/*@Bean(name="multipartResolver") 
-	    public CommonsMultipartResolver getResolver() throws IOException{
-	        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-	         
-	        //Set the maximum allowed size (in bytes) for each individual file.
-	        resolver.setMaxUploadSizePerFile(5242880);//5MB
-	         
-	        //You may also set other available properties.
-	         
-	        return resolver;
-	    }*/
-		 @Bean
-	    public MultipartConfigElement multipartConfigElement() 
-		{
-	        return new MultipartConfigElement("");
-	    }	
-		
-		@Bean
-		public MultipartResolver multipartResolver()
-		{
-			return new StandardServletMultipartResolver();
-		}
+	// DWR
+	//---------
+	/**
+	 * Process all spring beans with @RemoteProxy
+	 * @return
+	 */
+	@Bean
+	public DwrAnnotationPostProcessor dwrAnnotationPostProcessor( ApplicationContext applicationContext )
+	{
+		final BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) applicationContext.getAutowireCapableBeanFactory();
+		final ClassPathBeanDefinitionScanner scanner = new DwrClassPathBeanDefinitionScanner(beanDefinitionRegistry);
+        scanner.addIncludeFilter(new AnnotationTypeFilter(DataTransferObject.class));
+        scanner.scan("br.com.projeto.domain.entity.**");
+        
+		return new DwrAnnotationPostProcessor();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@Bean
+    public MultipartConfigElement multipartConfigElement() 
+	{
+        return new MultipartConfigElement("");
+    }	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@Bean
+	public MultipartResolver multipartResolver()
+	{
+		return new StandardServletMultipartResolver();
+	}
 		
 
 }

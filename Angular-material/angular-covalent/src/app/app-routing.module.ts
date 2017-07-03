@@ -14,31 +14,68 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 
-const appRoutes: Routes = [
+const appRoutes: Routes = 
+[
 
-  { path: 'user', component: UserListComponent},
-  { path: 'user-new', component: UserFormComponent, canActivate: [AuthService] },
-  { path: 'user-detail/:id', component: UserDetailComponent },
-  { path: 'user-edit/:id', component: UserFormComponent, canActivate: [AuthService] }, 
+  { 
+    path: 'user', component: UserListComponent
+  },
+  { 
+    path: 'user-new', component: UserFormComponent, 
+    canActivate: [AuthService] 
+  },
+  { 
+    path: 'user-detail/:id', component: UserDetailComponent 
+  },
+  { 
+    path: 'user-edit/:id', component: UserFormComponent, 
+    canActivate: [AuthService] 
+  }, 
+
+  { 
+    path: 'equipment', component: EquipmentListComponent
+  },
+  { 
+    path: 'equipment-new', component: EquipmentFormComponent 
+  },
+  { 
+    path: 'equipment-detail/:id', component: EquipmentDetailComponent 
+  },
+  { 
+    path: 'equipment-edit/:id', component: EquipmentFormComponent 
+  }, 
 
 
-  { path: 'equipment', component: EquipmentListComponent},
-  { path: 'equipment-new', component: EquipmentFormComponent },
-  { path: 'equipment-detail/:id', component: EquipmentDetailComponent },
-  { path: 'equipment-edit/:id', component: EquipmentFormComponent }, 
-
-
-  { path: 'location', component: LocationListComponent},
-  { path: 'location-new', component: LocationFormComponent },
-  { path: 'location-detail/:id', component: LocationDetailComponent },
-  { path: 'location-edit/:id', component: LocationFormComponent }, 
+  { 
+    path: 'location', component: LocationListComponent
+  },
+  { 
+    path: 'location-new', component: LocationFormComponent 
+  },
+  { 
+    path: 'location-detail/:id', component: LocationDetailComponent 
+  },
+  { 
+    path: 'location-edit/:id', component: LocationFormComponent 
+  }, 
   
   
-  { path: '', component: HomeComponent },
+  { 
+    path: '', component: HomeComponent 
+  },
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(appRoutes, {useHash:true}) ],
-  exports: [RouterModule]
+@NgModule(
+{
+  imports: 
+  [
+    RouterModule.forRoot(appRoutes, {useHash:true}) 
+  ],
+  exports: 
+  [
+    RouterModule
+  ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule 
+{ 
+}

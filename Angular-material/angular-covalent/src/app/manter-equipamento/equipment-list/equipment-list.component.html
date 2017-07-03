@@ -27,14 +27,14 @@
                         {{equipment?.description | truncate:20}} 
                      </span>
                     </td>
-                    <td td-data-table-cell *ngIf="equipment.equipment == null">
+                    <td td-data-table-cell *ngIf="equipment.location == null">
                         <span>  
                             - 
                         </span>
                     </td>
-                    <td td-data-table-cell *ngIf="equipment.description != null">
+                    <td td-data-table-cell *ngIf="equipment.location != null">
                       <span>  
-                        {{equipment?.equipment?.name | truncate:15}}
+                        {{equipment?.location?.codLocation | truncate:15}}
                      </span>
                     </td>
                     <td td-data-table-row class="buttons" layout-align="left left">

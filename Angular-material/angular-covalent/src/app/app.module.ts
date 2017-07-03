@@ -41,7 +41,8 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
 
 
 @NgModule({
-  declarations: [
+  declarations: 
+  [
     AppComponent,
     HomeComponent,
     UserListComponent,
@@ -54,7 +55,8 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     EquipmentFormComponent,
     EquipmentDetailComponent,
   ],
-  imports: [
+  imports: 
+  [
     CommonModule,
     MaterialModule,
     BrowserAnimationsModule,
@@ -95,8 +97,28 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     CovalentSearchModule,
     CovalentCommonModule 
   ],
-  exports: [ ],
-  providers: [Broker,Equipment, User, Location, PageRequest, TdMediaService, TdLoadingService, UserService, LocationService, EquipmentService, TdDialogService, AuthService, TdLoadingService ],
-  bootstrap: [AppComponent]
+  exports: 
+  [ 
+  ],
+  providers: 
+  [
+    Broker,
+    Equipment, 
+    User, 
+    Location,
+    PageRequest, 
+    TdMediaService, 
+    TdLoadingService, 
+    UserService, 
+    LocationService, 
+    EquipmentService, 
+    TdDialogService, 
+    AuthService, 
+    TdLoadingService 
+  ],
+  bootstrap: 
+  [
+    AppComponent
+  ]
 })
 export class AppModule { }

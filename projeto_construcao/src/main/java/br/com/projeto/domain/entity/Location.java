@@ -1,6 +1,8 @@
 package br.com.projeto.domain.entity;
 
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,77 +14,126 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotBlank;
 
+
+/**
+ * 
+ * @author André
+ * @category Entity
+ *
+ */
 @Entity
 @Table(name = "location")
-//@Audited
-public class Location 
+@Audited
+public class Location implements Serializable 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7128049993648545542L;
+
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
 	
+	/**
+	 * 
+	 */
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id; 
 	
+	/**
+	 * Locator code
+	 */
 	@Column(length = 50, unique=true)
 	@NotBlank
 	private String codLocation;
 
+	/**
+	 * 
+	 */
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "responsible_id")
 	@NotNull
 	private User responsible;
 
+	/**
+	 * 
+	 */
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "vice_responsible_id")
 	private User viceResponsible;
 
+	/**
+	 * Main location 
+	 */
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "location_id")
 	private Location location;
 	
-	
-	
 
-	public Long getId() {
+	/*-------------------------------------------------------------------
+	 *						GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
+	public Long getId() 
+	{
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Long id) 
+	{
 		this.id = id;
 	}
 
-	public String getCodLocation() {
+	public String getCodLocation() 
+	{
 		return codLocation;
 	}
 
-	public void setCodLocation(String codLocation) {
+	public void setCodLocation(String codLocation) 
+	{
 		this.codLocation = codLocation;
 	}
 
-	public User getResponsible() {
+	public User getResponsible() 
+	{
 		return responsible;
 	}
 
-	public void setResponsible(User responsible) {
+	public void setResponsible(User responsible) 
+	{
 		this.responsible = responsible;
 	}
 
-	public User getViceResponsible() {
+	public User getViceResponsible() 
+	{
 		return viceResponsible;
 	}
 
-	public void setViceResponsible(User viceResponsible) {
+	public void setViceResponsible(User viceResponsible) 
+	{
 		this.viceResponsible = viceResponsible;
 	}
 
-	public Location getLocation() {
+	public Location getLocation() 
+	{
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(Location location) 
+	{
 		this.location = location;
 	}
 
+	/*-------------------------------------------------------------------
+	 *						HASH AND EQUALS
+	 *-------------------------------------------------------------------*/
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() 
 	{
@@ -92,6 +143,10 @@ public class Location
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) 
 	{

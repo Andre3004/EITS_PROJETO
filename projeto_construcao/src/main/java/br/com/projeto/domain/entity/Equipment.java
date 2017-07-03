@@ -1,5 +1,7 @@
 package br.com.projeto.domain.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,36 +13,74 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotBlank;
 
+
+/**
+ * 
+ * @author André
+ * @category Entity
+ *
+ */
 @Entity
 @Table(name = "equipment")
-//@Audited
-public class Equipment 
+@Audited
+public class Equipment implements Serializable 
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3842479366289837100L;
+
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 */
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id; 
 	
+	/**
+	 * 
+	 */
 	@Column(length = 50, unique=true)
 	@NotBlank
 	private String name;
 	
+	/**
+	 * 
+	 */
 	@Size(max = 144, message = "O tamanho da senha deve ter no máximo 144 caracteres")
 	@NotBlank
 	private String description;
 	
+	/**
+	 * Location of equipment
+	 */
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "location_id")
 	private Location location;
 	
+	/**
+	 * Main equipment
+	 */
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "equipment_id")
 	private Equipment equipment;
 	
+	/**
+	 * 
+	 */
 	private String filePath;
 
 	
+	/*-------------------------------------------------------------------
+	 *						GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
 	
 	public String getFilePath() 
 	{
@@ -102,6 +142,13 @@ public class Equipment
 		this.equipment = equipment;
 	}
 
+	/*-------------------------------------------------------------------
+	 *						HASH AND EQUALS
+	 *-------------------------------------------------------------------*/
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() 
 	{
@@ -111,6 +158,10 @@ public class Equipment
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) 
 	{

@@ -17,14 +17,26 @@ import br.com.projeto.domain.service.LocationService;
 /**
  * 
  * @author André
- *
+ * @category RestController
+ * 
  */
 @RestController
 @RequestMapping("location")
 public class LocationRestController 
 {
+	/*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	//Service
+	/**
+	 * 
+	 */
 	@Autowired
 	LocationService locationService;
+	
+	/*-------------------------------------------------------------------
+	 * 		 					RESOURCES
+	 *-------------------------------------------------------------------*/
 	/**
 	 * 
 	 * @param location
@@ -55,6 +67,10 @@ public class LocationRestController
 		Page<Location> locations =  locationService.listLocationsByFilters(page, size, property, order, filter);
 		return locations;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/listAllLocation", method = RequestMethod.GET)
 	public List<Location> listAllLocation()
@@ -62,6 +78,14 @@ public class LocationRestController
 		return locationService.listAllLocation();
 	}
 	
+	/**
+	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/listLocations/{page}/{size}/{property}/{order} ", method = RequestMethod.GET)
 	public Page<Location> listLocations(@PathVariable int page, @PathVariable int size,

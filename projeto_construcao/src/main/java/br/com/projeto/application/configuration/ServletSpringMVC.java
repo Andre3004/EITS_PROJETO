@@ -10,28 +10,47 @@ import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+/**
+ * 
+ * @author André
+ *
+ */
 public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletInitializer
 {
 
+	/*-------------------------------------------------------------------
+	 * 		 					 OVERRIDES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	@Override
 	protected Class<?>[] getRootConfigClasses() 
 	{	
 		return new Class<?>[] {MailConfig.class,JPAConfiguration.class,AppWebConfiguration.class, ServiceConfiguration.class, SecurityConfiguration.class};
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	protected Class<?>[] getServletConfigClasses() 
 	{
 		return new Class<?>[] {}; 
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	protected String[] getServletMappings() 
 	{
 		
 		return new String[] {"/"};
 	}
-	
+	/**
+	 * 
+	 */
 	@Override
     protected Filter[] getServletFilters() 
 	{
@@ -40,6 +59,9 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
         return new Filter[] {encodingFilter};
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException
 	{
@@ -48,6 +70,9 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 		servletContext.setInitParameter("spring.profiles.active", "dev"); 
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	protected void customizeRegistration(Dynamic registration) 
 	{

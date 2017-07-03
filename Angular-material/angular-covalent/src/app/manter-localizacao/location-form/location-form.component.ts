@@ -14,11 +14,33 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./location-form.component.css']
 })
 export class LocationFormComponent { 
-
+   /*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   */
   users: User[] ;
+  /**
+   * 
+   */
   locations : Location[] ;
-  location: Location ;
-
+  /**
+   * 
+   */
+  location: Location = new Location(); 
+  /*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTOR
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param userService 
+   * @param locationService 
+   * @param activatedRoute 
+   * @param snackBar 
+   * @param router 
+   * @param _loadingService 
+   */
   constructor(public userService: UserService, public locationService: LocationService, 
               private activatedRoute: ActivatedRoute, public snackBar: MdSnackBar, public router: Router, 
               private _loadingService: TdLoadingService) 
@@ -52,7 +74,14 @@ export class LocationFormComponent {
         color: 'accent',
       });
   }
-
+   /*-------------------------------------------------------------------
+  *                           BEHAVIORS
+  *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param msg 
+   * @param action 
+   */
   openSnackBar(msg, action) 
   {
     this.snackBar.open(msg, action, 
@@ -60,6 +89,10 @@ export class LocationFormComponent {
       duration: 5000, 
     }); 
   }
+  /**
+   * 
+   * @param event 
+   */
   insertLocation(event)
   { 
     this._loadingService.register('configFullscreen');

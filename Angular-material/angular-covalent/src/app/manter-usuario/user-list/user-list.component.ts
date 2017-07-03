@@ -18,16 +18,49 @@ import { TdDialogService, IPageChangeEvent, ITdDataTableColumn, TdDataTableSorti
 export class UserListComponent  implements OnInit
 { 
 
-    users: PageRequest  = new PageRequest(); 
-    userCurrent : User;
+   /*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+    /**
+     * 
+     */
+    users: PageRequest  = new PageRequest();
+    /**
+     * 
+     */ 
+    userCurrent : User = new User();
+    /**
+     * 
+     */
     page: number = 1;
+    /**
+     * 
+     */
     size: number = 5;
+    /**
+     * 
+     */
     order: String ="ASC";
-    property: String="name";;
+    /**
+     * 
+     */
+    property: String="name";
+    /**
+     * 
+     */
     total: Number;
+    /**
+     * 
+     */
     sortBy : String ="";
+    /**
+     * 
+     */
     filter : String = "";
 
+  /*-------------------------------------------------------------------
+	 * 		 					ONINIT
+	 *-------------------------------------------------------------------*/
   ngOnInit()
   {
     this.route.queryParams.subscribe(
@@ -38,9 +71,22 @@ export class UserListComponent  implements OnInit
     )
   }
 
-  constructor(public snackBar: MdSnackBar, public userService: UserService, private router: Router, 
-              private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef,
-              private route: ActivatedRoute, private _dataTableService: TdDataTableService)
+  /*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTOR
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param snackBar 
+   * @param userService 
+   * @param router 
+   * @param _dialogService 
+   * @param _viewContainerRef 
+   * @param route 
+   * @param _dataTableService 
+   */
+  constructor(public snackBar: MdSnackBar, public userService: UserService, public router: Router, 
+              private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef,
+              public route: ActivatedRoute, private _dataTableService: TdDataTableService)
   {
       userService.listUsers(this.page - 1, this.size, this.property , this.order).subscribe(users => 
       { 
@@ -66,6 +112,13 @@ export class UserListComponent  implements OnInit
       // });
       
   }
+
+ /*-------------------------------------------------------------------
+  *                           BEHAVIORS
+  *-------------------------------------------------------------------*/
+  /**
+   * 
+   */
   getUsers()
   {
     if (this.filter === '')
@@ -86,21 +139,10 @@ export class UserListComponent  implements OnInit
       erro => console.log(erro));
     }
   }
-  columns: ITdDataTableColumn[] = 
-  [
-    { 
-      name: 'name', label: 'Nome' , sortable: true
-    },
-    { 
-      name: 'lastName', label: 'Sobrenome' , sortable: true
-    },
-    { 
-      name: 'email', label: 'Email' , sortable: true
-    },
-    { 
-      name: '', label: '' , sortable: false
-    }
-  ];
+  /**
+   * 
+   * @param textSearch 
+   */
   search(textSearch: String) 
   {
     this.filter = textSearch;
@@ -109,6 +151,10 @@ export class UserListComponent  implements OnInit
     {queryParams: {'page': this.page}});
   }
 
+  /**
+   * 
+   * @param event 
+   */
   change(event: IPageChangeEvent): void 
   {
        this.page = event.page.valueOf();
@@ -118,6 +164,10 @@ export class UserListComponent  implements OnInit
        {queryParams: {'page': this.page}});
 
   }
+  /**
+   * 
+   * @param sortEvent 
+   */
   sortEvent(sortEvent: ITdDataTableSortChangeEvent): void 
   {
     this.sortBy = sortEvent.name;
@@ -125,7 +175,11 @@ export class UserListComponent  implements OnInit
     this.property= sortEvent.name; 
     this.getUsers();
   }
- 
+  /**
+   * 
+   * @param msg 
+   * @param action 
+   */
   openSnackBar(msg, action) 
   {
     this.snackBar.open(msg, action, 
@@ -133,7 +187,11 @@ export class UserListComponent  implements OnInit
       duration: 5000,
     });
   }
-
+  /**
+   * 
+   * @param event 
+   * @param user 
+   */
   openConfirm(event, user): void 
   {
       this._dialogService.openConfirm(

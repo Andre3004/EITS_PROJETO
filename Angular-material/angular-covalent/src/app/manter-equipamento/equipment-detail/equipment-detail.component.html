@@ -36,7 +36,8 @@
                         <md-icon mdTooltip="Sub Equipamento" md-list-icon>android</md-icon> 
                         <h4 md-line>Sub equipamento: {{subequipment?.name}}</h4>
                         <p md-line> Descrição: {{subequipment?.description }} </p>
-                        <button md-button mdTooltip="Editar" class="button" [routerLink]="['/equipment-edit', equipment.id]" class="text-upper"><md-icon md-list-avatar>edit</md-icon></button> 
+                         <button md-button mdTooltip="Desvincular" class="button" (click)="openConfirm(subequipment)" class="text-upper"><md-icon md-list-avatar>do_not_disturb_alt</md-icon></button> 
+                        <button md-button mdTooltip="Editar" class="button" [routerLink]="['/equipment-edit', subequipment.id]" class="text-upper"><md-icon md-list-avatar>edit</md-icon></button> 
                     </md-list-item>
                 </md-list>
                 <md-card-actions class="button" >

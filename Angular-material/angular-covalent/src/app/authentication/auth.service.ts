@@ -8,8 +8,21 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AuthService implements CanActivate
 {
-  userCurrent : User;
-
+  /*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+   /**
+    * 
+    */
+   userCurrent : User = new User();
+   /*-------------------------------------------------------------------
+	 * 		 					CONSTRUCTOR
+	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param userService 
+   * @param router 
+   */
   constructor ( public userService: UserService, public router: Router)
   {
     userService.getCurrentUser().subscribe(user => 
@@ -18,7 +31,14 @@ export class AuthService implements CanActivate
     }, 
     erro => console.log(erro));
   }
-
+  /*-------------------------------------------------------------------
+  *                           BEHAVIORS
+  *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param route 
+   * @param state 
+   */
   canActivate(
     route: ActivatedRouteSnapshot, 
     state: RouterStateSnapshot
@@ -29,7 +49,6 @@ export class AuthService implements CanActivate
       return true;
     }
       this.router.navigate(['']);
-      
       return false;
   }
 }

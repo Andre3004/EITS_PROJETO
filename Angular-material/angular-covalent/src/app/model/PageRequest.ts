@@ -1,3 +1,7 @@
+/**
+ * MODEL Pageable
+ */
+
 export class PageRequest
 {
     content: 

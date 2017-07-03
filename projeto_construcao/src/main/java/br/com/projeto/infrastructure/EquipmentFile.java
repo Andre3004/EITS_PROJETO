@@ -16,12 +16,33 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.projeto.domain.entity.Equipment;
 
+/**
+ * 
+ * @author André
+ * @category Component
+ *
+ */
 @Component
 public class EquipmentFile
 {
+	/*-------------------------------------------------------------------
+	 *                          ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	@Autowired
 	private HttpServletRequest request;
 	
+	/*-------------------------------------------------------------------
+	 *                          BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 * @param baseFolder
+	 * @param file
+	 * @return
+	 */
 	public String write(String baseFolder, MultipartFile file)
 	{
 		try 
@@ -38,6 +59,13 @@ public class EquipmentFile
 		}
 	}
 
+	/**
+	 * 
+	 * @param response
+	 * @param id
+	 * @param path
+	 * @throws IOException
+	 */
 	public void read(HttpServletResponse response, Long id, String path) throws IOException
 	{
 		String filePath = "C:/Users/André/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/wtpwebapps/projeto/" + path;

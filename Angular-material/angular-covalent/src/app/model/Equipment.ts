@@ -1,5 +1,8 @@
 import { Location } from './Location';
 
+/**
+ * Model Equipment
+ */
 export class Equipment
 {
 	id: number; 

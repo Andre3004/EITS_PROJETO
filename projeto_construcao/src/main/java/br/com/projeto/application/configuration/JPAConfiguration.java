@@ -18,16 +18,34 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
+/**
+ * 
+ * @author André
+ * @category Configuration
+ *
+ */
 @Configuration
 @EnableJpaRepositories("br.com.projeto.domain.repository")
 @EnableTransactionManagement
 @PropertySource({"classpath:env/application.properties"})
 public class JPAConfiguration
 {
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	@Autowired
 	private Environment env;
 	
+	/*-------------------------------------------------------------------
+	 * 		 						BEANS
+	 *-------------------------------------------------------------------*/	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public DriverManagerDataSource dataSource()
 	{
@@ -40,6 +58,10 @@ public class JPAConfiguration
 		return dataSource;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter() {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
@@ -50,6 +72,10 @@ public class JPAConfiguration
 		return adapter;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public Properties additionalProperties()
 	{
@@ -62,6 +88,11 @@ public class JPAConfiguration
 		return properties;
 	}
 	
+	/**
+	 * 
+	 * @param dataSource
+	 * @return
+	 */
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource)
 	{
@@ -74,6 +105,11 @@ public class JPAConfiguration
 		return factoryBean;
 	}
 
+	/**
+	 * 
+	 * @param entityManagerFactory
+	 * @return
+	 */
 	@Bean
 	public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory)
 	{

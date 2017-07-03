@@ -18,16 +18,28 @@ import br.com.projeto.domain.service.UserService;
 /**
  * 
  * @author André
- *
+ * @category RestController
+ * 
  */
 
 @RestController
 @RequestMapping("user")
 public class UserRestController 
 {
+	/*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	//Service
+	/**
+	 * 
+	 */
 	@Autowired
 	private UserService userService;
 	
+
+	/*-------------------------------------------------------------------
+	 * 		 					RESOURCES
+	 *-------------------------------------------------------------------*/
 	
 	/**
 	 * 
@@ -64,6 +76,7 @@ public class UserRestController
 		return userService.listAllUser();
 	}
 	/**************************/
+	
 	/**
 	 * 
 	 * @param page

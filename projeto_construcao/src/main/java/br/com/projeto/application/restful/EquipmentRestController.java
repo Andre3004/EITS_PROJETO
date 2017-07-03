@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,19 +35,30 @@ import br.com.projeto.domain.service.EquipmentService;
 /**
  * 
  * @author André
- *
+ * @category RestController
+ * 
  */
+
 @RestController
 @RequestMapping("equipment")
 @MultipartConfig(fileSizeThreshold = 20971520)
 public class EquipmentRestController 
 {
-	
+	/*-------------------------------------------------------------------
+	 * 		 					ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	//Service
+	/**
+	 * 
+	 */
 	@Autowired
 	EquipmentService equipmentService;
 	
 	private static final String APPLICATION_PDF = "application/pdf";
 	
+	/*-------------------------------------------------------------------
+	 * 		 					RESOURCES
+	 *-------------------------------------------------------------------*/
 	/**
 	 * 
 	 * @param equipment
@@ -144,37 +156,30 @@ public class EquipmentRestController
 	{
 		equipmentService.updateEquipment(equipment);
 	}
-	
-	/*@CrossOrigin
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public void upload(@RequestParam("file") MultipartFile file)
-	{
-        System.out.println(String.format("Nome: " + file.getOriginalFilename()));
-    }*/
-	
+
+	/**
+	 * 
+	 * @param file
+	 * @param id
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/uploadFile/{id}", method = RequestMethod.POST)
-	public String uploadFile(@RequestParam("file[]") MultipartFile file[], @PathVariable Long id)
+	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long id)
 	{
-		equipmentService.uploadFile(file[0], id);
-		return "Enviado!";
+		return equipmentService.uploadFile(file, id);
     }
 	
+	/**
+	 * 
+	 * @param response
+	 * @param id
+	 * @throws IOException
+	 */
     @RequestMapping(value = "/downloadFile/{id}", method = RequestMethod.GET, produces = APPLICATION_PDF)
     public @ResponseBody void downloadFile(HttpServletResponse response, @PathVariable Long id) throws IOException 
     {
         equipmentService.downloadFile(response, id);
     }
-	
-	
-	
-	
-	
-	
-	
-    
-	
-	
-	
-	
+
 }

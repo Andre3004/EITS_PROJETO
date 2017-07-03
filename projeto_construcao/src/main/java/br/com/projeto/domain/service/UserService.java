@@ -18,18 +18,40 @@ import br.com.projeto.domain.entity.User;
 import br.com.projeto.domain.repository.IUserRepository;
 import br.com.projeto.infrastructure.Mailer;
 
-//IMPLEMENTAÇÃO
-
+/**
+ * 
+ * @author André
+ * @category Service
+ * 
+ */
 @RemoteProxy(name = "userService")
 @Service("userService")
 public class UserService
 {
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	//Repository
+	/**
+	 * 
+	 */
 	@Autowired
 	private IUserRepository userRepository;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private Mailer mailer;
 	
+	/*-------------------------------------------------------------------
+	 *				 		     SERVICES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String>  insertUser(User user)
@@ -52,12 +74,24 @@ public class UserService
 	    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário salvo com sucesso!");
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@RemoteMethod
 	public List<User> listAllUser() 
 	{
 		return userRepository.findAll();
 	}
 	
+	/**
+	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @return
+	 */
 	@RemoteMethod
 	public Page<User> listUsers(int page, int size, String property, String order) 
 	{
@@ -77,31 +111,53 @@ public class UserService
 		return userRepository.findAll(pageable);
 	}
 	
-	
+	/**
+	 * 
+	 * @param filter
+	 * @return
+	 */
 	@RemoteMethod
 	public Page<User> listUsersByFilters(String filter)
 	{
 		return userRepository.listUsersByFilters(filter, null);
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@RemoteMethod
 	public User findUserById(Long id) 
 	{
 		return userRepository.findOne(id);
 	}	
 	
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
 	@RemoteMethod
 	public User findByEmail(String email) 
 	{
 		return userRepository.findByEmail(email);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@RemoteMethod
 	public String helloWorld() 
 	{
 		return "Olá Mundo";
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@RemoteMethod
 	public User getCurrent()
 	{
@@ -110,12 +166,10 @@ public class UserService
 		return userCurrent;
 	}
 	
-	/*@RemoteMethod
-	@PreAuthorize("hasRole('ADMIN')")
-	public void deleteUser(Long id)
-	{
-		userRepository.delete(id);
-	}*/
+	/**
+	 * 
+	 * @param user
+	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void activateUser(User user) 
@@ -123,6 +177,11 @@ public class UserService
 		user.setActive(true);
 		userRepository.saveAndFlush(user);
 	}
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User deactivateUser(User user) 
@@ -135,6 +194,10 @@ public class UserService
 		user.setActive(false);
 		return userRepository.saveAndFlush(user);
 	}
+	/**
+	 * 
+	 * @param user
+	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void editUser(User user) 
@@ -145,6 +208,11 @@ public class UserService
 		userRepository.saveAndFlush(user);	 
 	}
 	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> updateUserToPassword(User user) 
@@ -159,6 +227,15 @@ public class UserService
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Senha atualizada com sucesso!");
 	}
 
+	/**
+	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @param filter
+	 * @return
+	 */
 	public Page<User> listUsersByFilters(int page, int size, String property, String order, String filter) 
 	{
 		Direction asc;

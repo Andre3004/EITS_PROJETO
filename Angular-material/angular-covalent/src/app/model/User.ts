@@ -1,3 +1,6 @@
+/**
+ * MODEL User
+ */
 export class User
 {
     id: number;

@@ -1,5 +1,8 @@
 import { User } from './User';
 
+/**
+ * MODEL Location
+ */
 export class Location
 {
 	id: number; 

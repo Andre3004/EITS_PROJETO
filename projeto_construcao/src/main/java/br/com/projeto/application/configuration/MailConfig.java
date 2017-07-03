@@ -13,14 +13,33 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import br.com.projeto.infrastructure.Mailer;
 
+/**
+ * 
+ * @author André
+ * @category Configuration
+ *
+ */
 @ComponentScan( basePackageClasses = Mailer.class)
 @PropertySource({"classpath:env/email.properties"})
 @Configuration
 public class MailConfig
 {
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	@Autowired
 	private Environment env;
 	
+	/*-------------------------------------------------------------------
+	 * 		 						BEANS
+	 *-------------------------------------------------------------------*/	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public JavaMailSender mailSender() 
 	{

@@ -14,42 +14,85 @@ import org.springframework.stereotype.Service;
 import br.com.projeto.domain.entity.Location;
 import br.com.projeto.domain.repository.ILocationRepository;
 
+/**
+ * 
+ * @author André
+ * @category Service
+ * 
+ */
 @Service
 @RemoteProxy(name = "locationService")
 public class LocationService 
 {
 	
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	//Repository
+	/**
+	 * 
+	 */
 	@Autowired
 	private ILocationRepository locationRepository;
 	
+	/*-------------------------------------------------------------------
+	 *				 		     SERVICES
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param location
+	 */
 	@RemoteMethod
 	public void insertLocation(Location location)
 	{
 		locationRepository.save(location);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Location> listAllLocation()
 	{
 		return locationRepository.findAll();
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public List<Location> listAllSubLocation(Long id) 
 	{
 		return locationRepository.findAllSubLocations(id);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Location findLocationById(Long id) 
 	{
 		return locationRepository.findOne(id);
 	}
 	
 
+	/**
+	 * 
+	 * @param id
+	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteLocation(Long id) 
 	{
 		locationRepository.delete(id);
 	}
 
+	/**
+	 * 
+	 * @param location
+	 */
 	public void updateLocation(Location location) 
 	{
 //		if ( location.getLocation().getId() == location.getId() )

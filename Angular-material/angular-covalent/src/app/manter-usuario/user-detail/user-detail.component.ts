@@ -11,11 +11,27 @@ import { Component, Inject } from '@angular/core';
 })
 export class UserDetailComponent  
 {
-    user : User;
+    /*-------------------------------------------------------------------
+    * 		 					ATTRIBUTES
+    *-------------------------------------------------------------------*/
+    /**
+     * 
+     */
+    user : User = new User();
 
+    /*-------------------------------------------------------------------
+    * 		 					CONSTRUCTOR
+    *-------------------------------------------------------------------*/  
+    /**
+     * 
+     * @param userService 
+     * @param router 
+     * @param activatedRouter 
+     */ 
     constructor(public userService: UserService, public router: Router, public activatedRouter: ActivatedRoute)
     {
-      activatedRouter.params.subscribe(params => {
+      activatedRouter.params.subscribe(params => 
+      {
 
           let id = params['id'];
          

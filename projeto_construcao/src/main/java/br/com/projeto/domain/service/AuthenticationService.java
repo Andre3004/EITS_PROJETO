@@ -8,13 +8,31 @@ import org.springframework.stereotype.Service;
 import br.com.projeto.domain.entity.User;
 import br.com.projeto.domain.repository.IUserRepository;
 
+/**
+ * 
+ * @author André
+ * @category Service
+ * 
+ */
 @Service
 public class AuthenticationService implements UserDetailsService 
 {
-	
+	/*-------------------------------------------------------------------
+	 *				 		     ATTRIBUTES
+	 *-------------------------------------------------------------------*/
+	//Repository
+	/**
+	 * 
+	 */
 	@Autowired
 	private IUserRepository userRepository;
 	
+	/*-------------------------------------------------------------------
+	 *				 		     SERVICES
+	 *-------------------------------------------------------------------*/
+	/**
+	 * 
+	 */
 	public User loadUserByUsername(String email)
 	{
 		try
