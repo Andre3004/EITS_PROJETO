@@ -18,31 +18,31 @@
                         <md-icon md-list-avatar mdTooltip="Descrição">description</md-icon>
                         <h1 md-line>Descrição: {{equipment.description}}</h1>
                     </md-list-item>
-                    <md-divider md-inset></md-divider>
+                    <!--<md-divider md-inset></md-divider>
                     <md-list-item *ngIf="equipment?.filePath != null">
                         <button md-icon-button (click)="downloadFile()" >
                             <md-icon md-list-avatar mdTooltip="Manual download">cloud_download</md-icon>
                         </button>
-                    </md-list-item>
+                        <div class="txt" >  Download manual do equipamento</div>
+                    </md-list-item>-->
                 </md-list> 
                     <md-list>
                     <md-divider></md-divider>
                     <md-list-item *ngIf="subequipments?.length == 0">
                         <md-icon md-list-icon>hourglass_empty</md-icon>
-                        <h4 md-line>Não possui sub localizações</h4>
+                        <h4 md-line>Não possui sub equipamentos</h4>
                     </md-list-item> 
                     <h3 *ngIf="subequipment" md-subheader>Sub equipamentos</h3>
-                    <md-list-item *ngFor="let subequipment of subequipments">
+                    <md-list-item *ngFor="let subequipment of subEquipments">
                         <md-icon mdTooltip="Sub Equipamento" md-list-icon>android</md-icon> 
                         <h4 md-line>Sub equipamento: {{subequipment?.name}}</h4>
                         <p md-line> Descrição: {{subequipment?.description }} </p>
-                         <button md-button mdTooltip="Desvincular" class="button" (click)="openConfirm(subequipment)" class="text-upper"><md-icon md-list-avatar>do_not_disturb_alt</md-icon></button> 
                         <button md-button mdTooltip="Editar" class="button" [routerLink]="['/equipment-edit', subequipment.id]" class="text-upper"><md-icon md-list-avatar>edit</md-icon></button> 
                     </md-list-item>
                 </md-list>
                 <md-card-actions class="button" >
                     <button md-raised-button class="button" color="accent" [routerLink]="['/equipment-edit', equipment.id]" class="text-upper">Editar</button> 
-                    <button md-raised-button class="button" color="accent" routerLink="/equipment" [queryParams]="{page:1}" class="text-upper">Voltar</button>
+                    <button md-raised-button class="button" color="accent" (click)="backClick()" class="text-upper">Voltar</button>
                 </md-card-actions>
      </md-card> 
   </td-layout-card-over>

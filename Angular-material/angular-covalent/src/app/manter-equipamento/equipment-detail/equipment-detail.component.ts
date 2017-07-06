@@ -4,6 +4,7 @@ import { EquipmentService } from './../../service/equipment.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TdDialogService } from '@covalent/core';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-equipment-detail',
@@ -22,7 +23,7 @@ export class EquipmentDetailComponent
   /**
    * 
    */
-  subequipments : Equipment[] ;
+  subEquipments : Equipment[] ;
   /**
    * 
    */
@@ -41,7 +42,7 @@ export class EquipmentDetailComponent
    */
   constructor(private _dialogService: TdDialogService, public equipmentService: EquipmentService, 
               public router: Router, public activatedRouter: ActivatedRoute, public snackBar: MdSnackBar,
-              private _viewContainerRef: ViewContainerRef) 
+              private _viewContainerRef: ViewContainerRef, private _location: Location) 
   { 
 
     activatedRouter.params.subscribe(params => 
@@ -66,9 +67,9 @@ export class EquipmentDetailComponent
    */
   getSubEquipments()
   {
-      this.equipmentService.listAllSubEquipment(this.id).subscribe(subequipments => 
+      this.equipmentService.listAllSubEquipments(this.id).subscribe(subEquipments => 
       { 
-        this.subequipments = subequipments;
+        this.subEquipments = subEquipments;
       }, 
       erro => console.log(erro));
   }
@@ -93,34 +94,9 @@ export class EquipmentDetailComponent
   }
   /**
    * 
-   * @param equipment 
    */
-  openConfirm(equipment): void 
+  backClick()
   {
-      this._dialogService.openConfirm(
-      {
-          message:'Tem certeza que deseja desvincular ' + equipment.name +  ' ?',
-          disableClose: false, 
-          viewContainerRef: this._viewContainerRef,
-          title: 'Desvincular equipamento', 
-          cancelButton: 'Não',
-          acceptButton: 'Sim', 
-      }).
-      afterClosed().subscribe((accept: boolean) => 
-      {
-        if (accept) 
-        {
-            this.equipmentService.deleteEquipment(equipment).subscribe(() => 
-            {
-                this.openSnackBar('Sub equipamento removido com sucesso', 'Sucesso!');
-                this.getSubEquipments();
-            },
-            erro => 
-            {
-              this.openSnackBar('Não foi possível remover o sub equipamento ' + equipment.name, 'Erro!');
-            }
-            );
-        }
-      })
+    this._location.back();
   }
 }

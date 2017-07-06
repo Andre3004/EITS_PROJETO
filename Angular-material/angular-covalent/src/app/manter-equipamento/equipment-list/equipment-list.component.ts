@@ -81,7 +81,7 @@ export class EquipmentListComponent implements OnInit{
    * @param _viewContainerRef 
    * @param userService 
    */
-  constructor(public snackBar: MdSnackBar, public equipmentService: EquipmentService, private router: Router,private route: ActivatedRoute,
+  constructor(public snackBar: MdSnackBar, public equipmentService: EquipmentService, public router: Router,private route: ActivatedRoute,
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef, public userService: UserService)
   {
       equipmentService.listEquipments(this.page - 1, this.size, this.property , this.order).subscribe(equipments => 

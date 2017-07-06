@@ -16,7 +16,7 @@
 	</properties>
 
 	<dependencies>
-	
+		
 		<!-- https://mvnrepository.com/artifact/com.sun.jersey.contribs/jersey-multipart -->
 		<dependency>
 		    <groupId>com.sun.jersey.contribs</groupId>

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -27,6 +28,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "location")
 @Audited
+@DataTransferObject
 public class Location implements Serializable 
 {
 	/**

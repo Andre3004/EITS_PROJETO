@@ -1,0 +1,33 @@
+<form>
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+        <td-search-box  [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" 
+                        placeholder="Procurar por nome, descrição ou código localizador" 
+                        (searchDebounce)="search(textSearch.value)" flex>
+        </td-search-box>
+    </div>
+    <md-divider></md-divider>
+    <td-data-table
+        #dataTable
+        [data]="mainEquipments.content"
+        [columns]="columns"
+        [selectable]="true"
+        [clickable]="false"
+        [multiple]="false"
+        [sortable]="true"
+        (rowSelect)="rowSelect($event)"
+        [sortBy]="sortBy"
+        [sortOrder]="order"
+        (sortChange)="sortEvent($event)">
+    </td-data-table>
+    <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+            <h3>Sem resultados.</h3>
+    </div>
+    <td-paging-bar #pagingBar [pageSizes]="[5, 10, 15, 20]" [total]="total" (change)="change($event)">
+        <span td-paging-bar-label hide-xs>Equipamentos:</span>
+        {{pagingBar.range}} <span hide-xs>de {{pagingBar.total}}</span>
+    </td-paging-bar>
+</form>
+<div class="button" >
+    <button md-raised-button  md-dialog-close color="accent" (click)="emitter()" >Salvar</button>
+    <button md-raised-button  md-dialog-close color="accent" >Cancelar</button>
+</div>

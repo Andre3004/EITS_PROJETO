@@ -134,9 +134,6 @@ export class LocationListComponent implements OnInit {
       name: 'codLocation', label: 'Código Localizador' , sortable: true
     },
     { 
-      name: 'location', label: 'Localização principal' , sortable: true
-    },
-    { 
       name: 'responsible', label: 'Responsável' , sortable: true
     },
     { 

@@ -148,6 +148,7 @@
     <convert converter="stringWrapper" match="org.directwebremoting.io.StringWrapper"/>
     
 	<!-- Spring Data -->
+	<convert converter="object" match="org.springframework.http.ResponseEntity"/>
 	<convert converter="object" match="org.springframework.data.domain.Page"/>
 	<convert converter="object" match="org.springframework.data.domain.PageRequest" javascript="PageRequest">
 		<param name="force" value="true"/>

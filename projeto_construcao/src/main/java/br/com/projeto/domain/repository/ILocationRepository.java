@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,12 +36,12 @@ public interface ILocationRepository extends JpaRepository<Location, Long>
 	 * @param pageable
 	 * @return
 	 */
+	/*@EntityGraph(attributePaths={"location.responsible.name", "location.responsible.lastName"})*/
 	@Query("select location  "
 			+ "from Location location  "
 			+ "where LOWER(responsible.name) like %:pFilter% "
 			+ "or LOWER(responsible.lastName) like %:pFilter% "
-			+ "or LOWER(location.codLocation) like %:pFilter% " 
-			+ "or LOWER(location.location.codLocation) like %:pFilter% ")
+			+ "or LOWER(codLocation) like %:pFilter% ")
 	public Page<Location> listLocationsByFilters(@Param("pFilter") String filter, Pageable pageable);
 	
 }

@@ -71,13 +71,23 @@ public class EquipmentRestController
 	}
 	/**
 	 * 
-	 * @return List<Equipment>
+	 * @param id
+	 * @param filter
+	 * @return
 	 */
 	@CrossOrigin
-	@RequestMapping(value = "/listAllEquipment", method = RequestMethod.GET)
-	public List<Equipment> listAllEquipment()
+	@RequestMapping(value = {"/ListNonAssociatedEquipmentByFilter/{page}/{size}/{property}/{order}/{id}/{filter}"}, method = RequestMethod.GET)
+	public Page<Equipment> ListNonAssociatedEquipmentByFilter(@PathVariable Long id, @PathVariable int page, @PathVariable int size,
+															  @PathVariable String property, @PathVariable String order, 
+															  @PathVariable String filter)
 	{
-		return equipmentService.listAllEquipment();
+		return equipmentService.ListNonAssociatedEquipmentByFilter(page, size, property, order, id, filter);
+	}
+	@CrossOrigin
+	@RequestMapping(value = {"/ListNonAssociatedEquipmentByFilter/{id}"}, method = RequestMethod.GET)
+	public Page<Equipment> ListNonAssociatedEquipmentByFilter(@PathVariable Long id)
+	{
+		return equipmentService.ListNonAssociatedEquipment(id);
 	}
 	/**
 	 * 
@@ -91,9 +101,9 @@ public class EquipmentRestController
 	@CrossOrigin
 	@RequestMapping(value = "/listEquipmentsByFilters/{page}/{size}/{property}/{order}/{filter} ", method = RequestMethod.GET)
 	public Page<Equipment> listEquipmentsByFilters(@PathVariable int page, @PathVariable int size,
-											     @PathVariable String property, @PathVariable String order,
-											     @PathVariable String filter)
-	{
+											       @PathVariable String property, @PathVariable String order,
+											       @PathVariable String filter)
+	{ 
 		Page<Equipment> equipments =  equipmentService.listEquipmentsByFilters(page, size, property, order, filter);
 		return equipments;
 	}
@@ -109,21 +119,10 @@ public class EquipmentRestController
 	@CrossOrigin
 	@RequestMapping(value = "/listEquipments/{page}/{size}/{property}/{order} ", method = RequestMethod.GET)
 	public Page<Equipment> listEquipments(@PathVariable int page, @PathVariable int size,
-							    @PathVariable String property, @PathVariable String order)
+										  @PathVariable String property, @PathVariable String order)
 	{
 		Page<Equipment> equipments =  equipmentService.listEquipments(page, size, property, order);
 		return equipments;
-	}
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@CrossOrigin
-	@RequestMapping(value = "/listAllSubEquipment/{id}", method = RequestMethod.GET)
-	public List<Equipment> listAllSubEquipment(@PathVariable("id") Long id)
-	{
-		return equipmentService.listAllSubEquipment(id);
 	}
 	/**
 	 * 
@@ -177,9 +176,27 @@ public class EquipmentRestController
 	 * @throws IOException
 	 */
     @RequestMapping(value = "/downloadFile/{id}", method = RequestMethod.GET, produces = APPLICATION_PDF)
-    public @ResponseBody void downloadFile(HttpServletResponse response, @PathVariable Long id) throws IOException 
+    public void downloadFile(HttpServletResponse response, @PathVariable Long id) throws IOException 
     {
         equipmentService.downloadFile(response, id);
+    }
+    
+    /**
+     * 
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/listAllSubEquipments/{id}", method = RequestMethod.GET)
+    public List<Equipment> listAllSubEquipments(@PathVariable Long id) 
+    {
+        return equipmentService.listAllSubEquipments(id);
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/disassociateEquipment/{id}", method = RequestMethod.PATCH)
+    public void disassociateEquipment(@PathVariable Long id) 
+    {
+        equipmentService.disassociateEquipment(id);
     }
 
 }

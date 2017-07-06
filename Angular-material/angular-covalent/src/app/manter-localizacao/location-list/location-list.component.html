@@ -2,7 +2,7 @@
     <td-layout-card-over cardTitle="Lista de Localizações"  cardWidth="75"  >
         <md-card>      
             <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
-                <td-search-box [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" placeholder="Procurar Localizações" (searchDebounce)="search(textSearch.value)" flex>
+                <td-search-box [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" placeholder="Procurar por código localizador ou nome completo do responsável" (searchDebounce)="search(textSearch.value)" flex>
                 </td-search-box>
             </div>
             <md-divider></md-divider>
@@ -22,16 +22,6 @@
                         {{location?.codLocation | truncate:20}}
                      </span>
                     </td>
-                    <td td-data-table-cell *ngIf="location.location != null">
-                      <span>  
-                        {{location?.location?.codLocation | truncate:20}} 
-                     </span>
-                    </td>
-                    <td td-data-table-cell *ngIf="location.location == null">
-                      <span>  
-                        - 
-                     </span>
-                    </td> 
                     <td td-data-table-cell>
                       <span>  
                         {{location.responsible.name | truncate:15}} {{location.responsible.lastName | truncate:15}} 

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.projeto.domain.entity.User;
 import br.com.projeto.domain.repository.IUserRepository;
@@ -24,8 +25,9 @@ import br.com.projeto.infrastructure.Mailer;
  * @category Service
  * 
  */
-@RemoteProxy(name = "userService")
+@RemoteProxy
 @Service("userService")
+@Transactional
 public class UserService
 {
 	/*-------------------------------------------------------------------
@@ -76,16 +78,6 @@ public class UserService
 	
 	/**
 	 * 
-	 * @return
-	 */
-	@RemoteMethod
-	public List<User> listAllUser() 
-	{
-		return userRepository.findAll();
-	}
-	
-	/**
-	 * 
 	 * @param page
 	 * @param size
 	 * @param property
@@ -109,17 +101,6 @@ public class UserService
 		PageRequest pageable = new PageRequest(page, size, asc, property);
 	    System.out.println(pageable);
 		return userRepository.findAll(pageable);
-	}
-	
-	/**
-	 * 
-	 * @param filter
-	 * @return
-	 */
-	@RemoteMethod
-	public Page<User> listUsersByFilters(String filter)
-	{
-		return userRepository.listUsersByFilters(filter, null);
 	}
 	
 	/**
@@ -200,7 +181,7 @@ public class UserService
 	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void editUser(User user) 
+	public void updateUser(User user) 
 	{
 		User currentUser = new User();
 		currentUser = userRepository.findOne(user.getId());

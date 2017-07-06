@@ -2,7 +2,7 @@
     <td-layout-card-over cardTitle="Lista de Equipamentos"  cardWidth="75"  >
         <md-card>      
             <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
-                <td-search-box [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" placeholder="Procurar Equipamentos" (searchDebounce)="search(textSearch.value)" flex>
+                <td-search-box [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" placeholder="Procurar por nome, descrição ou código localizador" (searchDebounce)="search(textSearch.value)" flex>
                 </td-search-box>
             </div>
             <md-divider></md-divider>

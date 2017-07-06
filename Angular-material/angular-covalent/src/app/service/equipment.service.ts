@@ -27,6 +27,10 @@ export class EquipmentService {
   /*-------------------------------------------------------------------
 	 * 		 					CONSTRUCTOR
 	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param http 
+   */
   constructor(public http: Http) 
   { 
     this.headers = new Headers();
@@ -42,7 +46,7 @@ export class EquipmentService {
    * 
    * @param equipment 
    */
-  insertEquipment(equipment): Observable<Response>
+  insertEquipment(equipment: Equipment): Observable<Response>
   {
     if(equipment.id != undefined )
     {
@@ -57,7 +61,7 @@ export class EquipmentService {
    * 
    * @param id 
    */
-  downloadFile(id)
+  downloadFile(id: Number)
   {
     return this.http.get(this.url + 'downloadFile/' + id);
   }
@@ -66,32 +70,23 @@ export class EquipmentService {
    * @param file 
    * @param id 
    */
-  updateFile(file, id): Observable<Response>
+  updateFile(file: FormData, id: Number): Observable<Response>
   {
-    console.log('Teste: ',file);
-    console.log('id: ', id)
     return this.http.post(this.url + 'uploadFile/' + id, file);
-  }
-  /**
-   * 
-   */
-  listAllEquipment(): Observable<Equipment[]>
-  {
-    return this.http.get(this.url + 'listAllEquipment').map(res => res.json());
   }
   /**
    * 
    * @param id 
    */
-  listAllSubEquipment(id): Observable<Equipment[]>
+  listAllSubEquipments(id: Number): Observable<Equipment[]>
   {
-    return this.http.get(this.url + 'listAllSubEquipment/' + id).map(res => res.json());
+    return this.http.get(this.url + 'listAllSubEquipments/' + id ).map(res => res.json());
   }  
   /**
    * 
    * @param equipment 
    */
-  deleteEquipment(equipment): Observable<Response>
+  deleteEquipment(equipment: Equipment): Observable<Response>
   {
     return this.http.delete(this.url + 'deleteEquipment/' + equipment.id);
   }
@@ -99,7 +94,7 @@ export class EquipmentService {
    * 
    * @param id 
    */
-  findEquipmentbyId(id): Observable<Equipment>
+  findEquipmentbyId(id: Number): Observable<Equipment>
   {
     return this.http.get(this.url + 'findEquipmentById/' + id).map(res => res.json());;
   }
@@ -111,7 +106,7 @@ export class EquipmentService {
    * @param order 
    * @param filter 
    */
-  listEquipmentsByFilters(page: number, size: number, property: String, order: String, filter: String): Observable<PageRequest>
+  listEquipmentsByFilters(page: Number, size: Number, property: String, order: String, filter: String): Observable<PageRequest>
   {
     return this.http.get(this.url + 'listEquipmentsByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + filter).map(res => res.json());
   }
@@ -122,8 +117,29 @@ export class EquipmentService {
    * @param property 
    * @param order 
    */
-  listEquipments(page: number, size: number, property: String, order: String): Observable<PageRequest>
+  listEquipments(page: Number, size: Number, property: String, order: String): Observable<PageRequest>
   {
-    return this.http.get(this.url + 'listEquipments/'+ page + '/' + size + '/' + property + '/' + order ).map(res => res.json());
+      return this.http.get(this.url + 'listEquipments/'+ page + '/' + size + '/' + property + '/' + order ).map(res => res.json());
+  }
+  /**
+   * 
+   * @param id 
+   * @param filter 
+   */
+  ListNonAssociatedEquipmentByFilter(page : Number, size: Number, property: String, order : String, id: Number, filter: String ): Observable<PageRequest>
+  {
+      if (!id)
+      {
+        id = 0;
+      }
+      return this.http.get(this.url + 'ListNonAssociatedEquipmentByFilter/'+ page + '/' + size + '/' + property + '/' + order + '/' + id + '/' + filter ).map(res => res.json()); 
+  }
+  /**
+   * 
+   * @param equipment 
+   */
+  disassociateEquipment(equipment: Equipment): Observable<Response>
+  { 
+      return this.http.patch(this.url + 'disassociateEquipment/' + equipment.id, { headers: this.headers });
   }
 }

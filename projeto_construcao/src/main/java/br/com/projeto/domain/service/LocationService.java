@@ -73,6 +73,7 @@ public class LocationService
 	 * @param id
 	 * @return
 	 */
+	@RemoteMethod
 	public Location findLocationById(Long id) 
 	{
 		return locationRepository.findOne(id);

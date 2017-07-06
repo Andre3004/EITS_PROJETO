@@ -68,14 +68,6 @@ public class UserRestController
 		Page<User> users =  userService.listUsers(page, size, property, order);
 		return users;
 	}
-	/*RETIRAR*/
-	@CrossOrigin
-	@RequestMapping(value = "/listAllUser", method = RequestMethod.GET)
-	public List<User> listAllUser()
-	{
-		return userService.listAllUser();
-	}
-	/**************************/
 	
 	/**
 	 * 
@@ -145,7 +137,7 @@ public class UserRestController
 	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
 	public void updateUser(@RequestBody User user)
 	{
-		userService.editUser(user);
+		userService.updateUser(user);
 	}
 	/**
 	 * 

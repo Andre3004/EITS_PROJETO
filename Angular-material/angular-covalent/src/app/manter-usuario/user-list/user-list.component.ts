@@ -57,6 +57,24 @@ export class UserListComponent  implements OnInit
      * 
      */
     filter : String = "";
+    /**
+     * 
+     */
+    columns: ITdDataTableColumn[] = 
+    [
+      { 
+        name: 'name', label: 'Nome' , sortable: true
+      },
+      { 
+        name: 'lastName', label: 'Sobrenome' , sortable: true
+      },
+      { 
+        name: 'email', label: 'Email' , sortable: true
+      },
+      { 
+        name: '', label: '' , sortable: false
+      }
+    ];
 
   /*-------------------------------------------------------------------
 	 * 		 					ONINIT
@@ -102,7 +120,7 @@ export class UserListComponent  implements OnInit
       }, 
       erro => console.log(erro));
       
-      // Broker.of("userService").promise("listAllUser")
+      // Broker.of("userService").promise("helloWorld")
       // .then((result) => {
       //   console.log(result);
       // })

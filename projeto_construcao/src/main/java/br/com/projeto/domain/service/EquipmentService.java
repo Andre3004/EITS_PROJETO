@@ -77,7 +77,7 @@ public class EquipmentService
 	 * @param id
 	 * @return
 	 */
-	public List<Equipment> listAllSubEquipment(Long id) 
+	public List<Equipment> listAllSubEquipments(Long id) 
 	{
 		return equipmentRepository.findAllSubEquipments(id);
 	}
@@ -206,4 +206,97 @@ public class EquipmentService
     	String path = equipmentRepository.findOne(id).getFilePath();
 		equipmentFile.read(response, id, path);
 	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<Equipment> listEquipments(Long id) 
+	{
+		return equipmentRepository.listEquipments(id);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param filter
+	 * @return
+	 */
+	public Page<Equipment> ListNonAssociatedEquipmentByFilter(int page, int size, String property, String order, Long id, String filter) 
+	{
+		Long idEquipmentAssociated = new Long(0);
+		Direction asc;
+		if ( filter.compareToIgnoreCase("null") == 0 )
+		{
+			filter = "";
+		}
+		if ( id == null )
+		{
+			id = new Long(0);
+		}
+		if (order.equals("ASC"))
+		{
+			asc = Direction.ASC;
+		}
+		else
+		{
+			asc = Direction.DESC;
+		}
+		PageRequest pageable = new PageRequest(page, size, asc, property);
+		if ( ( id != 0 ) && ( id != null) )
+		{
+			if ( ! (equipmentRepository.findOne(id).getEquipment() == null ) )
+			{
+				idEquipmentAssociated = equipmentRepository.findOne(id).getEquipment().getId();
+			}
+		}
+		
+		System.out.println("filtro 2 " + filter);
+		return equipmentRepository.ListNonAssociatedEquipmentByFilter(filter.toLowerCase(), id, idEquipmentAssociated, pageable);	
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public void disassociateEquipment(Long id) 
+	{
+		equipmentRepository.findOne(id).setEquipment(null);
+	}
+
+	public Page<Equipment> ListNonAssociatedEquipment(Long id) 
+	{
+		int page = 0;
+		int size = 5;
+		String filter ="";
+		if ( id == null )
+		{
+			id = new Long(0);
+		}
+		Long idEquipmentAssociated = new Long(0);
+		Direction asc = Direction.ASC;
+		String property = "name";
+		PageRequest pageable = new PageRequest(page, size, asc, property);
+		if ( ( id != 0 ) && ( id != null) )
+		{
+			if ( ! (equipmentRepository.findOne(id).getEquipment() == null ) )
+			{
+				idEquipmentAssociated = equipmentRepository.findOne(id).getEquipment().getId();
+			}
+		}
+		
+		return equipmentRepository.ListNonAssociatedEquipmentByFilter(filter, id, idEquipmentAssociated, pageable);	
+
+	}
+
+	/*public Page<Equipment> listMainEquipmentsByFilters(Long id, String filter) 
+	{
+		int page = 0;
+		int size = 10;
+		Direction asc = Direction.ASC;
+		String property = "name";
+		PageRequest pageable = new PageRequest(page, size, asc, property);
+		return equipmentRepository.findAllSubEquipments(id, pageable);	
+	}*/
 }

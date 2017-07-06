@@ -1,3 +1,4 @@
+import { EquipmentConsultEquipmentComponent } from './manter-equipamento/equipment-consult-equipment/equipment-consult-equipment.component';
 import { PageRequest } from './model/PageRequest';
 import { User } from './model/User';
 import { Location } from './model/Location';
@@ -26,7 +27,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSliderModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule, MdSlideToggleModule, MdProgressSpinnerModule, MdProgressBarModule } from '@angular/material';
+import { MaterialModule, MdCoreModule, MdButtonModule, MdListModule, MdIconModule, MdCardModule, MdMenuModule, MdSliderModule, MdRadioModule, MdInputModule, MdSnackBarModule, MdTabsModule, MdDialogModule, MdSlideToggleModule, MdProgressSpinnerModule, MdProgressBarModule, MdDialogRef } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CovalentLayoutModule, CovalentStepsModule, CovalentExpansionPanelModule,CovalentMessageModule, CovalentChipsModule, CovalentDialogsModule } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
@@ -53,7 +54,8 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     LocationDetailComponent,
     LocationFormComponent,
     EquipmentFormComponent,
-    EquipmentDetailComponent,
+    EquipmentDetailComponent, 
+    EquipmentConsultEquipmentComponent
   ],
   imports: 
   [
@@ -84,7 +86,6 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     CovalentChipsModule, 
     MdTabsModule,
     MdListModule,
-    MdDialogModule,
     CovalentDialogsModule,
     MdSliderModule, 
     CovalentFileModule, 
@@ -95,10 +96,12 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     CovalentDataTableModule,
     CovalentPagingModule,
     CovalentSearchModule,
-    CovalentCommonModule 
+    CovalentCommonModule,
+    MdDialogModule,
   ],
   exports: 
   [ 
+    
   ],
   providers: 
   [
@@ -113,12 +116,15 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     LocationService, 
     EquipmentService, 
     TdDialogService, 
-    AuthService, 
-    TdLoadingService 
+    AuthService,
   ],
   bootstrap: 
   [
     AppComponent
+  ],
+  entryComponents:
+  [
+    EquipmentConsultEquipmentComponent
   ]
 })
 export class AppModule { }
