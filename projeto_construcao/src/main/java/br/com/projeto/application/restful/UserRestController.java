@@ -1,7 +1,5 @@
 package br.com.projeto.application.restful;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -52,23 +50,6 @@ public class UserRestController
 	{
 		return userService.insertUser(user);
 	}
-	/**
-	 * 
-	 * @param page
-	 * @param size
-	 * @param property
-	 * @param order
-	 * @return
-	 */
-	@CrossOrigin
-	@RequestMapping(value = "/listUsers/{page}/{size}/{property}/{order} ", method = RequestMethod.GET)
-	public Page<User> listUsers(@PathVariable int page, @PathVariable int size,
-							    @PathVariable String property, @PathVariable String order)
-	{
-		Page<User> users =  userService.listUsers(page, size, property, order);
-		return users;
-	}
-	
 	/**
 	 * 
 	 * @param page
@@ -132,12 +113,13 @@ public class UserRestController
     /**
      * 
      * @param user
+     * @return 
      */
 	@CrossOrigin
 	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
-	public void updateUser(@RequestBody User user)
+	public ResponseEntity<String> updateUser(@RequestBody User user)
 	{
-		userService.updateUser(user);
+		return userService.updateUser(user);
 	}
 	/**
 	 * 

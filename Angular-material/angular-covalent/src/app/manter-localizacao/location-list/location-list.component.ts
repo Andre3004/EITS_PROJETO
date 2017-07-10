@@ -85,19 +85,12 @@ export class LocationListComponent implements OnInit {
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef, 
               public userService: UserService,private route: ActivatedRoute)
   {
-    locationService.listLocations(this.page - 1, this.size, this.property , this.order).subscribe(locations => 
-    { 
-      this.total = locations.totalElements;
-      console.log(locations)
-      this.locations = locations;
-    },  
-    erro => console.log(erro));
-
     userService.getCurrentUser().subscribe(user => 
     { 
       this.userCurrent = user;
     }, 
     erro => console.log(erro));
+    this.getLocations();
   }
   /*-------------------------------------------------------------------
   *                           BEHAVIORS
@@ -109,21 +102,14 @@ export class LocationListComponent implements OnInit {
   {
     if (this.filter === '')
     {
-      this.locationService.listLocations(this.page -1 , this.size , this.property ,this.order).subscribe(locations=>
-      {
-        this.locations = locations;
-        this.total = locations.totalElements;
-      },erro => console.log(erro));
+      this.filter = "null";
     }
-    else
+    this.locationService.listMainLocationsByFilters(this.page -1 , this.size , this.property ,this.order, this.filter ).subscribe(locations=>
     {
-      this.locationService.listLocationsByFilters(0 , this.size , this.property ,this.order, this.filter ).subscribe(locations=>
-      {
-        this.locations = locations;
-        this.total = locations.totalElements;
-      },
-      erro => console.log(erro));
-    }
+      this.locations = locations;
+      this.total = locations.totalElements;
+    },
+    erro => console.log(erro));
   }
   /**
    * 
@@ -185,7 +171,7 @@ export class LocationListComponent implements OnInit {
   {
     this.snackBar.open(msg, action, 
     {
-      duration: 5000,
+      duration: 6000,
     }); 
   }
   /**
@@ -215,7 +201,7 @@ export class LocationListComponent implements OnInit {
             erro => 
             {
               console.log(erro);
-              this.openSnackBar('Não foi possível remover a Localização ' + location.codLocation, 'Erro!');
+              this.openSnackBar('Não foi possível remover a Localização ' + location.codLocation + ' a mesma está associada a um equipamento ou localização', 'Erro!');
             });
         }
       })

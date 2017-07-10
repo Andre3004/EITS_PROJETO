@@ -18,28 +18,31 @@
                         <md-icon md-list-avatar mdTooltip="Descrição">description</md-icon>
                         <h1 md-line>Descrição: {{equipment.description}}</h1>
                     </md-list-item>
-                    <!--<md-divider md-inset></md-divider>
-                    <md-list-item *ngIf="equipment?.filePath != null">
-                        <button md-icon-button (click)="downloadFile()" >
-                            <md-icon md-list-avatar mdTooltip="Manual download">cloud_download</md-icon>
-                        </button>
-                        <div class="txt" >  Download manual do equipamento</div>
-                    </md-list-item>-->
                 </md-list> 
-                    <md-list>
-                    <md-divider></md-divider>
-                    <md-list-item *ngIf="subequipments?.length == 0">
-                        <md-icon md-list-icon>hourglass_empty</md-icon>
-                        <h4 md-line>Não possui sub equipamentos</h4>
-                    </md-list-item> 
-                    <h3 *ngIf="subequipment" md-subheader>Sub equipamentos</h3>
-                    <md-list-item *ngFor="let subequipment of subEquipments">
-                        <md-icon mdTooltip="Sub Equipamento" md-list-icon>android</md-icon> 
-                        <h4 md-line>Sub equipamento: {{subequipment?.name}}</h4>
-                        <p md-line> Descrição: {{subequipment?.description }} </p>
-                        <button md-button mdTooltip="Editar" class="button" [routerLink]="['/equipment-edit', subequipment.id]" class="text-upper"><md-icon md-list-avatar>edit</md-icon></button> 
-                    </md-list-item>
-                </md-list>
+                <md-divider></md-divider>
+                     <md-list>
+                        <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+                            <td-search-box [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" placeholder="Procurar sub equipamento por nome ou descrição do equipamento" (searchDebounce)="search(textSearch.value)" flex>
+                            </td-search-box>
+                        </div>
+                        <md-list-item *ngIf="total == 0">
+                            <md-icon md-list-icon>hourglass_empty</md-icon>
+                            <h4 md-line>Sem resultados</h4>
+                        </md-list-item> 
+                        <md-list-item *ngFor="let subEquipment of subEquipments.content">
+                            <h4 md-line>Sub Equipamento: {{subEquipment?.name}}</h4>
+                            <p md-line> descrição: {{subEquipment?.description }} </p>                                
+                            <button md-button mdTooltip="Editar" class="button" [routerLink]="['/equipment-edit', subEquipment.id]" class="text-upper"><md-icon >edit</md-icon></button> 
+                        </md-list-item>
+                    </md-list>
+                    <td-paging-bar #pagingBar [firstLast]="true" 
+                            [pageSizeAll]="false" [pageSizes]="[5,10,20]"
+                    pageLinkCount="5" [initialPage]="1" [pageSize]="5" [total]="total" (change)="change($event)">
+                        {{pagingBar.range}} 
+                        <span hide-xs>
+                            of {{pagingBar.total}}
+                        </span>
+                    </td-paging-bar>                       
                 <md-card-actions class="button" >
                     <button md-raised-button class="button" color="accent" [routerLink]="['/equipment-edit', equipment.id]" class="text-upper">Editar</button> 
                     <button md-raised-button class="button" color="accent" (click)="backClick()" class="text-upper">Voltar</button>

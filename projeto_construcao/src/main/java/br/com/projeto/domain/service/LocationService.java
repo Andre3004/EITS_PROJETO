@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import br.com.projeto.domain.entity.Equipment;
 import br.com.projeto.domain.entity.Location;
 import br.com.projeto.domain.repository.ILocationRepository;
 
@@ -42,32 +45,18 @@ public class LocationService
 	/**
 	 * 
 	 * @param location
+	 * @return 
 	 */
 	@RemoteMethod
-	public void insertLocation(Location location)
+	public ResponseEntity<String> insertLocation(Location location)
 	{
+		if ( ( locationRepository.findByCodLocationAndId(location.getCodLocation().toLowerCase(), new Long(0)) != null ) ) 
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe uma localização com este código localizador");
+		}
 		locationRepository.save(location);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Localização salva com sucesso!");
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public List<Location> listAllLocation()
-	{
-		return locationRepository.findAll();
-	}
-
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public List<Location> listAllSubLocation(Long id) 
-	{
-		return locationRepository.findAllSubLocations(id);
-	}
-
 	/**
 	 * 
 	 * @param id
@@ -78,8 +67,6 @@ public class LocationService
 	{
 		return locationRepository.findOne(id);
 	}
-	
-
 	/**
 	 * 
 	 * @param id
@@ -93,31 +80,16 @@ public class LocationService
 	/**
 	 * 
 	 * @param location
+	 * @return 
 	 */
-	public void updateLocation(Location location) 
+	public ResponseEntity<String> updateLocation(Location location) 
 	{
-//		if ( location.getLocation().getId() == location.getId() )
-//		{
-//			throw new IllegalArgumentException("Nâo foi possível salvar a localização.");
-//		}
-//		if ( (location.getLocation().getLocation().getLocation()).equals(null)  )
-//		{
-//			throw new IllegalArgumentException("A localização selecionada é uma localização principal");
-//		}
-		
-//		if ( !( (location.getLocation()).equals(null) )  )
-//		{
-//			Long id = location.getId();
-//			Long idMain = location.getLocation().getId();
-//			List<Location> locations = locationRepository.findAllSubLocations(idMain);
-//			Boolean existe = false;
-//			for (int i=0; locations.size() < i; i++)
-//			{
-//				if (  )
-//			}
-//			throw new IllegalArgumentException("A localização selecionada é uma localização principal");
-//		}
+		if ( ( locationRepository.findByCodLocationAndId(location.getCodLocation().toLowerCase(), location.getId()) != null ) ) 
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe uma localização com este código localizador");
+		}
 		locationRepository.saveAndFlush(location);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Localização salva com sucesso!");
 	}
     /**
      * 
@@ -128,10 +100,13 @@ public class LocationService
      * @param filter
      * @return
      */
-	public Page<Location> listLocationsByFilters(int page, int size, String property, String order, String filter) 
+    public Page<Location> listMainLocationsByFilters(int page, int size, String property, String order, String filter) 
 	{
 		Direction asc;
-		
+		if ( filter.compareToIgnoreCase("null") == 0 )
+		{
+			filter = "";
+		}
 		if (order.equals("ASC"))
 		{
 			asc = Direction.ASC;
@@ -142,20 +117,49 @@ public class LocationService
 		}
 		PageRequest pageable = new PageRequest(page, size, asc, property);
 	    System.out.println(pageable);
-		return locationRepository.listLocationsByFilters(filter.toLowerCase(), pageable);
+		return locationRepository.listMainLocationsByFilters(filter.toLowerCase(), pageable);
 	}
-    /**
-     * 
-     * @param page
-     * @param size
-     * @param property
-     * @param order
-     * @return
-     */
-	public Page<Location> listLocations(int page, int size, String property, String order) 
+    public Page<Location> listLocationsByFilters(int page, int size, String property, String order, String filter) 
+ 	{
+ 		Direction asc;
+ 		if ( filter.compareToIgnoreCase("null") == 0 )
+ 		{
+ 			filter = "";
+ 		}
+ 		if (order.equals("ASC"))
+ 		{
+ 			asc = Direction.ASC;
+ 		}
+ 		else
+ 		{
+ 			asc = Direction.DESC;
+ 		}
+ 		PageRequest pageable = new PageRequest(page, size, asc, property);
+ 	    System.out.println(pageable);
+ 		return locationRepository.listLocationsByFilters(filter.toLowerCase(), pageable);
+ 	} 
+	/**
+	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @param id
+	 * @param filter
+	 * @return
+	 */
+	public Page<Location> ListNonAssociatedLocationByFilter(int page, int size, String property, String order, Long id, String filter) 
 	{
+		Long idLocationAssociated = new Long(0);
 		Direction asc;
-		
+		if ( filter.compareToIgnoreCase("null") == 0 )
+		{
+			filter = "";
+		}
+		if ( id == null )
+		{
+			id = new Long(0);
+		}
 		if (order.equals("ASC"))
 		{
 			asc = Direction.ASC;
@@ -164,12 +168,37 @@ public class LocationService
 		{
 			asc = Direction.DESC;
 		}
-		
 		PageRequest pageable = new PageRequest(page, size, asc, property);
-	    System.out.println(pageable);
-		return locationRepository.findAll(pageable);
+		if ( ( id != 0 ) && ( id != null) )
+		{
+			if ( (locationRepository.findOne(id).getLocation() != null ) )
+			{
+				idLocationAssociated = locationRepository.findOne(id).getLocation().getId();
+			}
+		}
+		return locationRepository.ListNonAssociatedLocationByFilter(filter.toLowerCase(), id, idLocationAssociated, pageable);	
 	}
-	
-	
+	public Page<Location> listSubLocationByFilter(int page, int size, String property, String order, String filter,Long id) 
+	{
+		Direction asc;
+		if ( filter.compareToIgnoreCase("null") == 0 )
+		{
+			filter = "";
+		}
+		if ( id == null )
+		{
+			id = new Long(0);
+		}
+		if (order.equals("ASC"))
+		{
+			asc = Direction.ASC;
+		}
+		else
+		{
+			asc = Direction.DESC;
+		}
+		PageRequest pageable = new PageRequest(page, size, asc, property);
+		return locationRepository.listSubLocationByFilter(filter.toLowerCase(), id, pageable);	
+	}
 
 }

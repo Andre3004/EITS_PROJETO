@@ -50,7 +50,6 @@ public class EquipmentFile
 			String realPath = request.getServletContext().getRealPath("/" + baseFolder);
 			String path = realPath + "/" + file.getOriginalFilename();
 			file.transferTo(new File(path));
-			System.out.println(path);
 			return path;
 		} 
 		catch (IllegalStateException | IOException e) 

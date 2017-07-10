@@ -12,7 +12,15 @@
     position:relative;
     left: 80%;
 }
-.comboBox
+.select
 {
-  width: 350px;
+  width: 50%;
+}
+.selectFile
+{
+  width: 40%;
+}
+.selectMain
+{
+  width: 55%;
 }

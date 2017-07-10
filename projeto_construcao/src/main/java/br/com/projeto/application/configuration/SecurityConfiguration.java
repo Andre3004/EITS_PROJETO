@@ -45,36 +45,38 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 		.authorizeRequests()
 			.antMatchers("/**").permitAll();
 		
-//		http
-//		.authorizeRequests()
-//			.anyRequest().authenticated()
-//			.and()
-//		.formLogin()
-//			.permitAll()
-//			.and()
-//		.csrf().disable()
-//		.sessionManagement();
+/*		http
+		.authorizeRequests()
+			.anyRequest().authenticated()
+			.and()
+		.formLogin()
+			.permitAll()
+			.and()
+		.csrf().disable()
+		.sessionManagement();*/
 		
 		/**
 		*
 		*/
-//		http.csrf().disable().sessionManagement().maximumSessions(1).expiredUrl("/login");
-//		http.headers().frameOptions().disable();
-//
-//		http
-//		.authorizeRequests()
-//		.anyRequest()
-//		.authenticated()
-//		.and()
-//		.formLogin()
-//		.usernameParameter( "email" )
-//		.passwordParameter( "senha" )
-//		.loginPage( "/login" )
-//		.loginProcessingUrl( "/authenticate" )
-//		.permitAll()
-//		.and()
-//		.logout()
-//		.logoutUrl( "/logout" );
+/*		http.csrf().disable().sessionManagement().maximumSessions(1).expiredUrl("/login");
+		http.headers().frameOptions().disable();
+
+		http
+		.authorizeRequests()
+    	.anyRequest()
+		.authenticated()
+		.and()
+		.formLogin()
+		.usernameParameter( "email" )
+		.passwordParameter( "senha" )
+		.loginPage( "/login" )
+		.loginProcessingUrl( "/authenticate" )
+		.permitAll()
+		.and()
+		.logout()
+		.logoutUrl( "/logout" )
+		.and()
+		.httpBasic();*/
 		}
 
 

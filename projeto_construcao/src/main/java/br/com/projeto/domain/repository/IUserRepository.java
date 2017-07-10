@@ -36,8 +36,10 @@ public interface IUserRepository extends JpaRepository<User, Long>
 	 * @param email
 	 * @return
 	 */
-	@Query("select user from User user where user.email = :email")
-	public User findByEmail(@Param("email") String email);
+	@Query("select user from User user where "
+			+ "(user.email = :email) "
+			+ "and (user.id <> :id)")
+	public User findByEmail(@Param("email") String email, @Param("id") Long id);
 	
 	/**
 	 * 
@@ -47,15 +49,6 @@ public interface IUserRepository extends JpaRepository<User, Long>
 	 */
 	@Query("select user from User user where LOWER(name) like %:pFilter% or LOWER(email) like %:pFilter% or LOWER(lastName) like %:pFilter%")
 	public Page<User> listUsersByFilters(@Param("pFilter") String filter, Pageable pageable);
-
-	/**
-	 * 
-	 * @param name
-	 * @param email
-	 * @return
-	 */
-	@Query("select user from User user where LOWER(email) = :email or LOWER(name) = :name")
-	public List<User> findByEmailAndName(@Param("name")String name, @Param("email")String email);
 	
 
 }

@@ -1,8 +1,9 @@
+import { PageRequest } from './../../model/PageRequest';
 import { MdSnackBar } from '@angular/material';
 import { Equipment } from './../../model/Equipment';
 import { EquipmentService } from './../../service/equipment.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TdDialogService } from '@covalent/core';
+import { TdDialogService, IPageChangeEvent } from '@covalent/core';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Location } from '@angular/common';
 
@@ -23,7 +24,34 @@ export class EquipmentDetailComponent
   /**
    * 
    */
-  subEquipments : Equipment[] ;
+  /**
+   * 
+   */
+  subEquipments: PageRequest = new PageRequest();
+  /**
+   * 
+   */
+  page: number = 1;
+  /**
+    * 
+    */
+  size: number = 5;
+  /**
+    * 
+    */
+  order: String ="ASC";
+  /**
+    * 
+    */
+  property: String="name";
+  /**
+    * 
+    */
+  total: Number = 0;
+  /**
+    * 
+    */
+  filter: String = "null";
   /**
    * 
    */
@@ -67,30 +95,35 @@ export class EquipmentDetailComponent
    */
   getSubEquipments()
   {
-      this.equipmentService.listAllSubEquipments(this.id).subscribe(subEquipments => 
+      if (this.filter === '')
       { 
+        this.filter = "null";
+      }
+      this.equipmentService.listSubEquipmentByFilter(this.page -1 , this.size , this.property ,this.order, this.filter, this.id).subscribe(subEquipments => 
+      {         
         this.subEquipments = subEquipments;
+        this.total = this.subEquipments.totalElements;
       }, 
       erro => console.log(erro));
   }
   /**
    * 
+   * @param textSearch 
    */
-  downloadFile()
+  search(textSearch: String) 
   {
-      window.location.assign("/projeto/equipment/downloadFile/" + this.id);
+    this.filter = textSearch;
+    this.getSubEquipments();
   }
   /**
    * 
-   * @param msg 
-   * @param action 
+   * @param event 
    */
-  openSnackBar(msg, action) 
+  change(event: IPageChangeEvent): void 
   {
-    this.snackBar.open(msg, action, 
-    {
-      duration: 5000,
-    }); 
+      this.page = event.page.valueOf();
+      this.size = event.pageSize.valueOf();
+      this.getSubEquipments();
   }
   /**
    * 

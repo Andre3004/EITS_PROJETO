@@ -26,7 +26,7 @@ public class LocationServiceTest extends IntegrationTests{
 	{
 		Location location = new Location();
 		User user = new User();
-		user = userService.findByEmail("andre.luiz@eits.com.br");	
+//		user = userService.findByEmail("andre.luiz@eits.com.br");	
 		
 		location.setCodLocation("Cataratas");
 		location.setLocation(null);

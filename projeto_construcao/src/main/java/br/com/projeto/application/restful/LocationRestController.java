@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.projeto.domain.entity.Equipment;
 import br.com.projeto.domain.entity.Location;
 import br.com.projeto.domain.entity.User;
 import br.com.projeto.domain.service.LocationService;
@@ -39,15 +41,32 @@ public class LocationRestController
 	 *-------------------------------------------------------------------*/
 	/**
 	 * 
+	 * @param id
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @param filter
+	 * @return
+	 */
+	@CrossOrigin
+	@RequestMapping(value = {"/ListNonAssociatedLocationByFilter/{page}/{size}/{property}/{order}/{id}/{filter}"}, method = RequestMethod.GET)
+	public Page<Location> ListNonAssociatedLocationByFilter(  @PathVariable Long id, @PathVariable int page, @PathVariable int size,
+															  @PathVariable String property, @PathVariable String order, 
+															  @PathVariable String filter)
+	{
+		return locationService.ListNonAssociatedLocationByFilter(page, size, property, order, id, filter);
+	}
+	/**
+	 * 
 	 * @param location
+	 * @return 
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/insertLocation", method = RequestMethod.POST)
-	public void insertLocation(@RequestBody Location location)
+	public ResponseEntity<String> insertLocation(@RequestBody Location location)
 	{
-		System.out.println(location.getCodLocation());
-		System.out.println(location.getResponsible().getName());
-		locationService.insertLocation(location);
+		return locationService.insertLocation(location);
 	}
 	/**
 	 * 
@@ -64,46 +83,42 @@ public class LocationRestController
 											     @PathVariable String property, @PathVariable String order,
 											     @PathVariable String filter)
 	{
-		Page<Location> locations =  locationService.listLocationsByFilters(page, size, property, order, filter);
-		return locations;
+		return locationService.listLocationsByFilters(page, size, property, order, filter);
 	}
-	/**
-	 * 
-	 * @return
-	 */
-	@CrossOrigin
-	@RequestMapping(value = "/listAllLocation", method = RequestMethod.GET)
-	public List<Location> listAllLocation()
-	{
-		return locationService.listAllLocation();
-	}
-	
 	/**
 	 * 
 	 * @param page
 	 * @param size
 	 * @param property
 	 * @param order
+	 * @param filter
 	 * @return
 	 */
 	@CrossOrigin
-	@RequestMapping(value = "/listLocations/{page}/{size}/{property}/{order} ", method = RequestMethod.GET)
-	public Page<Location> listLocations(@PathVariable int page, @PathVariable int size,
-							    @PathVariable String property, @PathVariable String order)
+	@RequestMapping(value = "/listMainLocationsByFilters/{page}/{size}/{property}/{order}/{filter} ", method = RequestMethod.GET)
+	public Page<Location> listMainLocationsByFilters(@PathVariable int page, @PathVariable int size,
+											     @PathVariable String property, @PathVariable String order,
+											     @PathVariable String filter)
 	{
-		Page<Location> locations =  locationService.listLocations(page, size, property, order);
-		return locations;
+		return locationService.listMainLocationsByFilters(page, size, property, order, filter);
 	}
 	/**
 	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @param filter
 	 * @param id
 	 * @return
 	 */
 	@CrossOrigin
-	@RequestMapping(value = "/listAllSubLocation/{id}", method = RequestMethod.GET)
-	public List<Location> listAllSubLocation(@PathVariable("id") Long id)
+	@RequestMapping(value = "/listSubLocationByFilter/{page}/{size}/{property}/{order}/{filter}/{id}", method = RequestMethod.GET)
+	public Page<Location> listSubLocationByFilter(@PathVariable int page, @PathVariable int size,
+											      @PathVariable String property, @PathVariable String order,
+											      @PathVariable String filter, @PathVariable Long id)
 	{
-		return locationService.listAllSubLocation(id);
+		return locationService.listSubLocationByFilter(page, size, property, order, filter, id);
 	}
 	/**
 	 * 
@@ -132,9 +147,9 @@ public class LocationRestController
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/updateLocation", method = RequestMethod.PUT)
-	public void updateLocation(@RequestBody Location location)
+	public ResponseEntity<String> updateLocation(@RequestBody Location location)
 	{
-		locationService.updateLocation(location);
+		return locationService.updateLocation(location);
 	}
 	
 }

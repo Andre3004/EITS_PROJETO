@@ -7,6 +7,10 @@ import { inject } from '@angular/core/testing';
 import { Component, OnInit, Input } from '@angular/core';
 import { MdInputModule, MdSnackBar} from '@angular/material';
 import { Broker } from 'eits-ng2';
+import {FormControl, Validators} from '@angular/forms';
+
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -21,6 +25,10 @@ export class UserFormComponent
      * 
      */
     user : User = new User();
+    /**
+     * 
+     */
+    emailFormControl = new FormControl('', [Validators.required,Validators.pattern(EMAIL_REGEX)]);
     /**
      * 
      */

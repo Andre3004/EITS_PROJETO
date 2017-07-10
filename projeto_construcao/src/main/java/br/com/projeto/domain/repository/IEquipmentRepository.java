@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.projeto.domain.entity.Equipment;
+import br.com.projeto.domain.entity.Location;
 
 /**
  * 
@@ -24,13 +25,11 @@ import br.com.projeto.domain.entity.Equipment;
 @Transactional
 public interface IEquipmentRepository extends JpaRepository<Equipment, Long>
 {
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@Query("select equipment from Equipment equipment where equipment.equipment.id = :id")
-	public List<Equipment> findAllSubEquipments(@Param("id") Long id);
+	@Query("select equipment from Equipment equipment where "
+			+ "(equipment.equipment.id = :id ) "
+			+ "and ( LOWER(equipment.name) like %:pFilter% "
+			+ "or LOWER(equipment.description) like %:pFilter% )")
+	public Page<Equipment> listSubEquipmentByFilter(@Param("pFilter")String filter, @Param("id")Long id, Pageable pageable);
 
 	/**
 	 * 
@@ -44,7 +43,7 @@ public interface IEquipmentRepository extends JpaRepository<Equipment, Long>
 			+ "or LOWER(description) like %:pFilter% "
 			+ "or LOWER(equipment.location.codLocation) like %:pFilter% )"
 			+ "and ( equipment.equipment is null )")
-	public Page<Equipment> listEquipmentsByFilters(@Param("pFilter") String filter, Pageable pageable);
+	public Page<Equipment> listMainEquipmentsByFilters(@Param("pFilter") String filter, Pageable pageable);
 	
 	/**
 	 * 
@@ -54,23 +53,6 @@ public interface IEquipmentRepository extends JpaRepository<Equipment, Long>
 	 */
 	@Query("select equipment from Equipment equipment where (equipment.filePath = :pFilter) and (equipment.id <> :id)")
 	public List<Equipment> findFilesEquals(@Param("pFilter") String filter, @Param("id") Long id);
-	
-	/**
-	 * 
-	 * @param pageable
-	 * @return
-	 */
-	@Query("select equipment from Equipment equipment where equipment.equipment is null")
-	public Page<Equipment> findMainEquipment(Pageable pageable);
-
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@Query("select equipment from Equipment equipment where id <> :id")
-	public List<Equipment> listEquipments(@Param("id") Long id);
-
 	/**
 	 * 
 	 * @param filter
@@ -80,10 +62,16 @@ public interface IEquipmentRepository extends JpaRepository<Equipment, Long>
 	 */
 	@Query("select equipment from Equipment equipment where "
 			+ "( id <> :id ) "
-			+ "and ( ( equipment.equipment.id <> :id ) or ( equipment.equipment.id is null) )"
-			+ "and ( LOWER(name) like %:pFilter%)"
+			+ "and ( ( equipment.equipment.id <> :id ) or ( equipment.equipment.id is null) ) "
+			+ "and ( LOWER(name) like %:pFilter% "
+			+ "or LOWER(description) like %:pFilter% "
+			+ "or LOWER(equipment.location.codLocation) like %:pFilter% ) "
 			+ "and ( id <> :idEquipmentAssociated )")
 	public Page<Equipment> ListNonAssociatedEquipmentByFilter(@Param("pFilter") String filter, @Param("id") Long id, 
 															  @Param("idEquipmentAssociated") Long idEquipmentAssociated, Pageable pageable);
 	
+	@Query("select equipment from Equipment equipment where "
+			+ "(LOWER(name) = :name) "
+			+ "and ( id <> :id )")
+	public Equipment findByNameAndId(@Param("name")String name, @Param("id")Long id);
 }

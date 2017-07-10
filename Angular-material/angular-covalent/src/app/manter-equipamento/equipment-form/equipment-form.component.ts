@@ -1,3 +1,4 @@
+import { LocationConsultLocationComponent } from './../../manter-localizacao/location-consult-location/location-consult-location.component';
 import { EquipmentConsultEquipmentComponent } from './../equipment-consult-equipment/equipment-consult-equipment.component';
 import { UserFormComponent } from './../../manter-usuario/user-form/user-form.component';
 import { PageRequest } from './../../model/PageRequest';
@@ -16,15 +17,12 @@ import { MdDialog, MdDialogRef } from '@angular/material';
   templateUrl: './equipment-form.component.html',
   styleUrls: ['./equipment-form.component.css'],
 })
-export class EquipmentFormComponent implements OnInit{
+export class EquipmentFormComponent
+{
 
   /*-------------------------------------------------------------------
 	 * 		 					ATTRIBUTES
 	 *-------------------------------------------------------------------*/
-  /**
-   * 
-   */
-  locations: Location[] = [];
   /**
    * 
    */
@@ -36,15 +34,11 @@ export class EquipmentFormComponent implements OnInit{
   /**
    * 
    */
-  subEquipments: Equipment[] = [];
+  subEquipments: PageRequest = new PageRequest();
   /**
    * 
    */
   id: number = 0;
-  /**
-   * 
-   */
-  disabled: boolean = false;
   /**
    * 
    */
@@ -64,7 +58,19 @@ export class EquipmentFormComponent implements OnInit{
   /**
    * 
    */
-  filter: String=" ";
+  filter: String="null";
+  /**
+   * 
+   */
+  total : Number = 0;
+  /**
+   * 
+   */
+  fullCodLocation : String = "";
+  /**
+   * 
+   */
+  fullNameMainEquipment : String = "";
   /**
    * 
    */
@@ -72,24 +78,15 @@ export class EquipmentFormComponent implements OnInit{
   /**
    * 
    */
-  dialogRef: MdDialogRef<EquipmentConsultEquipmentComponent>
+  dialogRefEquipment: MdDialogRef<EquipmentConsultEquipmentComponent>
+  /**
+   * 
+   */
+  dialogRefLocation: MdDialogRef<LocationConsultLocationComponent>
   /**
    * 
    */
   file: File;
-  /*-------------------------------------------------------------------
-	 * 		 					ONINIT
-	 *-------------------------------------------------------------------*/
-  /**
-   * 
-   */
-  ngOnInit(): void 
-  {
-    if (this.id)
-    {
-      this.equipmentService.findEquipmentbyId(this.id).subscribe( equipment => this.equipment = equipment, erro => console.log(erro));
-    }
-  }
   /*-------------------------------------------------------------------
 	 * 		 					CONSTRUCTOR
 	 *-------------------------------------------------------------------*/
@@ -109,16 +106,28 @@ export class EquipmentFormComponent implements OnInit{
               private _viewContainerRef: ViewContainerRef, private _dialogService: TdDialogService,
               public dialog: MdDialog) 
   {
-      locationService.listAllLocation().subscribe(locations => 
-      { 
-        this.locations = locations;
-      }, 
-      erro => console.log(erro));
-
-      activatedRoute.params.subscribe(params => {
-               
+      activatedRoute.params.subscribe(params => 
+      {
         let id = params['id'];
         this.id = id;
+        if (id)
+        { 
+          this.equipmentService.findEquipmentbyId(this.id).subscribe( 
+          equipment => 
+          {
+            this.equipment = equipment;    
+            if ( this.equipment.location )
+            {
+              this.fullCodLocation =  this.equipment.location.codLocation;
+            }
+            if ( this.equipment.equipment )
+            {
+              this.fullNameMainEquipment = this.equipment.equipment.name;
+            }  
+          }, 
+          erro => console.log(erro));
+        }   
+        this.getSubEquipments();
       });
 
       this._loadingService.create(
@@ -128,12 +137,10 @@ export class EquipmentFormComponent implements OnInit{
         type: LoadingType.Linear,
         color: 'accent',
       });
-      this.getMainEquipments();
-      if (this.id)
-      {
-        this.getSubEquipments();
-      }
-  } 
+  }
+
+      
+ 
 
   /*-------------------------------------------------------------------
   *                           BEHAVIORS
@@ -155,30 +162,33 @@ export class EquipmentFormComponent implements OnInit{
   /**
    * 
    */
-  getMainEquipments()
-  {
-      // this.equipmentService.ListNonAssociatedEquipmentByFilter(this.id, this.filter).subscribe(mainEquipments => 
-      // { 
-      //   console.log(this.id, this.filter);
-      //   this.mainEquipments = mainEquipments;
-      //   console.log( this.mainEquipments, this.filter);
-      // }, 
-      // erro => console.log(erro));
-  }
-  clear()
+  clearMainEquipment()
   {
     this.equipment.equipment = null;
+    this.fullNameMainEquipment = null;
+  }
+  /**
+   * 
+   */
+  clearLocation()
+  {
+    this.equipment.location = null;
+    this.fullCodLocation = null;
   }
   /**
    * 
    */
   getSubEquipments()
   {
-      this.equipmentService.listAllSubEquipments(this.id).subscribe(subEquipments => 
+      if (this.filter === '')
       { 
+        this.filter = "null";
+      }
+      this.equipmentService.listSubEquipmentByFilter(this.page -1 , this.size , this.property ,this.order, this.filter, this.id).subscribe(subEquipments => 
+      {         
         console.log(this.id);
         this.subEquipments = subEquipments;
-        console.log( this.subEquipments, this.id);
+        this.total = this.subEquipments.totalElements;
       }, 
       erro => console.log(erro));
   }
@@ -192,10 +202,7 @@ export class EquipmentFormComponent implements OnInit{
     {
        filter = "null";
     }
-    console.log(filter);
     this.filter = filter;
-    this.getMainEquipments();
-    
   }    
   /**
    * 
@@ -209,88 +216,87 @@ export class EquipmentFormComponent implements OnInit{
       duration: 5000,
     });
   }
-  openDialog()
+  /**
+   * 
+   */
+  dialogSelectMainEquipment()
   {
     let dialog = this.dialog.open(EquipmentConsultEquipmentComponent, 
     {
       height: '480px',
       width: '800px',
+      data: this.id
     }
     ).afterClosed().subscribe((result: Equipment ) =>
     { 
-      console.log('Resultado: ', result.equipment);
-      if ( result.equipment != undefined )
+      if ( result.equipment )
       {
         this.equipment.equipment = result.equipment;
+        this.fullNameMainEquipment = this.equipment.equipment.name;
       }
     }
     );
   }
   /**
    * 
-   * @param equipment 
    */
-  insertEquipment(equipment: Equipment)
-  { 
-    this._loadingService.register('configFullscreen');
+  dialogSelectLocation()
+  {
+    let dialog = this.dialog.open(LocationConsultLocationComponent, 
+    {
+      height: '480px',
+      width: '800px',
+      data: null
+    }
+    ).afterClosed().subscribe((result: Location ) =>
+    { 
+      if ( result.location != undefined )
+      {
+        this.equipment.location = result.location;
+        this.fullCodLocation = this.equipment.location.codLocation;
+      }
+    }
+    );
+  }
+  /**
+   * 
+   * @param time 
+   */
+  loading( time: Number)
+  {
     setTimeout(() => 
     {
       this._loadingService.resolve('configFullscreen');
-    }, 1000000);
-
+    }, time);
+  }
+  /**
+   * 
+   * @param equipment 
+   */
+  saveEquipment(equipment: Equipment)
+  { 
+    this._loadingService.register('configFullscreen');
+    this.loading(100000);
     if (this.file)
     {
       this.selectEvent(this.file, equipment.id);
     }
     this.equipmentService.insertEquipment(this.equipment).subscribe(() => 
     {  
-      setTimeout(() => 
-      {
-        this._loadingService.resolve('configFullscreen');
-      }, 0);  
+      this.loading(0);
       this.router.navigate(['/equipment'],  { queryParams: {page:1}});
       this.openSnackBar('Equipamento salvo com sucesso ', 'Sucesso!');
     }, 
     erro => 
     {  
-      setTimeout(() => 
-      {
-        this._loadingService.resolve('configFullscreen');
-      }, 0);  
-      this.openSnackBar('Não foi possível salvar o equipamento ', 'Erro!');
+      this.loading(0);
+      this.openSnackBar(erro._body, 'Erro!');
     });
   }
-  /**
-   * 
-   * @param equipment 
-   */
-  openConfirmDisassociate(equipment: Equipment): void 
+  editNavigate(id: Number)
   {
-      this._dialogService.openConfirm(
-      {
-          message:'Tem certeza que deseja desassociar ' + equipment.name +  ' ?',
-          disableClose: false, 
-          viewContainerRef: this._viewContainerRef,
-          title: 'Desassociar equipamento', 
-          cancelButton: 'Não',
-          acceptButton: 'Sim', 
-      }).
-      afterClosed().subscribe((accept: boolean) => 
-      {
-        if (accept) 
-        {
-            this.equipmentService.disassociateEquipment(equipment).subscribe(() => 
-            {
-                this.openSnackBar('Sub equipamento desassociado com sucesso', 'Sucesso!');
-                this.getSubEquipments();
-            },
-            erro => 
-            {
-              this.openSnackBar('Não foi possível remover o sub equipamento ' + equipment.name, 'Erro!');
-            }
-            );
-        }
-      })
+    this.router.navigate(['/equipment-edit/' + id]);
+    location.reload();
   }
   /**
    * 
@@ -318,7 +324,7 @@ export class EquipmentFormComponent implements OnInit{
             },
             erro => 
             {
-              this.openSnackBar('Não foi possível remover o sub equipamento ' + equipment.name, 'Erro!');
+              this.openSnackBar('Não foi possível remover o sub equipamento ' + equipment.name + ' o mesmo está associada a um ou mais equipamentos', 'Erro!');
             }
             );
         }

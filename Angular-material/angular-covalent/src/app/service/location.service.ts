@@ -41,7 +41,7 @@ export class LocationService
    * 
    * @param location 
    */
-  insertLocation(location): Observable<Response>
+  saveLocation(location): Observable<Response>
   {
     if(location.id != undefined )
     {
@@ -51,23 +51,14 @@ export class LocationService
     {
        return this.http.post(this.url + 'insertLocation', JSON.stringify(location), { headers: this.headers });
     }
-  }
- 
-  /**
-   * 
-   */
-  listAllLocation(): Observable<Location[]>
-  {
-    return this.http.get(this.url + 'listAllLocation').map(res => res.json());
-  }
-  
+  } 
   /**
    * 
    * @param id 
    */
-  listAllSubLocation(id): Observable<Location[]>
+  listSubLocationByFilter(page: number, size: number, property: String, order: String, filter: String, id: Number): Observable<PageRequest>
   {
-    return this.http.get(this.url + 'listAllSubLocation/' + id).map(res => res.json());
+    return this.http.get(this.url + 'listSubLocationByFilter/' + page + '/' + size + '/' + property + '/' + order + '/' + filter + '/'+ id).map(res => res.json());
   }
    /**
     * 
@@ -98,19 +89,29 @@ export class LocationService
   {
     return this.http.get(this.url + 'listLocationsByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + filter).map(res => res.json());
   }
-  
   /**
    * 
    * @param page 
    * @param size 
    * @param property 
    * @param order 
+   * @param filter 
    */
-  listLocations(page: number, size: number, property: String, order: String): Observable<PageRequest>
+  listMainLocationsByFilters(page: number, size: number, property: String, order: String, filter: String): Observable<PageRequest>
   {
-    return this.http.get(this.url + 'listLocations/'+ page + '/' + size + '/' + property + '/' + order ).map(res => res.json());
+    return this.http.get(this.url + 'listMainLocationsByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + filter).map(res => res.json());
   }
-
-
-
+  /**
+   * 
+   * @param page 
+   * @param size 
+   * @param property 
+   * @param order 
+   * @param id 
+   * @param filter 
+   */
+  ListNonAssociatedLocationByFilter(page: number, size: number, property: String, order: String, id: Number,filter: String): Observable<PageRequest>
+  {
+    return this.http.get(this.url + 'ListNonAssociatedLocationByFilter/'+ page + '/' + size + '/' + property + '/' + order + '/' + id + '/' + filter).map(res => res.json());
+  }
 } 

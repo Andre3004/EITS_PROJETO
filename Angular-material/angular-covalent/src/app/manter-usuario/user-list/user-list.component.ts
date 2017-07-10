@@ -106,20 +106,12 @@ export class UserListComponent  implements OnInit
               private _dialogService: TdDialogService, private _viewContainerRef: ViewContainerRef,
               public route: ActivatedRoute, private _dataTableService: TdDataTableService)
   {
-      userService.listUsers(this.page - 1, this.size, this.property , this.order).subscribe(users => 
-      { 
-        this.total = users.totalElements;
-        console.log(users)
-        this.users = users;
-      },  
-      erro => console.log(erro));
-
       userService.getCurrentUser().subscribe(user => 
       { 
         this.userCurrent = user;
       }, 
       erro => console.log(erro));
-      
+      this.getUsers();
       // Broker.of("userService").promise("helloWorld")
       // .then((result) => {
       //   console.log(result);
@@ -139,23 +131,16 @@ export class UserListComponent  implements OnInit
    */
   getUsers()
   {
-    if (this.filter === '')
+    if ( this.filter === '' )
     {
-      this.userService.listUsers(this.page -1 , this.size , this.property ,this.order).subscribe(users=>
-      {
-        this.users = users;
-        this.total = users.totalElements;
-      },erro => console.log(erro));
+      this.filter = "null";
     }
-    else
+    this.userService.listUsersByFilters(this.page -1 , this.size , this.property ,this.order, this.filter ).subscribe(users=>
     {
-      this.userService.listUsersByFilters(0 , this.size , this.property ,this.order, this.filter ).subscribe(users=>
-      {
-        this.users = users;
-        this.total = users.totalElements;
-      },
-      erro => console.log(erro));
-    }
+      this.users = users;
+      this.total = users.totalElements;
+    },
+    erro => console.log(erro));
   }
   /**
    * 
@@ -189,7 +174,7 @@ export class UserListComponent  implements OnInit
   sortEvent(sortEvent: ITdDataTableSortChangeEvent): void 
   {
     this.sortBy = sortEvent.name;
-    this.order = sortEvent.order === TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; ;
+    this.order = sortEvent.order === TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; 
     this.property= sortEvent.name; 
     this.getUsers();
   }

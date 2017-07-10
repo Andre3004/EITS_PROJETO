@@ -23,22 +23,35 @@
                     </md-list> 
                     <md-list>
                     <md-divider></md-divider>
-                    <md-list-item *ngIf="sublocations?.length == 0">
-                        <md-icon md-list-icon>hourglass_empty</md-icon>
-                        <h4 md-line>Não possui sub localizações</h4>
-                    </md-list-item> 
-                    <md-list-item *ngFor="let sublocation of sublocations">
-                        <md-icon md-list-icon mdTooltip="Sub localização">location_on</md-icon>
-                        <h4 md-line>Sub Localização: {{sublocation?.codLocation}}</h4>
-                        <p md-line> Responsável: {{sublocation?.responsible?.name }} {{sublocation?.responsible?.lastName }}</p>
-                        <p md-line *ngIf="sublocation.viceResponsible != null"> Vice Responsável: {{sublocation?.viceResponsible?.name }} {{sublocation?.viceResponsible?.lastName }}</p>
-                        <button md-button mdTooltip="Editar" class="button" [routerLink]="['/location-edit', sublocation.id]" class="text-upper"><md-icon >edit</md-icon></button> 
-                    </md-list-item>
-                </md-list>
+                    <md-list>
+                        <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+                            <td-search-box [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" placeholder="Procurar sub localização por código localizador ou nome completo do responsável" (searchDebounce)="search(textSearch.value)" flex>
+                            </td-search-box>
+                        </div>
+                        <md-list-item *ngIf="total == 0">
+                            <md-icon md-list-icon>hourglass_empty</md-icon>
+                            <h4 md-line>Sem resultados</h4>
+                        </md-list-item> 
+                        <md-list-item *ngFor="let subLocation of subLocations.content">
+                            <md-icon mdTooltip="Sub Localização" md-list-icon>android</md-icon> 
+                            <h4 md-line>Sub Localização: {{subLocation?.codLocation}}</h4>
+                            <p md-line> Reponsável: {{subLocation?.responsible?.name }} {{ subLocation?.responsible?.lastName }} </p>                                
+                            <button md-button mdTooltip="Editar" class="button" [routerLink]="['/location-edit', subLocation.id]" class="text-upper"><md-icon >edit</md-icon></button> 
+                        </md-list-item>
+                    </md-list>
+                    <td-paging-bar *ngIf="total != 0" #pagingBar [firstLast]="true" 
+                            [pageSizeAll]="false" [pageSizes]="[5,10,20]"
+                    pageLinkCount="5" [initialPage]="1" [pageSize]="5" [total]="total" (change)="change($event)">
+                        {{pagingBar.range}} 
+                    <span hide-xs>
+                        of {{pagingBar.total}}
+                    </span>
+                </td-paging-bar>
+                </md-list>                        
                 <md-divider></md-divider>
                 <md-card-actions class="button" >
                     <button md-raised-button class="button" color="accent" [routerLink]="['/location-edit', location.id]" class="text-upper">Editar</button> 
-                    <button md-raised-button class="button" color="accent" routerLink="/location" [queryParams]="{page:1}" class="text-upper">Voltar</button>
+                    <button md-raised-button class="button" color="accent" routerLink="/location" [queryParams]="{page:1}" class="text-upper">Cancelar</button>
                 </md-card-actions>
      </md-card> 
   </td-layout-card-over>

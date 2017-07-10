@@ -58,9 +58,9 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String>  insertUser(User user)
 	{		
-		if (  !(userRepository.findByEmailAndName(user.getName(), user.getEmail()).isEmpty()) )
+		if ( (userRepository.findByEmail(user.getEmail(), user.getId()) != null ) )
 		{
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Os valores preenchidos não atendem a restrição de unicidade");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email já cadastrado");
 		}
 		if ( !user.isValid() )
 		{
@@ -75,34 +75,6 @@ public class UserService
 	    userRepository.save(user); // inserindo o usuario
 	    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário salvo com sucesso!");
 	}
-	
-	/**
-	 * 
-	 * @param page
-	 * @param size
-	 * @param property
-	 * @param order
-	 * @return
-	 */
-	@RemoteMethod
-	public Page<User> listUsers(int page, int size, String property, String order) 
-	{
-		Direction asc;
-		
-		if (order.equals("ASC"))
-		{
-			asc = Direction.ASC;
-		}
-		else
-		{
-			asc = Direction.DESC;
-		}
-		
-		PageRequest pageable = new PageRequest(page, size, asc, property);
-	    System.out.println(pageable);
-		return userRepository.findAll(pageable);
-	}
-	
 	/**
 	 * 
 	 * @param id
@@ -113,18 +85,6 @@ public class UserService
 	{
 		return userRepository.findOne(id);
 	}	
-	
-	/**
-	 * 
-	 * @param email
-	 * @return
-	 */
-	@RemoteMethod
-	public User findByEmail(String email) 
-	{
-		return userRepository.findByEmail(email);
-	}
-	
 	/**
 	 * 
 	 * @return
@@ -143,7 +103,7 @@ public class UserService
 	public User getCurrent()
 	{
 //		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User userCurrent = findByEmail("andre.luiz@eits.com.br");
+		User userCurrent = userRepository.findByEmail("andre.luiz@eits.com.br", (long) 0);
 		return userCurrent;
 	}
 	
@@ -178,15 +138,23 @@ public class UserService
 	/**
 	 * 
 	 * @param user
+	 * @return 
 	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void updateUser(User user) 
+	public ResponseEntity<String> updateUser(User user) 
 	{
-		User currentUser = new User();
-		currentUser = userRepository.findOne(user.getId());
+		User currentUser = userRepository.findOne(user.getId());
+		System.out.println(currentUser.getEmail());
+		System.out.println(currentUser.getId());
+		if ( (userRepository.findByEmail(user.getEmail(), user.getId()) != null ) )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email já cadastrado");
+		}
+		
 		user.setPassword(currentUser.getPassword());
-		userRepository.saveAndFlush(user);	 
+		userRepository.saveAndFlush(user);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário salvo com sucesso!");	 
 	}
 	
 	/**
@@ -220,7 +188,10 @@ public class UserService
 	public Page<User> listUsersByFilters(int page, int size, String property, String order, String filter) 
 	{
 		Direction asc;
-		
+		if ( filter.compareToIgnoreCase("null") == 0 )
+		{
+			filter = "";
+		}
 		if (order.equals("ASC"))
 		{
 			asc = Direction.ASC;

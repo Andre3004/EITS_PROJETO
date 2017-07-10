@@ -57,19 +57,16 @@ public class EquipmentService
 	/**
 	 * 
 	 * @param equipment
+	 * @return 
 	 */
-	public void insertEquipment(Equipment equipment)
+	public ResponseEntity<String> insertEquipment(Equipment equipment)
 	{
+		if ( ( equipmentRepository.findByNameAndId(equipment.getName().toLowerCase(), new Long(0)) != null ) ) 
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe um equipamento com este nome");
+		}
 		equipmentRepository.save(equipment);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public List<Equipment> listAllEquipment()
-	{
-		return equipmentRepository.findAll();
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Equipamento salvp com sucesso!");
 	}
 
 	/**
@@ -77,9 +74,27 @@ public class EquipmentService
 	 * @param id
 	 * @return
 	 */
-	public List<Equipment> listAllSubEquipments(Long id) 
+	public Page<Equipment> listSubEquipmentByFilter(int page, int size, String property, String order, String filter,Long id) 
 	{
-		return equipmentRepository.findAllSubEquipments(id);
+		Direction asc;
+		if ( filter.compareToIgnoreCase("null") == 0 )
+		{
+			filter = "";
+		}
+		if ( id == null )
+		{
+			id = new Long(0);
+		}
+		if (order.equals("ASC"))
+		{
+			asc = Direction.ASC;
+		}
+		else
+		{
+			asc = Direction.DESC;
+		}
+		PageRequest pageable = new PageRequest(page, size, asc, property);
+		return equipmentRepository.listSubEquipmentByFilter(filter.toLowerCase(), id, pageable);	
 	}
 
 	/**
@@ -106,22 +121,23 @@ public class EquipmentService
 		}
 		equipmentRepository.delete(id);
 	}
-
 	/**
 	 * 
 	 * @param equipment
+	 * @return 
 	 */
-	public void updateEquipment(Equipment equipment) 
-	{
-//		if ( equipment.getEquipment().getId() == equipment.getId() )
-//		{
-//			throw new IllegalArgumentException("Nâo foi possível salvar o equipamento.");
-//		}
+	public ResponseEntity<String> updateEquipment(Equipment equipment) 
+	{	
+		if ( ( equipmentRepository.findByNameAndId(equipment.getName().toLowerCase(), equipment.getId()) != null ) ) 
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe um equipamento com este nome");
+		}
 		if (! (equipmentRepository.findFilesEquals(equipment.getFilePath(), equipment.getId()).isEmpty()))
 		{
-			throw new IllegalArgumentException("Nâo foi possível salvar o equipamento.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe um equipamento com este arquivo");
 		}
 		equipmentRepository.saveAndFlush(equipment);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Equipamento salvo com sucesso!");
 	}
 
 	/**
@@ -133,10 +149,13 @@ public class EquipmentService
 	 * @param filter
 	 * @return
 	 */
-	public Page<Equipment> listEquipmentsByFilters(int page, int size, String property, String order, String filter) 
+	public Page<Equipment> listMainEquipmentsByFilters(int page, int size, String property, String order, String filter) 
 	{
 		Direction asc;
-		
+		if ( filter.compareToIgnoreCase("null") == 0 )
+		{
+			filter = "";
+		}
 		if (order.equals("ASC"))
 		{
 			asc = Direction.ASC;
@@ -147,35 +166,8 @@ public class EquipmentService
 		}
 		PageRequest pageable = new PageRequest(page, size, asc, property);
 	    System.out.println(pageable);
-		return equipmentRepository.listEquipmentsByFilters(filter.toLowerCase(), pageable);
+		return equipmentRepository.listMainEquipmentsByFilters(filter.toLowerCase(), pageable);
 	}
-
-	/**
-	 * 
-	 * @param page
-	 * @param size
-	 * @param property
-	 * @param order
-	 * @return
-	 */
-	public Page<Equipment> listEquipments(int page, int size, String property, String order) 
-	{
-		Direction asc;
-		
-		if (order.equals("ASC"))
-		{
-			asc = Direction.ASC;
-		}
-		else
-		{
-			asc = Direction.DESC;
-		}
-		
-		PageRequest pageable = new PageRequest(page, size, asc, property);
-	    System.out.println(pageable);
-		return equipmentRepository.findMainEquipment(pageable);
-	}
-
 	/**
 	 * 
 	 * @param file
@@ -206,17 +198,6 @@ public class EquipmentService
     	String path = equipmentRepository.findOne(id).getFilePath();
 		equipmentFile.read(response, id, path);
 	}
-
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public List<Equipment> listEquipments(Long id) 
-	{
-		return equipmentRepository.listEquipments(id);
-	}
-
 	/**
 	 * 
 	 * @param id
@@ -251,52 +232,6 @@ public class EquipmentService
 				idEquipmentAssociated = equipmentRepository.findOne(id).getEquipment().getId();
 			}
 		}
-		
-		System.out.println("filtro 2 " + filter);
 		return equipmentRepository.ListNonAssociatedEquipmentByFilter(filter.toLowerCase(), id, idEquipmentAssociated, pageable);	
 	}
-
-	/**
-	 * 
-	 * @param id
-	 */
-	public void disassociateEquipment(Long id) 
-	{
-		equipmentRepository.findOne(id).setEquipment(null);
-	}
-
-	public Page<Equipment> ListNonAssociatedEquipment(Long id) 
-	{
-		int page = 0;
-		int size = 5;
-		String filter ="";
-		if ( id == null )
-		{
-			id = new Long(0);
-		}
-		Long idEquipmentAssociated = new Long(0);
-		Direction asc = Direction.ASC;
-		String property = "name";
-		PageRequest pageable = new PageRequest(page, size, asc, property);
-		if ( ( id != 0 ) && ( id != null) )
-		{
-			if ( ! (equipmentRepository.findOne(id).getEquipment() == null ) )
-			{
-				idEquipmentAssociated = equipmentRepository.findOne(id).getEquipment().getId();
-			}
-		}
-		
-		return equipmentRepository.ListNonAssociatedEquipmentByFilter(filter, id, idEquipmentAssociated, pageable);	
-
-	}
-
-	/*public Page<Equipment> listMainEquipmentsByFilters(Long id, String filter) 
-	{
-		int page = 0;
-		int size = 10;
-		Direction asc = Direction.ASC;
-		String property = "name";
-		PageRequest pageable = new PageRequest(page, size, asc, property);
-		return equipmentRepository.findAllSubEquipments(id, pageable);	
-	}*/
 }

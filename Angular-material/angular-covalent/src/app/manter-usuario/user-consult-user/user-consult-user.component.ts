@@ -1,17 +1,17 @@
+import { UserService } from './../../service/user.service';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-import { Equipment } from './../../model/Equipment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ITdDataTableColumn, ITdDataTableSelectEvent, IPageChangeEvent, ITdDataTableSortChangeEvent, TdDataTableSortingOrder } from '@covalent/core';
+import { User } from './../../model/User';
 import { PageRequest } from './../../model/PageRequest';
-import { EquipmentService } from './../../service/equipment.service';
-import { ITdDataTableColumn, ITdDataTableSortChangeEvent, IPageChangeEvent, TdDataTableSortingOrder, ITdDataTableSelectEvent } from '@covalent/core';
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 @Component({
-  selector: 'app-equipment-consult-equipment',
-  templateUrl: './equipment-consult-equipment.component.html',
-  styleUrls: ['./equipment-consult-equipment.component.css']
+  selector: 'app-user-consult-user',
+  templateUrl: './user-consult-user.component.html',
+  styleUrls: ['./user-consult-user.component.css']
 })
-export class EquipmentConsultEquipmentComponent 
+export class UserConsultUserComponent
 {
   /*-------------------------------------------------------------------
 	 * 		 					ATTRIBUTES
@@ -19,11 +19,11 @@ export class EquipmentConsultEquipmentComponent
   /**
    * 
    */
-  mainEquipments : PageRequest = new PageRequest();
+  users : PageRequest = new PageRequest();
   /**
    * 
    */
-  equipment : Equipment = new Equipment();
+  user : User = new User();
   /**
    * 
    */
@@ -65,10 +65,10 @@ export class EquipmentConsultEquipmentComponent
       name: 'name', label: 'Nome' , sortable: true
     },
     { 
-      name: 'description', label: 'Descrição' , sortable: true
+      name: 'lastName', label: 'Sobrenome' , sortable: true
     },
     { 
-      name: 'location.codLocation', label: 'Localização', sortable: true
+      name: 'email', label: 'Email' , sortable: true
     }
   ];
 
@@ -76,27 +76,27 @@ export class EquipmentConsultEquipmentComponent
 	 * 		 					CONSTRUCTOR
 	 *-------------------------------------------------------------------*/
 
-  constructor(public equipmentService: EquipmentService,  public activatedRoute: ActivatedRoute,
-              public router: Router, public mdDialogRef: MdDialogRef<EquipmentConsultEquipmentComponent>,
+  constructor(public userService: UserService,  public activatedRoute: ActivatedRoute,
+              public router: Router, public mdDialogRef: MdDialogRef<UserConsultUserComponent>,
               @Inject(MD_DIALOG_DATA) public data: Number) 
   { 
      this.id = data;
-     this.getEquipments();
+     this.getUsers();
   }
-  
+   
  /*-------------------------------------------------------------------
   *                           BEHAVIORS
   *-------------------------------------------------------------------*/
-  getEquipments()
+  getUsers()
   {
       if ( this.filter === '' )
       {
         this.filter = "null";
       }
-      this.equipmentService.ListNonAssociatedEquipmentByFilter(this.page -1, this.size, this.property, this.order, this.id, this.filter).subscribe(mainEquipments => 
+      this.userService.listUsersByFilters(this.page -1, this.size, this.property, this.order, this.filter).subscribe(users => 
       { 
-        this.mainEquipments = mainEquipments;
-        this.total = mainEquipments.totalElements;
+        this.users = users;
+        this.total = users.totalElements;
       }, 
       erro => console.log(erro));
   }
@@ -107,17 +107,17 @@ export class EquipmentConsultEquipmentComponent
   {
     if (selectedRow != null)
     {
-       this.equipment = selectedRow.row;
+       this.user = selectedRow.row;
     }
   }
   /**
    * 
    */
-  selectEquipment(): void
+  selectUser(): void
   {
-    if ( this.equipment )
+    if ( this.user != null )
     {
-      this.mdDialogRef.close({equipment: this.equipment});
+      this.mdDialogRef.close({user: this.user});
     }
   }
   /**
@@ -125,8 +125,7 @@ export class EquipmentConsultEquipmentComponent
    */
   emitter()
   {
-    console.log('asdfasdf');
-    this.selectEquipment();
+    this.selectUser();
   }
   /**
    * 
@@ -135,7 +134,7 @@ export class EquipmentConsultEquipmentComponent
   search(textSearch: String) 
   {
     this.filter = textSearch;
-    this.getEquipments();
+    this.getUsers();
   }
   /**
    * 
@@ -145,7 +144,7 @@ export class EquipmentConsultEquipmentComponent
   {
        this.page = event.page.valueOf();
        this.size = event.pageSize.valueOf();
-       this.getEquipments();
+       this.getUsers();
   }
   /**
    * 
@@ -154,9 +153,9 @@ export class EquipmentConsultEquipmentComponent
   sortEvent(sortEvent: ITdDataTableSortChangeEvent): void 
   {
     this.sortBy = sortEvent.name;
-    this.order = sortEvent.order === TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; ;
+    this.order = sortEvent.order == TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; 
+    console.log(this.order);
     this.property = sortEvent.name; 
-    console.log(sortEvent);
-    this.getEquipments();
+    this.getUsers();
   }
 }

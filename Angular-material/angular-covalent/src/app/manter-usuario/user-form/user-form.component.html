@@ -11,12 +11,14 @@
                             <md-input-container class="example-full-width">
                                 <input required #userName maxlength="50" tdAutoTrim name ="name" [(ngModel)]="user.name" mdInput placeholder="Nome">
                                 <md-hint align="end">{{userName.value.length}} / 50</md-hint>
+                                <md-error>Este campo é obrigatório</md-error>
                             </md-input-container>
                         </td>
                         <td>
                             <md-input-container class="example-full-width">
                                 <input required #userLastName maxlength="50" name ="lastName" [(ngModel)]="user.lastName" mdInput placeholder="Sobrenome">
                                 <md-hint align="end">{{userLastName.value.length}} / 50</md-hint>
+                                <md-error>Este campo é obrigatório</md-error>
                             </md-input-container>
                         </td>
                     </tr>
@@ -24,16 +26,19 @@
                 <table [hidden]="user.id" class="example-full-width" cellspacing="0">
                     <td>
                         <md-input-container class="example-full-width">
-                            <input [required]="!user.id" #userPassword maxlength="50" #password="ngModel" name ="password" [(ngModel)]="user.password"  type ="password" mdInput placeholder="Senha">
+                            <input [required]="!user.id" #userPassword minlength="8" maxlength="50" #password="ngModel" name ="password" [(ngModel)]="user.password"  type ="password" mdInput placeholder="Senha">
                             <md-hint align="end">{{userPassword.value.length}} / 50</md-hint>
+                            <md-error>A senha deve possuir no mínimo 8 caracteres</md-error>
+                            <md-error *ngIf="myform.submitted">Este campo é obrigatório</md-error>
                         </md-input-container>
                     </td>
                 </table> 
                 <table [hidden]="user.id" class="example-full-width" cellspacing="0">
                     <td>
                         <md-input-container class="example-full-width">
-                            <input [required]="!user.id"  #userConfirmPassword maxlength="50" #confirmPassword="ngModel" name ="confirmPassword" [(ngModel)]="user.confirmPassword"  type ="password" mdInput placeholder="Confirme a senha">
+                            <input [required]="!user.id"  #userConfirmPassword minlength="8" maxlength="50" #confirmPassword="ngModel" name ="confirmPassword" [(ngModel)]="user.confirmPassword"  type ="password" mdInput placeholder="Confirme a senha">
                             <md-hint align="end">{{userConfirmPassword.value.length}} / 50</md-hint>
+                            <md-error>Este campo é obrigatório</md-error>
                         </md-input-container>
                         <md-hint>
                             <span *ngIf="(userConfirmPassword.value != userPassword.value)  && myform.submitted" class="tc-red-600">
@@ -54,6 +59,7 @@
                                     type ="email"
                                     placeholder="Email">
                             <md-hint align="end">{{email.value.length}} / 144</md-hint>
+                            <md-error>Este campo é obrigatório</md-error>
                         </md-input-container>
                     </td>
                 </table> 
@@ -77,7 +83,7 @@
                             <md-select required name ="sex" [(ngModel)]="user.sex" placeholder="Sexo">
                                 <md-option *ngFor="let sex of sexs" [value]="sex.value">
                                     {{ sex.viewValue }}
-                                </md-option>
+                                </md-option>                                
                             </md-select>
                         </td> 
                     </tr>
@@ -92,10 +98,13 @@
                 <form #passwordForm="ngForm"  class="md-padding" layout="column">
                     
                     <md-input-container flex>
-                         <input mdInput [required]="user.id" #newPassword maxlength="50" mdInput tdAutoTrim type="password" name ="password" [(ngModel)]="user.password" placeholder="Nova senha"/>
+                         <input mdInput [required]="user.id" #newPassword minlength="8" maxlength="50" mdInput tdAutoTrim type="password" name ="password" [(ngModel)]="user.password" placeholder="Nova senha"/>
+                         <md-error>A senha deve possuir no mínimo 8 caracteres</md-error>                         
+                         <md-error>Este campo é obrigatório</md-error>
                     </md-input-container>
                     <md-input-container flex>
-                         <input mdInput [required]="user.id" #confirmNewPassword maxlength="50" mdInput tdAutoTrim type="password" name ="confirmPassword" [(ngModel)]="user.confirmPassword" placeholder="Confirme a senha"/>
+                         <input mdInput [required]="user.id" #confirmNewPassword minlength="8" maxlength="50" mdInput tdAutoTrim type="password" name ="confirmPassword" [(ngModel)]="user.confirmPassword" placeholder="Confirme a senha"/>
+                         <md-error>Este campo é obrigatório</md-error>
                     </md-input-container>
                     <md-hint>
                         <span *ngIf="(newPassword.value != confirmNewPassword.value)  && passwordForm.submitted" class="tc-red-600">

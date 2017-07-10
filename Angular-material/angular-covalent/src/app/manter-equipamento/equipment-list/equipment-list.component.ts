@@ -84,19 +84,12 @@ export class EquipmentListComponent implements OnInit{
   constructor(public snackBar: MdSnackBar, public equipmentService: EquipmentService, public router: Router,private route: ActivatedRoute,
               private _dialogService: TdDialogService, public _viewContainerRef: ViewContainerRef, public userService: UserService)
   {
-      equipmentService.listEquipments(this.page - 1, this.size, this.property , this.order).subscribe(equipments => 
-      { 
-        this.total = equipments.totalElements;
-        console.log(equipments)
-        this.equipments = equipments;
-      },  
-      erro => console.log(erro));
-
       userService.getCurrentUser().subscribe(user => 
       { 
         this.userCurrent = user;
       }, 
       erro => console.log(erro));
+      this.getEquipments();
   }
 
    /*-------------------------------------------------------------------
@@ -109,21 +102,14 @@ export class EquipmentListComponent implements OnInit{
   {
     if (this.filter === '')
     {
-      this.equipmentService.listEquipments(this.page -1 , this.size , this.property ,this.order).subscribe(equipments=>
-      {
-        this.equipments = equipments;
-        this.total = equipments.totalElements;
-      },erro => console.log(erro));
+      this.filter = "null";
     }
-    else
+    this.equipmentService.listMainEquipmentsByFilters(this.page -1 , this.size , this.property ,this.order, this.filter ).subscribe(equipments=>
     {
-      this.equipmentService.listEquipmentsByFilters(0 , this.size , this.property ,this.order, this.filter ).subscribe(equipments=>
-      {
-        this.equipments = equipments;
-        this.total = equipments.totalElements;
-      },
-      erro => console.log(erro));
-    }
+      this.equipments = equipments;
+      this.total = equipments.totalElements;
+    },
+    erro => console.log(erro));
   }
   /**
    * 

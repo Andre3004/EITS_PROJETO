@@ -19,7 +19,7 @@ import { AuthService } from './authentication/auth.service';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, TemplateRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
@@ -38,6 +38,8 @@ import { HomeComponent } from './home/home.component';
 import 'rxjs/add/operator/map';
 import {Broker} from 'eits-ng2';
 import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, CovalentLoadingModule, CovalentDataTableModule, CovalentPagingModule, CovalentSearchModule, CovalentCommonModule } from '@covalent/core';
+import { LocationConsultLocationComponent } from './manter-localizacao/location-consult-location/location-consult-location.component';
+import { UserConsultUserComponent } from './manter-usuario/user-consult-user/user-consult-user.component';
 
 
 
@@ -55,7 +57,7 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     LocationFormComponent,
     EquipmentFormComponent,
     EquipmentDetailComponent, 
-    EquipmentConsultEquipmentComponent
+    EquipmentConsultEquipmentComponent, LocationConsultLocationComponent, UserConsultUserComponent
   ],
   imports: 
   [
@@ -78,8 +80,8 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     CovalentDynamicFormsModule,
     MdInputModule,
     FormsModule, 
+    ReactiveFormsModule,
     MdRadioModule,
-    FormsModule,
     AppRoutingModule,
     CovalentMessageModule,
     MdSnackBarModule, 
@@ -97,7 +99,7 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     CovalentPagingModule,
     CovalentSearchModule,
     CovalentCommonModule,
-    MdDialogModule,
+    MdDialogModule
   ],
   exports: 
   [ 
@@ -116,7 +118,7 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
     LocationService, 
     EquipmentService, 
     TdDialogService, 
-    AuthService,
+    AuthService
   ],
   bootstrap: 
   [
@@ -124,7 +126,7 @@ import { TdMediaService, TdLoadingService, TdDialogService, CovalentFileModule, 
   ],
   entryComponents:
   [
-    EquipmentConsultEquipmentComponent
+    EquipmentConsultEquipmentComponent, LocationConsultLocationComponent, UserConsultUserComponent
   ]
 })
 export class AppModule { }

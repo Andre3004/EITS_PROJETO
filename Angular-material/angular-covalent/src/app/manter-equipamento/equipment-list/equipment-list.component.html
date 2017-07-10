@@ -37,13 +37,11 @@
                         {{equipment?.location?.codLocation | truncate:15}}
                      </span>
                     </td>
-                    <td td-data-table-row class="buttons" layout-align="left left">
-                        <button *ngIf="equipment?.filePath != null" md-icon-button (click)="downloadFile(equipment)" >
-                                <md-icon md-list-avatar mdTooltip="Manual download">cloud_download</md-icon>
-                        </button>
+                    <td td-data-table-row class="buttons" layout-align="left left">                        
                         <button md-icon-button mdTooltip="Remover"  *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" (click)="openConfirm(equipment)"><md-icon md-list-avatar>delete</md-icon></button>
                         <button md-icon-button mdTooltip="Editar"  [routerLink]="['/equipment-edit', equipment.id]"><md-icon md-list-avatar>edit</md-icon></button>       
                         <button md-icon-button mdTooltip="Detalhar" [routerLink]="['/equipment-detail', equipment.id]" ><md-icon md-list-avatar>details</md-icon></button>
+                        <button *ngIf="equipment?.filePath != null" md-icon-button (click)="downloadFile(equipment)" ><md-icon md-list-avatar mdTooltip="Manual download">cloud_download</md-icon></button>
                     </td>
                 </tr>
                 <div class="Empty" *ngIf="!total" layout-align="center center">

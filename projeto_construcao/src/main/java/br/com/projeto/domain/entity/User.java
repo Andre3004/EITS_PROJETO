@@ -63,7 +63,7 @@ public class User implements Serializable, UserDetails
 	 * 
 	 */
 	@NotBlank
-	@Column(length = 50, unique=true)
+	@Column(length = 50)
 	private String name;
 
 	/**
@@ -85,7 +85,7 @@ public class User implements Serializable, UserDetails
 	 * 
 	 */
 	@JsonProperty(access = Access.WRITE_ONLY)
-	@Size(min = 6, max = 100)
+	@Size(min = 8, max = 100)
 	@NotBlank
 	private String password;
 	

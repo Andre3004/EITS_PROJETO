@@ -1,14 +1,14 @@
 <form>
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
         <td-search-box  [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" 
-                        placeholder="Procurar por nome, descrição ou código localizador" 
+                        placeholder="Procurar por nome, sobrenome ou email" 
                         (searchDebounce)="search(textSearch.value)" flex>
         </td-search-box>
     </div>
     <md-divider></md-divider>
     <td-data-table
         #dataTable
-        [data]="mainEquipments.content"
+        [data]="users.content"
         [columns]="columns"
         [selectable]="true"
         [clickable]="false"
@@ -21,14 +21,14 @@
                 <span flex>{{value | truncate:20 }} </span>
             </div>
         </ng-template>
-        <ng-template tdDataTableTemplate="description" let-value="value" let-row="row" let-column="column">
+        <ng-template tdDataTableTemplate="lastName" let-value="value" let-row="row" let-column="column">
             <div layout="row">
                 <span flex>{{value | truncate:15 }}</span>
             </div>
         </ng-template>
-        <ng-template tdDataTableTemplate="location.codLocation" let-value="value" let-row="row" let-column="column">
+        <ng-template tdDataTableTemplate="email" let-value="value" let-row="row" let-column="column">
             <div layout="row">
-                <span flex>{{value | truncate:20 }}</span>
+                <span flex>{{value | truncate:15 }}</span>
             </div>
         </ng-template>
     </td-data-table>
@@ -36,7 +36,7 @@
             <h3>Sem resultados.</h3>
     </div>
     <td-paging-bar #pagingBar [pageSizes]="[5]" [total]="total" (change)="change($event)">
-        <span td-paging-bar-label hide-xs>Equipamentos:</span>
+        <span td-paging-bar-label hide-xs>Usuários:</span>
         {{pagingBar.range}} <span hide-xs>de {{pagingBar.total}}</span>
     </td-paging-bar>
 </form>

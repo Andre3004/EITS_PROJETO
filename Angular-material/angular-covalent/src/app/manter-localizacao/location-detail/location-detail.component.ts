@@ -1,8 +1,10 @@
+import { PageRequest } from './../../model/PageRequest';
 import { Location } from './../../model/Location';
 import { LocationService } from './../../service/location.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { TdDialogService } from '@covalent/core';
+
+import { TdDialogService, IPageChangeEvent } from '@covalent/core';
 
 @Component({
   selector: 'app-location-detail',
@@ -21,7 +23,31 @@ export class LocationDetailComponent
   /**
    * 
    */
-  sublocations : Location[] ;
+  subLocations: PageRequest = new PageRequest();
+  /**
+   * 
+   */
+  page: number = 1;
+  /**
+    * 
+    */
+  size: number = 5;
+  /**
+    * 
+    */
+  order: String ="ASC";
+  /**
+    * 
+    */
+  property: String="codLocation";
+  /**
+    * 
+    */
+  total: Number = 0;
+  /**
+    * 
+    */
+  filter: String = "null";
   /**
    * 
    */
@@ -50,11 +76,41 @@ export class LocationDetailComponent
         this.location = location
       }, 
       erro => console.log(erro));
-
-      locationService.listAllSubLocation(this.id).subscribe(sublocations => 
-      { 
-        this.sublocations = sublocations;
-      }, 
-      erro => console.log(erro));
+      this.getSubLocations();
    }
+   /**
+    * 
+    */
+    getSubLocations()
+    {
+        if (this.filter === '')
+        {
+          this.filter = "null";
+        }
+        this.locationService.listSubLocationByFilter(this.page -1 , this.size , this.property ,this.order, this.filter, this.id).subscribe(subLocations => 
+        {         
+          this.subLocations = subLocations;
+          this.total = this.subLocations.totalElements;
+        }, 
+        erro => console.log(erro));
+    } 
+     /**
+     * 
+     * @param textSearch 
+     */
+    search(textSearch: String) 
+    {
+      this.filter = textSearch;
+      this.getSubLocations();
+    }
+    /**
+     * 
+     * @param event 
+     */
+    change(event: IPageChangeEvent): void 
+    {
+        this.page = event.page.valueOf();
+        this.size = event.pageSize.valueOf();
+        this.getSubLocations();
+    }
 }

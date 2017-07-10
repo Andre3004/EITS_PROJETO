@@ -59,6 +59,19 @@ export class EquipmentService {
   }
   /**
    * 
+   * @param page 
+   * @param size 
+   * @param property 
+   * @param order 
+   * @param filter 
+   * @param id 
+   */
+  listSubEquipmentByFilter(page: number, size: number, property: String, order: String, filter: String, id: Number): Observable<PageRequest>
+  {
+    return this.http.get(this.url + 'listSubEquipmentByFilter/' + page + '/' + size + '/' + property + '/' + order + '/' + filter + '/'+ id).map(res => res.json());
+  }
+  /**
+   * 
    * @param id 
    */
   downloadFile(id: Number)
@@ -74,14 +87,6 @@ export class EquipmentService {
   {
     return this.http.post(this.url + 'uploadFile/' + id, file);
   }
-  /**
-   * 
-   * @param id 
-   */
-  listAllSubEquipments(id: Number): Observable<Equipment[]>
-  {
-    return this.http.get(this.url + 'listAllSubEquipments/' + id ).map(res => res.json());
-  }  
   /**
    * 
    * @param equipment 
@@ -106,20 +111,9 @@ export class EquipmentService {
    * @param order 
    * @param filter 
    */
-  listEquipmentsByFilters(page: Number, size: Number, property: String, order: String, filter: String): Observable<PageRequest>
+  listMainEquipmentsByFilters(page: Number, size: Number, property: String, order: String, filter: String): Observable<PageRequest>
   {
-    return this.http.get(this.url + 'listEquipmentsByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + filter).map(res => res.json());
-  }
-  /**
-   * 
-   * @param page 
-   * @param size 
-   * @param property 
-   * @param order 
-   */
-  listEquipments(page: Number, size: Number, property: String, order: String): Observable<PageRequest>
-  {
-      return this.http.get(this.url + 'listEquipments/'+ page + '/' + size + '/' + property + '/' + order ).map(res => res.json());
+    return this.http.get(this.url + 'listMainEquipmentsByFilters/'+ page + '/' + size + '/' + property + '/' + order + '/' + filter).map(res => res.json());
   }
   /**
    * 

@@ -1,35 +1,25 @@
 package br.com.projeto.application.restful;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.projeto.domain.entity.Equipment;
+import br.com.projeto.domain.entity.Location;
 import br.com.projeto.domain.service.EquipmentService;
 
 /**
@@ -41,7 +31,6 @@ import br.com.projeto.domain.service.EquipmentService;
 
 @RestController
 @RequestMapping("equipment")
-@MultipartConfig(fileSizeThreshold = 20971520)
 public class EquipmentRestController 
 {
 	/*-------------------------------------------------------------------
@@ -62,12 +51,13 @@ public class EquipmentRestController
 	/**
 	 * 
 	 * @param equipment
+	 * @return 
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/insertEquipment", method = RequestMethod.POST)
-	public void insertEquipment(@RequestBody Equipment equipment)
+	public ResponseEntity<String> insertEquipment(@RequestBody Equipment equipment)
 	{
-		equipmentService.insertEquipment(equipment);
+		return equipmentService.insertEquipment(equipment);
 	}
 	/**
 	 * 
@@ -83,12 +73,6 @@ public class EquipmentRestController
 	{
 		return equipmentService.ListNonAssociatedEquipmentByFilter(page, size, property, order, id, filter);
 	}
-	@CrossOrigin
-	@RequestMapping(value = {"/ListNonAssociatedEquipmentByFilter/{id}"}, method = RequestMethod.GET)
-	public Page<Equipment> ListNonAssociatedEquipmentByFilter(@PathVariable Long id)
-	{
-		return equipmentService.ListNonAssociatedEquipment(id);
-	}
 	/**
 	 * 
 	 * @param page
@@ -99,30 +83,12 @@ public class EquipmentRestController
 	 * @return
 	 */
 	@CrossOrigin
-	@RequestMapping(value = "/listEquipmentsByFilters/{page}/{size}/{property}/{order}/{filter} ", method = RequestMethod.GET)
-	public Page<Equipment> listEquipmentsByFilters(@PathVariable int page, @PathVariable int size,
-											       @PathVariable String property, @PathVariable String order,
-											       @PathVariable String filter)
+	@RequestMapping(value = "/listMainEquipmentsByFilters/{page}/{size}/{property}/{order}/{filter} ", method = RequestMethod.GET)
+	public Page<Equipment> listMainEquipmentsByFilters(@PathVariable int page, @PathVariable int size,
+												       @PathVariable String property, @PathVariable String order,
+												       @PathVariable String filter)
 	{ 
-		Page<Equipment> equipments =  equipmentService.listEquipmentsByFilters(page, size, property, order, filter);
-		return equipments;
-	}
-	
-	/**
-	 * 
-	 * @param page
-	 * @param size
-	 * @param property
-	 * @param order
-	 * @return
-	 */
-	@CrossOrigin
-	@RequestMapping(value = "/listEquipments/{page}/{size}/{property}/{order} ", method = RequestMethod.GET)
-	public Page<Equipment> listEquipments(@PathVariable int page, @PathVariable int size,
-										  @PathVariable String property, @PathVariable String order)
-	{
-		Page<Equipment> equipments =  equipmentService.listEquipments(page, size, property, order);
-		return equipments;
+		return  equipmentService.listMainEquipmentsByFilters(page, size, property, order, filter);
 	}
 	/**
 	 * 
@@ -148,12 +114,13 @@ public class EquipmentRestController
 	/**
 	 * 
 	 * @param equipment
+	 * @return 
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/updateEquipment", method = RequestMethod.PUT)
-	public void updateEquipment(@RequestBody Equipment equipment)
+	public ResponseEntity<String> updateEquipment(@RequestBody Equipment equipment)
 	{
-		equipmentService.updateEquipment(equipment);
+		return equipmentService.updateEquipment(equipment);
 	}
 
 	/**
@@ -182,21 +149,22 @@ public class EquipmentRestController
     }
     
     /**
-     * 
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/listAllSubEquipments/{id}", method = RequestMethod.GET)
-    public List<Equipment> listAllSubEquipments(@PathVariable Long id) 
-    {
-        return equipmentService.listAllSubEquipments(id);
-    }
-    
-    @CrossOrigin
-    @RequestMapping(value = "/disassociateEquipment/{id}", method = RequestMethod.PATCH)
-    public void disassociateEquipment(@PathVariable Long id) 
-    {
-        equipmentService.disassociateEquipment(id);
-    }
+	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @param filter
+	 * @param id
+	 * @return
+	 */
+	@CrossOrigin
+	@RequestMapping(value = "/listSubEquipmentByFilter/{page}/{size}/{property}/{order}/{filter}/{id}", method = RequestMethod.GET)
+	public Page<Equipment> listSubEquipmentByFilter(@PathVariable int page, @PathVariable int size,
+											        @PathVariable String property, @PathVariable String order,
+											        @PathVariable String filter, @PathVariable Long id)
+	{
+		return equipmentService.listSubEquipmentByFilter(page, size, property, order, filter, id);
+	}
 
 }

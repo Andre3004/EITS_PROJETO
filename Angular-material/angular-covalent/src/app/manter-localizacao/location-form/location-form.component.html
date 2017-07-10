@@ -12,61 +12,92 @@
                             <md-input-container class="example-full-width">
                                 <input required #codLocation maxlength="50" name ="codLocation" [(ngModel)]="location.codLocation" mdInput placeholder="Código localizador">
                                 <md-hint align="end">{{codLocation.value.length}} / 50</md-hint>
+                                <md-error>Este campo é obrigatório</md-error>
                             </md-input-container>
                         </td>
                     </tr>
                 </table> 
                 <br>
-                <table >
-                    <tr>
-                        <td>
-                            <md-select required name ="responsible" [(ngModel)]="location.responsible" placeholder="Responsável">
-                                <md-option [value]="null">Nenhum</md-option>
-                                <md-option *ngIf="location.id && location.responsible != null" [value]="location.responsible">{{ location?.responsible?.name }} {{ location?.responsible?.lastName }}</md-option>
-                                <md-option *ngFor="let user of users" [value]="user" >
-                                    {{ user.name }} {{ user.lastName }}
-                                </md-option>
-                            </md-select>
-                        </td> 
+                <table class="select">
+                    <tr layout="row">
+                        <md-input-container  class="select" (click)="dialogSelectResponsible()">                                
+                            <input required name="fullNameResponsible" [(ngModel)]="fullNameResponsible" mdInput readonly placeholder="Selecionar responsável">                                                                                               
+                            <md-error>Este campo é obrigatório</md-error>
+                        </md-input-container>
+                        <button md-icon-button *ngIf="fullNameResponsible" (click)="clearResponsible()" >
+                            <md-icon>cancel</md-icon>
+                        </button>             
+                        <div>
+                            <button md-raised-button color="accent" (click)="dialogSelectResponsible()">Selecionar</button>       
+                        </div>
                     </tr>
                 </table>
                 <br>
-                <table>  
-                    <tr>
-                        <td>
-                            <md-select name ="viceResponsible" [(ngModel)]="location.viceResponsible" placeholder="Vice Responsável">
-                                <md-option [value]="null">Nenhum</md-option>
-                                <md-option *ngIf="location.id && location.viceResponsible != null" [value]="location.viceResponsible">{{ location?.viceResponsible?.name }} {{ location?.viceResponsible?.lastName }}</md-option>
-                                <md-option *ngFor="let user of users" [value]="user">
-                                    {{ user.name }} {{ user.lastName }}
-                                </md-option>
-                            </md-select>
-                        </td> 
+                <table class="select">
+                    <tr layout="row">
+                        <md-input-container class="select" (click)="dialogSelectViceResponsible()">                                
+                            <input mdInput readonly name="fullNameViceResponsible" [(ngModel)]="fullNameViceResponsible" placeholder="Selecionar vice responsável">                                                                                                     
+                        </md-input-container>
+                        <button md-icon-button *ngIf="fullNameViceResponsible" (click)="clearViceResponsible()" >
+                            <md-icon>cancel</md-icon>
+                        </button>                                
+                        <div>
+                            <button md-raised-button color="accent" (click)="dialogSelectViceResponsible()">Selecionar</button>
+                        </div>
                     </tr>
                 </table>
                 <br>
-                <table>
-                    <tr> 
-                        <td>
-                            <section class="example-section">
-                                <md-checkbox #checkBox [checked]="location.location != null" class="example-margin">Vincular localização principal</md-checkbox>
-                                <br><br><br>
-                                <md-select required *ngIf=checkBox.checked name ="location" [(ngModel)]="location.location" placeholder="Localização">
-                                    <md-option [value]="null">Nenhum</md-option>
-                                    <!--<md-option *ngIf="location.id && location.location != null" [value]="location.location">{{ location?.location?.codLocation }}</md-option>                               -->
-                                    <md-option *ngFor="let location of locations" [value]="location">
-                                        <span *ngIf="location != location.location">
-                                            {{ location.codLocation }}
-                                        </span>
-                                    </md-option>
-                                </md-select>
-                            </section>
-                        </td> 
+                <table class="select" >
+                    <tr>
+                        <md-checkbox class="example-margin" [checked]="location.location != null" #checkBox >Associar localização principal</md-checkbox>
+                        <br><br><br>                         
+                        <div layout="row" *ngIf="checkBox.checked" class="comboBox">                            
+                            <md-input-container  class="select" (click)="dialogSelectMainLocation()">                                
+                                <input required mdInput readonly name="location" [(ngModel)]="fullCodLocation" placeholder="Selecionar localização principal">                                                                                                     
+                                <md-error>Este campo é obrigatório</md-error>
+                            </md-input-container>
+                            <button md-icon-button *ngIf="location.location" (click)="clearMainLocation()" >
+                                <md-icon>cancel</md-icon>
+                            </button>                                                        
+                            <div>
+                                <button md-raised-button color="accent" (click)="dialogSelectMainLocation()">Selecionar</button>
+                            </div>
+                        </div>
                     </tr>
-                </table> 
+                </table>
+                <br>
+                <md-tab-group *ngIf="location.id">
+                    <md-tab label="Sub Localizações">
+                        <md-list>
+                            <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+                                <td-search-box [alwaysVisible]="true" #textSearch backIcon="arrow_back" class="push-right-sm" placeholder="Procurar sub localização por código localizador ou nome completo do responsável" (searchDebounce)="search(textSearch.value)" flex>
+                                </td-search-box>
+                            </div>
+                            <md-list-item *ngIf="total == 0">
+                                <md-icon md-list-icon>hourglass_empty</md-icon>
+                                <h4 md-line>Sem resultados</h4>
+                            </md-list-item> 
+                            <md-list-item *ngFor="let subLocation of subLocations.content">
+                                <h4 md-line>Sub Localização: {{subLocation?.codLocation}}</h4>
+                                <p md-line> Reponsável: {{subLocation?.responsible?.name }} {{ subLocation?.responsible?.lastName }} </p>                                
+                                <button md-icon-button mdTooltip="Excluir" class="button" (click)="openConfirmDelete(subLocation)" class="text-upper"><md-icon md-list-avatar>delete</md-icon></button> 
+                                 <a md-icon-button mdTooltip="Editar" class="button" (click)="editNavigate(subLocation.id)" class="text-upper"><md-icon md-list-avatar>edit</md-icon></a>
+                                <button md-icon-button mdTooltip="Detalhar" class="button" [routerLink]="['/location-detail', subLocation.id]" class="text-upper"><md-icon md-list-avatar>details</md-icon></button>  
+                            </md-list-item>
+                         </md-list>
+                         <td-paging-bar #pagingBar [firstLast]="true" 
+                                    [pageSizeAll]="false" [pageSizes]="[5,10,20]"
+                            pageLinkCount="5" [initialPage]="1" [pageSize]="5" [total]="total" (change)="change($event)">
+                                {{pagingBar.range}} 
+                            <span hide-xs>
+                                of {{pagingBar.total}}
+                            </span>
+                        </td-paging-bar>
+                    </md-tab> 
+                </md-tab-group>
                 <br><br>
                 <div class="inset">
-                    <button md-raised-button  color="accent" type="submit"class="button" [disabled]="myform.form.invalid" (click)="insertLocation($event)" >Salvar</button>
+                    <button md-raised-button  color="accent" type="submit"class="button" [disabled]="myform.form.invalid" (click)="saveLocation($event)" >Salvar</button>
                     <button md-raised-button  color="accent" routerLink="/location" [queryParams]="{page:1}" class="button">Cancelar</button>
                 </div>
             </form>
