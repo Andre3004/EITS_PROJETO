@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	version="2.5">
+         xmlns:xsi="http://www.w4.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+          http://java.sun.com/xml/ns/javaee/web-app_4_0.xsd"
+    version="4.0">
+    <display-name>Servlet 4.0 Web Application</display-name>
 
 	<session-config>
 		<session-timeout>5</session-timeout>

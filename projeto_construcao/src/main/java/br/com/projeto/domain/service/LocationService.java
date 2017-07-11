@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.projeto.domain.entity.Equipment;
 import br.com.projeto.domain.entity.Location;
@@ -25,6 +26,7 @@ import br.com.projeto.domain.repository.ILocationRepository;
  */
 @Service
 @RemoteProxy(name = "locationService")
+@Transactional
 public class LocationService 
 {
 	
@@ -62,6 +64,7 @@ public class LocationService
 	 * @param id
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	@RemoteMethod
 	public Location findLocationById(Long id) 
 	{
@@ -100,6 +103,7 @@ public class LocationService
      * @param filter
      * @return
      */
+	@Transactional(readOnly = true)
     public Page<Location> listMainLocationsByFilters(int page, int size, String property, String order, String filter) 
 	{
 		Direction asc;
@@ -119,6 +123,16 @@ public class LocationService
 	    System.out.println(pageable);
 		return locationRepository.listMainLocationsByFilters(filter.toLowerCase(), pageable);
 	}
+	/**
+	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @param filter
+	 * @return
+	 */
+	@Transactional(readOnly = true)
     public Page<Location> listLocationsByFilters(int page, int size, String property, String order, String filter) 
  	{
  		Direction asc;
@@ -148,6 +162,7 @@ public class LocationService
 	 * @param filter
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public Page<Location> ListNonAssociatedLocationByFilter(int page, int size, String property, String order, Long id, String filter) 
 	{
 		Long idLocationAssociated = new Long(0);
@@ -178,6 +193,17 @@ public class LocationService
 		}
 		return locationRepository.ListNonAssociatedLocationByFilter(filter.toLowerCase(), id, idLocationAssociated, pageable);	
 	}
+	/**
+	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @param filter
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly = true)
 	public Page<Location> listSubLocationByFilter(int page, int size, String property, String order, String filter,Long id) 
 	{
 		Direction asc;

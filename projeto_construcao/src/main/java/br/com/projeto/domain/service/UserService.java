@@ -1,7 +1,5 @@
 package br.com.projeto.domain.service;
 
-import java.util.List;
-
 import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +65,12 @@ public class UserService
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}
 
-		mailer.send(user); // envio de email
+		mailer.send(user); 
 		
-		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); // criptografando a senha para o banco
-		user.setPassword(hash);// set senha criptografada
+		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); 
+		user.setPassword(hash);
 		user.setActive(true);
-	    userRepository.save(user); // inserindo o usuario
+	    userRepository.save(user);
 	    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário salvo com sucesso!");
 	}
 	/**
@@ -80,6 +78,7 @@ public class UserService
 	 * @param id
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	@RemoteMethod
 	public User findUserById(Long id) 
 	{
@@ -89,6 +88,7 @@ public class UserService
 	 * 
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	@RemoteMethod
 	public String helloWorld() 
 	{
@@ -99,6 +99,7 @@ public class UserService
 	 * 
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	@RemoteMethod
 	public User getCurrent()
 	{
@@ -145,13 +146,10 @@ public class UserService
 	public ResponseEntity<String> updateUser(User user) 
 	{
 		User currentUser = userRepository.findOne(user.getId());
-		System.out.println(currentUser.getEmail());
-		System.out.println(currentUser.getId());
 		if ( (userRepository.findByEmail(user.getEmail(), user.getId()) != null ) )
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email já cadastrado");
 		}
-		
 		user.setPassword(currentUser.getPassword());
 		userRepository.saveAndFlush(user);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário salvo com sucesso!");	 
@@ -185,6 +183,7 @@ public class UserService
 	 * @param filter
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public Page<User> listUsersByFilters(int page, int size, String property, String order, String filter) 
 	{
 		Direction asc;

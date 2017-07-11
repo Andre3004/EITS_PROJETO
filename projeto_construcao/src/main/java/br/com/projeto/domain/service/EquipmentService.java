@@ -71,9 +71,15 @@ public class EquipmentService
 
 	/**
 	 * 
+	 * @param page
+	 * @param size
+	 * @param property
+	 * @param order
+	 * @param filter
 	 * @param id
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public Page<Equipment> listSubEquipmentByFilter(int page, int size, String property, String order, String filter,Long id) 
 	{
 		Direction asc;
@@ -102,6 +108,7 @@ public class EquipmentService
 	 * @param id
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public Equipment findEquipmentById(Long id) 
 	{
 		return equipmentRepository.findOne(id);
@@ -149,6 +156,7 @@ public class EquipmentService
 	 * @param filter
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public Page<Equipment> listMainEquipmentsByFilters(int page, int size, String property, String order, String filter) 
 	{
 		Direction asc;
@@ -204,6 +212,7 @@ public class EquipmentService
 	 * @param filter
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public Page<Equipment> ListNonAssociatedEquipmentByFilter(int page, int size, String property, String order, Long id, String filter) 
 	{
 		Long idEquipmentAssociated = new Long(0);
