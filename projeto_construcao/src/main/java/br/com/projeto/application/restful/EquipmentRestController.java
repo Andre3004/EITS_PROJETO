@@ -30,7 +30,7 @@ import br.com.projeto.domain.service.EquipmentService;
  */
 
 @RestController
-@RequestMapping("equipment")
+@RequestMapping("api/equipment")
 public class EquipmentRestController 
 {
 	/*-------------------------------------------------------------------

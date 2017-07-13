@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +66,7 @@ public class UserService
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}
 
-		//mailer.send(user); 
+		mailer.send(user); 
 		
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); 
 		user.setPassword(hash);
@@ -103,8 +104,7 @@ public class UserService
 	@RemoteMethod
 	public User getCurrent()
 	{
-//		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User userCurrent = userRepository.findByEmail("arthur.kenji@eits.com.br", (long) 0);
+		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userCurrent;
 	}
 	
@@ -128,8 +128,8 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public User deactivateUser(User user) 
 	{
-//		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if ( ( user.getId() == 1 ) )
+		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if ( ( user.getId() == 1 ) || ( user.getId() == userCurrent.getId() ))
 		{
 			throw new IllegalArgumentException("O usuário não pode ser desativado.");
 		}
@@ -164,7 +164,6 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> updateUserToPassword(User user) 
 	{
-		System.out.println(user.getPassword() + " " + user.getConfirmPassword());
 		if ( !user.isValid() )
 		{
 			 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
@@ -202,7 +201,6 @@ public class UserService
 			asc = Direction.DESC;
 		}
 		PageRequest pageable = new PageRequest(page, size, asc, property);
-	    System.out.println(pageable);
 		return userRepository.listUsersByFilters(filter.toLowerCase(), pageable);
 	}
 }

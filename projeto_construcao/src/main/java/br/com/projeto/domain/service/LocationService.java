@@ -120,7 +120,6 @@ public class LocationService
 			asc = Direction.DESC;
 		}
 		PageRequest pageable = new PageRequest(page, size, asc, property);
-	    System.out.println(pageable);
 		return locationRepository.listMainLocationsByFilters(filter.toLowerCase(), pageable);
 	}
 	/**
@@ -149,7 +148,6 @@ public class LocationService
  			asc = Direction.DESC;
  		}
  		PageRequest pageable = new PageRequest(page, size, asc, property);
- 	    System.out.println(pageable);
  		return locationRepository.listLocationsByFilters(filter.toLowerCase(), pageable);
  	} 
 	/**

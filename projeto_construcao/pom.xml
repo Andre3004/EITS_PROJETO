@@ -15,6 +15,12 @@
 		<flyway-maven-plugin.version>4.0.2</flyway-maven-plugin.version>
 	</properties>
 	<dependencies>
+	
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		    <version>1.2</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.sun.jersey.contribs/jersey-multipart -->
 		<dependency>
 		    <groupId>com.sun.jersey.contribs</groupId>

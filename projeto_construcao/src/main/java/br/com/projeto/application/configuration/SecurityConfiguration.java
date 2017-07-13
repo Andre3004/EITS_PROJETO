@@ -1,12 +1,14 @@
 package br.com.projeto.application.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.projeto.domain.service.AuthenticationService;
@@ -41,15 +43,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 	@Override
 	protected void configure(HttpSecurity http) throws Exception 
 	{
-		http.csrf().disable()
+		/*http.csrf().disable()
 		.authorizeRequests()
-			.antMatchers("/**").permitAll();
+			.antMatchers("/**").permitAll();*/
 		
-		/*http.csrf().disable().sessionManagement().maximumSessions(1).expiredUrl("/login");
+		http.csrf().disable().sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        .maximumSessions(1).expiredUrl("/login");
+		
 		http.headers().frameOptions().disable();
 
 		http
 		.authorizeRequests()
+		.antMatchers( "/projeto/**" )
+		.hasIpAddress( "127.0.0.1" )
     	.anyRequest()
 		.authenticated()
 		.and()
@@ -61,17 +68,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 		.permitAll()
 		.and()
 		.logout()
-		.logoutUrl( "/logout" );
+		.logoutUrl( "/logout" ).and();
 		
-		http
-            .authorizeRequests()
-            .antMatchers( "/api/**" )
-                .authenticated()
-                .and()
-                    .httpBasic();*/
+		 http
+         .authorizeRequests()
+         .antMatchers( "/api/**" )
+             .authenticated()
+             .and()
+                 .httpBasic();
 		}
-
-
+    /*-------------------------------------------------------------------
+	 * 		 						BEANS
+	 *-------------------------------------------------------------------*/	
+	  
 	//---------
 	// Authentication Manager
 	//---------

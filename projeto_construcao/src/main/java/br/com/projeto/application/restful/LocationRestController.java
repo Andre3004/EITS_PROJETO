@@ -23,7 +23,7 @@ import br.com.projeto.domain.service.LocationService;
  * 
  */
 @RestController
-@RequestMapping("location")
+@RequestMapping("api/location")
 public class LocationRestController 
 {
 	/*-------------------------------------------------------------------

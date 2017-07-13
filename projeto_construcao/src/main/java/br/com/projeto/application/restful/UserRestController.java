@@ -21,7 +21,7 @@ import br.com.projeto.domain.service.UserService;
  */
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("api/user")
 public class UserRestController 
 {
 	/*-------------------------------------------------------------------
@@ -107,7 +107,6 @@ public class UserRestController
 	@RequestMapping(value = "/deactivateUser/{id}", method = RequestMethod.PATCH)
 	public void deactivateUser(@PathVariable Long id)
 	{
-		System.out.println(id);
 		userService.deactivateUser(userService.findUserById(id));
 	}
     /**

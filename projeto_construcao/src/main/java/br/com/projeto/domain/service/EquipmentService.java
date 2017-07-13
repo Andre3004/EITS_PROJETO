@@ -173,7 +173,6 @@ public class EquipmentService
 			asc = Direction.DESC;
 		}
 		PageRequest pageable = new PageRequest(page, size, asc, property);
-	    System.out.println(pageable);
 		return equipmentRepository.listMainEquipmentsByFilters(filter.toLowerCase(), pageable);
 	}
 	/**

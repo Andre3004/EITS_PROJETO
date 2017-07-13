@@ -158,45 +158,8 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter
 	{
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".html");
-
 		return resolver;
 	}
-	
-	
-	
-	//---------
-	// DWR
-	//---------
-	/**
-	 * Process all spring beans with @RemoteProxy
-	 * @return
-	 */
-//	@Bean
-//	public DwrAnnotationPostProcessor dwrAnnotationPostProcessor( ApplicationContext applicationContext )
-//	{
-//		final BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) applicationContext.getAutowireCapableBeanFactory();
-//		final ClassPathBeanDefinitionScanner scanner = new DwrClassPathBeanDefinitionScanner(beanDefinitionRegistry);
-//        scanner.addIncludeFilter(new AnnotationTypeFilter(DataTransferObject.class));
-//        scanner.scan("br.com.projeto.domain.entity.**");
-//        
-//		return new DwrAnnotationPostProcessor();
-//	}
-//
-//	/**
-//	 * 
-//	 * @return
-//	 */
-//	@Bean
-//	public ServletRegistrationBean dwrSpringServletRegistration( DWRSettings dwrSettings )
-//	{
-//		final ServletRegistrationBean registration = new ServletRegistrationBean( new DwrSpringServlet(), "/broker/*" );
-//		registration.addInitParameter( "debug", String.valueOf(dwrSettings.isDebug()) );
-//		registration.addInitParameter( "scriptCompressed", String.valueOf(dwrSettings.isScriptCompressed()) );
-//		registration.setName( "dwrSpringServlet" );
-//		return registration;
-//	}
-
 	/**
 	 * 
 	 * @return

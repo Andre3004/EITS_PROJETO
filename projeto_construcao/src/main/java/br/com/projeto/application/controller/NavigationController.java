@@ -25,7 +25,7 @@ public class NavigationController
 	@RequestMapping("/")
 	public String home()
 	{
-		return "dist/index";	
+		return "dist/index.html";	
 	}
 	
 	/**
@@ -40,6 +40,6 @@ public class NavigationController
 		{
 			return "redirect:/#/user";
 		}
-		return "index";	
+		return "index.jsp";	
 	}
 }
