@@ -65,7 +65,7 @@ public class UserService
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}
 
-		mailer.send(user); 
+		//mailer.send(user); 
 		
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword()); 
 		user.setPassword(hash);
@@ -104,7 +104,7 @@ public class UserService
 	public User getCurrent()
 	{
 //		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User userCurrent = userRepository.findByEmail("andre.luiz@eits.com.br", (long) 0);
+		User userCurrent = userRepository.findByEmail("arthur.kenji@eits.com.br", (long) 0);
 		return userCurrent;
 	}
 	
@@ -129,10 +129,10 @@ public class UserService
 	public User deactivateUser(User user) 
 	{
 //		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		if ( ( user.getId() == 1 ) || ( userCurrent.getId() == user.getId() ) )
-//		{
-//			throw new IllegalArgumentException("O usuário não pode ser desativado.");
-//		}
+		if ( ( user.getId() == 1 ) )
+		{
+			throw new IllegalArgumentException("O usuário não pode ser desativado.");
+		}
 		user.setActive(false);
 		return userRepository.saveAndFlush(user);
 	}
@@ -164,10 +164,12 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> updateUserToPassword(User user) 
 	{
+		System.out.println(user.getPassword() + " " + user.getConfirmPassword());
 		if ( !user.isValid() )
 		{
 			 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}
+		
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(hash);
 		userRepository.saveAndFlush(user);	 

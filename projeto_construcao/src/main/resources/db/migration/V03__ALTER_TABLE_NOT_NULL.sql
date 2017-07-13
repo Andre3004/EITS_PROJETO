@@ -1,0 +1,1 @@
+ALTER TABLE equipment ALTER COLUMN location_id SET NOT NULL;

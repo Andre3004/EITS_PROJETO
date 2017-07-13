@@ -10,7 +10,6 @@
        http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-       <dwr:configuration />
        <dwr:annotation-config id="dwr"/>
        <dwr:annotation-scan base-package="br.com.projeto"/>
 </beans>

@@ -18,7 +18,7 @@ import br.com.projeto.domain.service.AuthenticationService;
  */
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = AuthenticationService.class)
-//@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
 	
@@ -45,20 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 		.authorizeRequests()
 			.antMatchers("/**").permitAll();
 		
-/*		http
-		.authorizeRequests()
-			.anyRequest().authenticated()
-			.and()
-		.formLogin()
-			.permitAll()
-			.and()
-		.csrf().disable()
-		.sessionManagement();*/
-		
-		/**
-		*
-		*/
-/*		http.csrf().disable().sessionManagement().maximumSessions(1).expiredUrl("/login");
+		/*http.csrf().disable().sessionManagement().maximumSessions(1).expiredUrl("/login");
 		http.headers().frameOptions().disable();
 
 		http
@@ -68,15 +55,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 		.and()
 		.formLogin()
 		.usernameParameter( "email" )
-		.passwordParameter( "senha" )
+		.passwordParameter( "password" )
 		.loginPage( "/login" )
 		.loginProcessingUrl( "/authenticate" )
 		.permitAll()
 		.and()
 		.logout()
-		.logoutUrl( "/logout" )
-		.and()
-		.httpBasic();*/
+		.logoutUrl( "/logout" );
+		
+		http
+            .authorizeRequests()
+            .antMatchers( "/api/**" )
+                .authenticated()
+                .and()
+                    .httpBasic();*/
 		}
 
 

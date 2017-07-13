@@ -184,11 +184,12 @@ public class EquipmentService
 	 */
 	public ResponseEntity<String> uploadFile(MultipartFile file, Long id) 
 	{
-		String path = "equipment-files\\" + file.getOriginalFilename();
+		String path = file.getOriginalFilename();
 		if (! (equipmentRepository.findFilesEquals(path, id).isEmpty()))
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("O Manual já está vinculado a outro equipamento!");
-		}
+		} 
+		
 		equipmentFile.write("equipment-files", file);
 		
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Arquivo salvo!");
@@ -242,5 +243,20 @@ public class EquipmentService
 			}
 		}
 		return equipmentRepository.ListNonAssociatedEquipmentByFilter(filter.toLowerCase(), id, idEquipmentAssociated, pageable);	
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public void clearFileEquipment(Long id) 
+	{
+		Equipment equipment = equipmentRepository.findOne(id);
+		File file = new File( "C:/Users/André/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/"
+							  + "wtpwebapps/projeto/equipment-files/" + equipment.getFilePath() );
+		file.delete();
+		equipment.setFilePath(null);
+		equipmentRepository.save(equipment);
+		
 	}
 }

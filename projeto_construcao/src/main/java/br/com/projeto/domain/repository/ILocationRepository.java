@@ -1,20 +1,14 @@
 package br.com.projeto.domain.repository;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.projeto.domain.entity.Equipment;
 import br.com.projeto.domain.entity.Location;
-import br.com.projeto.domain.entity.User;
 /**
  * 
  * @author André
@@ -68,6 +62,13 @@ public interface ILocationRepository extends JpaRepository<Location, Long>
 			+ "and ( location.location is null )")
 	public Page<Location> listMainLocationsByFilters(@Param("pFilter") String filter, Pageable pageable);
 	
+	/**
+	 * 
+	 * @param filter
+	 * @param id
+	 * @param pageable
+	 * @return
+	 */
 	@Query("select location from Location location where "
 			+ "(location.location.id = :id ) "
 			+ "and ( LOWER(location.codLocation) like %:pFilter% "
@@ -75,6 +76,12 @@ public interface ILocationRepository extends JpaRepository<Location, Long>
 			+ "or LOWER(location.responsible.lastName) like %:pFilter% )")
 	public Page<Location> listSubLocationByFilter(@Param("pFilter")String filter, @Param("id")Long id, Pageable pageable);
 	
+	/**
+	 * 
+	 * @param codLocation
+	 * @param id
+	 * @return
+	 */
 	@Query("select location from Location location where "
 			+ "(LOWER(codLocation) = :codLocation) "
 			+ "and ( id <> :id )")

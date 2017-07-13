@@ -50,7 +50,9 @@ public class EquipmentFile
 			String realPath = request.getServletContext().getRealPath("/" + baseFolder);
 			String path = realPath + "/" + file.getOriginalFilename();
 			file.transferTo(new File(path));
+			System.out.println(path);
 			return path;
+			
 		} 
 		catch (IllegalStateException | IOException e) 
 		{
@@ -67,7 +69,7 @@ public class EquipmentFile
 	 */
 	public void read(HttpServletResponse response, Long id, String path) throws IOException
 	{
-		String filePath = "C:/Users/André/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/wtpwebapps/projeto/" + path;
+		String filePath = "C:/Users/André/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/wtpwebapps/projeto/equipment-files/" + path;
 
 		File file = new File(filePath);
 		if (!file.exists())

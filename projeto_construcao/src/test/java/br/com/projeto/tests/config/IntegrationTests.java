@@ -1,4 +1,4 @@
-package br.com.projeto.tests;
+package br.com.projeto.tests.config;
 
 import org.junit.runner.RunWith;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
@@ -15,11 +15,9 @@ import br.com.projeto.application.configuration.AppWebConfiguration;
 import br.com.projeto.application.configuration.JPAConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {JPAConfiguration.class, AppWebConfiguration.class})
-@WebAppConfiguration
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
-		TransactionalTestExecutionListener.class, WithSecurityContextTestExecutionListener.class })
 @ActiveProfiles("test")
+@ContextConfiguration(classes = {JPAConfiguration.class, AppWebConfiguration.class, DataSourceConfigTest.class})
+@WebAppConfiguration
 public abstract class IntegrationTests
 {
 

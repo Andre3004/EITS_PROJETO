@@ -25,6 +25,13 @@ import br.com.projeto.domain.entity.Location;
 @Transactional
 public interface IEquipmentRepository extends JpaRepository<Equipment, Long>
 {
+	/**
+	 * 
+	 * @param filter
+	 * @param id
+	 * @param pageable
+	 * @return
+	 */
 	@Query("select equipment from Equipment equipment where "
 			+ "(equipment.equipment.id = :id ) "
 			+ "and ( LOWER(equipment.name) like %:pFilter% "
@@ -70,6 +77,12 @@ public interface IEquipmentRepository extends JpaRepository<Equipment, Long>
 	public Page<Equipment> ListNonAssociatedEquipmentByFilter(@Param("pFilter") String filter, @Param("id") Long id, 
 															  @Param("idEquipmentAssociated") Long idEquipmentAssociated, Pageable pageable);
 	
+	/**
+	 * 
+	 * @param name
+	 * @param id
+	 * @return
+	 */
 	@Query("select equipment from Equipment equipment where "
 			+ "(LOWER(name) = :name) "
 			+ "and ( id <> :id )")

@@ -106,6 +106,16 @@ public class EquipmentRestController
 	 * @param id
 	 */
 	@CrossOrigin
+	@RequestMapping(value = "/clearFileEquipment/{id}", method = RequestMethod.DELETE)
+	public void clearFileEquipment(@PathVariable Long id)
+	{
+		equipmentService.clearFileEquipment(id);
+	}
+	/**
+	 * 
+	 * @param id
+	 */
+	@CrossOrigin
 	@RequestMapping(value = "/deleteEquipment/{id}", method = RequestMethod.DELETE)
 	public void deleteEquipment(@PathVariable Long id)
 	{
