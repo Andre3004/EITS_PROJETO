@@ -57,6 +57,10 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String>  insertUser(User user)
 	{		
+		if ( user == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Usuário nulo");
+		}
 		if ( (userRepository.findByEmail(user.getEmail(), new Long(0)) != null ) )
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email já cadastrado");
@@ -72,7 +76,6 @@ public class UserService
 		user.setPassword(hash);
 		user.setActive(true);
 	    userRepository.save(user);
-	    userRepository.flush();
 	    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário salvo com sucesso!");
 	}
 	/**
@@ -112,30 +115,42 @@ public class UserService
 	/**
 	 * 
 	 * @param user
+	 * @return 
 	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void updateUsertoActivate(User user) 
+	public ResponseEntity<String> updateUsertoActivate(User user) 
 	{
+		if ( user == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Usuário nulo");
+		}
 		user.setActive(true);
 		userRepository.saveAndFlush(user);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário ativado com sucesso!");
 	}
 	/**
 	 * 
 	 * @param user
+	 * @return 
 	 * @return
 	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void updateUsertoDeactivate(User user) 
+	public ResponseEntity<String> updateUsertoDeactivate(User user) 
 	{
 		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if ( user == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Usuário nulo");
+		}
 		if ( ( user.getId() == 1 ) || ( user.getId() == userCurrent.getId() ))
 		{
 			throw new IllegalArgumentException("O usuário não pode ser desativado.");
 		}
 		user.setActive(false);
 		userRepository.saveAndFlush(user);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário desativado com sucesso!");
 	}
 	/**
 	 * 
@@ -146,6 +161,10 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> updateUser(User user) 
 	{
+		if ( user == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Usuário nulo");
+		}
 		User currentUser = userRepository.findOne(user.getId());
 		if ( (userRepository.findByEmail(user.getEmail(), user.getId()) != null ) )
 		{
@@ -165,11 +184,14 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> updateUserToPassword(User user) 
 	{
+		if ( user == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Usuário nulo");
+		}
 		if ( !user.passwordIsValid() )
 		{
 			 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}
-		
 		String hash = new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(hash);
 		userRepository.saveAndFlush(user);	 

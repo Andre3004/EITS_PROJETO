@@ -63,12 +63,16 @@ public class EquipmentService
 	 */
 	public ResponseEntity<String> insertEquipment(Equipment equipment)
 	{
+		if ( equipment == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Equipamento nulo");
+		}
 		if ( ( equipmentRepository.findByNameAndId(equipment.getName().toLowerCase(), new Long(0)) != null ) ) 
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe um equipamento com este nome");
 		}
 		equipmentRepository.save(equipment);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Equipamento salvp com sucesso!");
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Equipamento salvo com sucesso!");
 	}
 
 	/**
@@ -119,11 +123,16 @@ public class EquipmentService
 	/**
 	 * 
 	 * @param id
+	 * @return 
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void deleteEquipment(Long id) 
+	public ResponseEntity<String> deleteEquipment(Long id) 
 	{
 		Equipment equipment = equipmentRepository.findOne(id);
+		if ( equipment == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Equipamento nulo");
+		}
 		if (equipmentRepository.findOne(id).getFilePath() != null)
 		{	
 			String realPath = request.getServletContext().getRealPath("/" + "equipment-files");
@@ -132,6 +141,7 @@ public class EquipmentService
 			file.delete();
 		}
 		equipmentRepository.delete(id);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Equipamento salvo com sucesso!");
 	}
 	/**
 	 * 
@@ -140,6 +150,10 @@ public class EquipmentService
 	 */
 	public ResponseEntity<String> updateEquipment(Equipment equipment) 
 	{	
+		if ( equipment == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Equipamento nulo");
+		}
 		if ( ( equipmentRepository.findByNameAndId(equipment.getName().toLowerCase(), equipment.getId()) != null ) ) 
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe um equipamento com este nome");
@@ -189,6 +203,11 @@ public class EquipmentService
 	public ResponseEntity<String> uploadFile(MultipartFile file, Long id) 
 	{
 		String path = file.getOriginalFilename();
+		Equipment equipment = equipmentRepository.findOne(id);
+		if ( equipment == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Equipamento nulo");
+		}
 		if (! (equipmentRepository.findFilesEquals(path, id).isEmpty()))
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("O Manual já está vinculado a outro equipamento!");
@@ -204,12 +223,19 @@ public class EquipmentService
 	 * 
 	 * @param response
 	 * @param id
+	 * @return 
 	 * @throws IOException
 	 */
-	public void downloadFile(HttpServletResponse response, Long id) throws IOException 
+	public ResponseEntity<String> downloadFile(HttpServletResponse response, Long id) throws IOException 
 	{
+		Equipment equipment = equipmentRepository.findOne(id);
+		if ( equipment == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Equipamento nulo");
+		}
     	String path = equipmentRepository.findOne(id).getFilePath();
 		equipmentFile.read(response, id, path);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Download!");
 	}
 	/**
 	 * 
@@ -252,16 +278,22 @@ public class EquipmentService
 	/**
 	 * 
 	 * @param id
+	 * @return 
 	 */
-	public void clearFileEquipment(Long id) 
+	public ResponseEntity<String> clearFileEquipment(Long id) 
 	{
 		Equipment equipment = equipmentRepository.findOne(id);
+		if ( equipment == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Equipamento nulo");
+		}
 		String realPath = request.getServletContext().getRealPath("/" + "equipment-files");
 		String path = realPath + "/" + equipment.getFilePath();
 		File file = new File( path );
 		file.delete();
 		equipment.setFilePath(null);
 		equipmentRepository.save(equipment);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Arquivo removido!");
 		
 	}
 }

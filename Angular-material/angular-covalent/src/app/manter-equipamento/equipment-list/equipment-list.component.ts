@@ -212,7 +212,7 @@ export class EquipmentListComponent implements OnInit
               },
               erro => 
               {
-                this.openSnackBar('Não foi possível remover o Equipamento ' + equipment.name, 'Erro!');
+                this.openSnackBar('Não foi possível remover o equipamento ' + equipment.name + ' o mesmo está associado a um ou mais equipamentos', 'Erro!');
               }
               );
           }

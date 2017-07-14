@@ -52,6 +52,10 @@ public class LocationService
 	@RemoteMethod
 	public ResponseEntity<String> insertLocation(Location location)
 	{
+		if ( location == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Localização nula");
+		}
 		if ( ( locationRepository.findByCodLocationAndId(location.getCodLocation().toLowerCase(), new Long(0)) != null ) ) 
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe uma localização com este código localizador");
@@ -73,11 +77,18 @@ public class LocationService
 	/**
 	 * 
 	 * @param id
+	 * @return 
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void deleteLocation(Long id) 
+	public ResponseEntity<String> deleteLocation(Long id) 
 	{
+		Location location = locationRepository.findOne(id);
+		if ( location == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Localização nula");
+		}
 		locationRepository.delete(id);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Localização deletada com sucesso!");
 	}
 
 	/**
@@ -87,6 +98,10 @@ public class LocationService
 	 */
 	public ResponseEntity<String> updateLocation(Location location) 
 	{
+		if ( location == null )
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Localização nula");
+		}
 		if ( ( locationRepository.findByCodLocationAndId(location.getCodLocation().toLowerCase(), location.getId()) != null ) ) 
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Já existe uma localização com este código localizador");

@@ -936,7 +936,7 @@ var EquipmentListComponent = (function () {
                     _this.openSnackBar('Equipamento removido com sucesso', 'Sucesso!');
                     _this.getEquipments();
                 }, function (erro) {
-                    _this.openSnackBar('Não foi possível remover o Equipamento ' + equipment.name, 'Erro!');
+                    _this.openSnackBar('Não foi possível remover o equipamento ' + equipment.name + ' o mesmo está associado a um ou mais equipamentos', 'Erro!');
                 });
             }
         });
