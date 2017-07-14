@@ -49,10 +49,9 @@ public class Location implements Serializable
 	/**
 	 * Locator code
 	 */
-	@Column(length = 50, unique=true)
 	@NotBlank
+	@Column(name="cod_location", length = 50, unique=true)
 	private String codLocation;
-
 	/**
 	 * 
 	 */

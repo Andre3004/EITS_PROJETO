@@ -1,1 +1,0 @@
-INSERT INTO users (name, lastname, password, email, active, sex, permission) VALUES ('Usuario', 'Master', '$2a$10$g.wT4R0Wnfel1jc/k84OXuwZE02BlACSLfWy6TycGPvvEKvIm86SG', 'andre.luiz@eits.com.br','true', 'MASCULINO', 'ROLE_ADMIN');

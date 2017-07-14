@@ -57,11 +57,11 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String>  insertUser(User user)
 	{		
-		if ( (userRepository.findByEmail(user.getEmail(), user.getId()) != null ) )
+		if ( (userRepository.findByEmail(user.getEmail(), new Long(0)) != null ) )
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email já cadastrado");
 		}
-		if ( !user.isValid() )
+		if ( !user.passwordIsValid() )
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}
@@ -72,6 +72,7 @@ public class UserService
 		user.setPassword(hash);
 		user.setActive(true);
 	    userRepository.save(user);
+	    userRepository.flush();
 	    return ResponseEntity.status(HttpStatus.ACCEPTED).body("Usuário salvo com sucesso!");
 	}
 	/**
@@ -103,7 +104,7 @@ public class UserService
 	@Transactional(readOnly = true)
 	@RemoteMethod
 	public User getCurrent()
-	{
+	{	
 		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userCurrent;
 	}
@@ -114,7 +115,7 @@ public class UserService
 	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void activateUser(User user) 
+	public void updateUsertoActivate(User user) 
 	{
 		user.setActive(true);
 		userRepository.saveAndFlush(user);
@@ -126,7 +127,7 @@ public class UserService
 	 */
 	@RemoteMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public User deactivateUser(User user) 
+	public void updateUsertoDeactivate(User user) 
 	{
 		User userCurrent = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if ( ( user.getId() == 1 ) || ( user.getId() == userCurrent.getId() ))
@@ -134,7 +135,7 @@ public class UserService
 			throw new IllegalArgumentException("O usuário não pode ser desativado.");
 		}
 		user.setActive(false);
-		return userRepository.saveAndFlush(user);
+		userRepository.saveAndFlush(user);
 	}
 	/**
 	 * 
@@ -164,7 +165,7 @@ public class UserService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> updateUserToPassword(User user) 
 	{
-		if ( !user.isValid() )
+		if ( !user.passwordIsValid() )
 		{
 			 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Senhas não conferem");
 		}

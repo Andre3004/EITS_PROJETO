@@ -1,3 +1,5 @@
+import { UserService } from './../../service/user.service';
+import { User } from './../../model/User';
 import { LocationConsultLocationComponent } from './../../manter-localizacao/location-consult-location/location-consult-location.component';
 import { EquipmentConsultEquipmentComponent } from './../equipment-consult-equipment/equipment-consult-equipment.component';
 import { UserFormComponent } from './../../manter-usuario/user-form/user-form.component';
@@ -87,6 +89,18 @@ export class EquipmentFormComponent
    * 
    */
   file: File;
+  /**
+   * 
+   */
+  filePath : String = null;
+  /**
+   * 
+   */
+   userCurrent : User = new User();
+   /**
+    * 
+    */
+  
   /*-------------------------------------------------------------------
 	 * 		 					CONSTRUCTOR
 	 *-------------------------------------------------------------------*/
@@ -104,8 +118,13 @@ export class EquipmentFormComponent
               public activatedRoute: ActivatedRoute, public snackBar: MdSnackBar, public router: Router,
               private _loadingService: TdLoadingService, private fileUploadService: TdFileService,
               private _viewContainerRef: ViewContainerRef, private _dialogService: TdDialogService,
-              public dialog: MdDialog) 
+              public dialog: MdDialog, public userService: UserService) 
   {
+      userService.getCurrentUser().subscribe(user => 
+      { 
+        this.userCurrent = user;
+      }, 
+      erro => console.log(erro));
       activatedRoute.params.subscribe(params => 
       {
         let id = params['id'];
@@ -123,7 +142,11 @@ export class EquipmentFormComponent
             if ( this.equipment.equipment )
             {
               this.fullNameMainEquipment = this.equipment.equipment.name;
-            }  
+            } 
+            if (!this.equipment.filePath)
+            {
+              this.equipment.filePath = null;
+            } 
           }, 
           erro => console.log(erro));
         }   
@@ -157,7 +180,7 @@ export class EquipmentFormComponent
     this.equipmentService.updateFile(formData, id).subscribe(() => 
     {
     },erro=> this.openSnackBar(erro._body,'Erro!'));
-    this.equipment.filePath = "equipment-files\\" + file.name;
+    
   }
   /**
    * 
@@ -178,6 +201,15 @@ export class EquipmentFormComponent
   /**
    * 
    */
+  clearFile()
+  {
+    this.file = null;
+    this.filePath = this.equipment.filePath;
+    this.equipment.filePath = null;
+  }
+  /**
+   * 
+   */
   getSubEquipments()
   {
       if (this.filter === '')
@@ -186,7 +218,6 @@ export class EquipmentFormComponent
       }
       this.equipmentService.listSubEquipmentByFilter(this.page -1 , this.size , this.property ,this.order, this.filter, this.id).subscribe(subEquipments => 
       {         
-        console.log(this.id);
         this.subEquipments = subEquipments;
         this.total = this.subEquipments.totalElements;
       }, 
@@ -202,7 +233,9 @@ export class EquipmentFormComponent
     {
        filter = "null";
     }
+    this.page = 1;
     this.filter = filter;
+    this.getSubEquipments();
   }    
   /**
    * 
@@ -275,14 +308,27 @@ export class EquipmentFormComponent
    */
   saveEquipment(equipment: Equipment)
   { 
-    this._loadingService.register('configFullscreen');
-    this.loading(100000);
+    if ( this.filePath )
+    {
+      if (this.equipment.filePath == null)
+      {
+         this.equipmentService.clearFileEquipment(this.equipment.id).subscribe( result =>
+         {
+         }, erro => console.log(erro));
+      }
+    }
     if (this.file)
     {
-      this.selectEvent(this.file, equipment.id);
+      this.equipment.filePath = this.file.name;
     }
+    this._loadingService.register('configFullscreen');
+    this.loading(100000);
     this.equipmentService.insertEquipment(this.equipment).subscribe(() => 
     {  
+      if (this.file)
+      {
+        this.selectEvent(this.file, equipment.id);
+      }
       this.loading(0);
       this.router.navigate(['/equipment'],  { queryParams: {page:1}});
       this.openSnackBar('Equipamento salvo com sucesso ', 'Sucesso!');
@@ -292,11 +338,6 @@ export class EquipmentFormComponent
       this.loading(0);
       this.openSnackBar(erro._body, 'Erro!');
     });
-  }
-  editNavigate(id: Number)
-  {
-    this.router.navigate(['/equipment-edit/' + id]);
-    location.reload();
   }
   /**
    * 

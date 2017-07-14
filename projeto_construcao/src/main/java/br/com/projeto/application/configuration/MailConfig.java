@@ -45,14 +45,14 @@ public class MailConfig
 	{
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost(env.getProperty("mail.Host"));
-		mailSender.setPort(587);
+		mailSender.setPort(25);
 		mailSender.setUsername(env.getProperty("mail.Username"));
 		mailSender.setPassword(env.getProperty("mail.Password"));
 		
 		Properties props = new Properties();
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", true);
-		props.put("mail.smtp.starttls.enable", true);
+		props.put("mail.smtp.starttls.enable", false);
 		props.put("mail.debug", false);
 		props.put("mail.smtp.connectiontimeout", 10000); // miliseconds
 

@@ -35,7 +35,10 @@ export class UserDetailComponent
 
           let id = params['id'];
          
-          this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
+          this.userService.findUserbyId(id).subscribe( user =>
+          {
+            this.user = user;
+          } , erro => console.log(erro));
           
       });
     }

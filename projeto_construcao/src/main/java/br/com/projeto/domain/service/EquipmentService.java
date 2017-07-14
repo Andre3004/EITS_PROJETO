@@ -1,12 +1,9 @@
 package br.com.projeto.domain.service;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.projeto.domain.entity.Equipment;
+import br.com.projeto.domain.entity.User;
 import br.com.projeto.domain.repository.IEquipmentRepository;
+import br.com.projeto.domain.repository.IUserRepository;
 import br.com.projeto.infrastructure.EquipmentFile;
 
 /**
@@ -44,12 +42,16 @@ public class EquipmentService
 	 */
 	@Autowired
 	private IEquipmentRepository equipmentRepository;
-	
 	/**
 	 * 
 	 */
 	@Autowired
 	private EquipmentFile equipmentFile;
+	/**
+	 * 
+	 */
+	@Autowired
+	private HttpServletRequest request;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
@@ -121,9 +123,12 @@ public class EquipmentService
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteEquipment(Long id) 
 	{
+		Equipment equipment = equipmentRepository.findOne(id);
 		if (equipmentRepository.findOne(id).getFilePath() != null)
-		{
-			File file = new File( "C:/Users/André/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/wtpwebapps/projeto/" + equipmentRepository.findOne(id).getFilePath() );
+		{	
+			String realPath = request.getServletContext().getRealPath("/" + "equipment-files");
+			String path = realPath + "/" + equipment.getFilePath();
+			File file = new File( path );
 			file.delete();
 		}
 		equipmentRepository.delete(id);
@@ -251,8 +256,9 @@ public class EquipmentService
 	public void clearFileEquipment(Long id) 
 	{
 		Equipment equipment = equipmentRepository.findOne(id);
-		File file = new File( "C:/Users/André/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp2/"
-							  + "wtpwebapps/projeto/equipment-files/" + equipment.getFilePath() );
+		String realPath = request.getServletContext().getRealPath("/" + "equipment-files");
+		String path = realPath + "/" + equipment.getFilePath();
+		File file = new File( path );
 		file.delete();
 		equipment.setFilePath(null);
 		equipmentRepository.save(equipment);

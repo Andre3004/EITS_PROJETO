@@ -14,7 +14,8 @@ import { ViewContainerRef } from '@angular/core';
   templateUrl: './equipment-list.component.html',
   styleUrls: ['./equipment-list.component.css']
 })
-export class EquipmentListComponent implements OnInit{
+export class EquipmentListComponent implements OnInit
+{
   
     /*-------------------------------------------------------------------
 	 * 		 					ATTRIBUTES
@@ -28,7 +29,7 @@ export class EquipmentListComponent implements OnInit{
     */
    userCurrent : User = new User();
    /**
-    * 
+    *  
     */
    page: number = 1;
    /**
@@ -136,6 +137,7 @@ export class EquipmentListComponent implements OnInit{
   search(textSearch: String) 
   {
     this.filter = textSearch;
+    this.page = 1;
     this.getEquipments();
     this.router.navigate(['/equipment'],
     {queryParams: {'page': this.page}});
@@ -182,7 +184,7 @@ export class EquipmentListComponent implements OnInit{
    */
   downloadFile(equipment)
   {
-      window.location.assign("/projeto/equipment/downloadFile/" + equipment.id);
+      window.location.assign("/projeto/api/equipment/downloadFile/" + equipment.id);
   }
   /**
    * 

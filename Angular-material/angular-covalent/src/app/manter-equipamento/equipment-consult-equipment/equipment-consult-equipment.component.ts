@@ -125,7 +125,6 @@ export class EquipmentConsultEquipmentComponent
    */
   emitter()
   {
-    console.log('asdfasdf');
     this.selectEquipment();
   }
   /**
@@ -135,6 +134,7 @@ export class EquipmentConsultEquipmentComponent
   search(textSearch: String) 
   {
     this.filter = textSearch;
+    this.page = 1;
     this.getEquipments();
   }
   /**
@@ -156,7 +156,6 @@ export class EquipmentConsultEquipmentComponent
     this.sortBy = sortEvent.name;
     this.order = sortEvent.order === TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; ;
     this.property = sortEvent.name; 
-    console.log(sortEvent);
     this.getEquipments();
   }
 }

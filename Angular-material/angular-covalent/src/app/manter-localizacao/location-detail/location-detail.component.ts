@@ -101,6 +101,7 @@ export class LocationDetailComponent
     search(textSearch: String) 
     {
       this.filter = textSearch;
+      this.page = 1;
       this.getSubLocations();
     }
     /**

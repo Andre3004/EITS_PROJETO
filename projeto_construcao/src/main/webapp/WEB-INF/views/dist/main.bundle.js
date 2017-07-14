@@ -186,7 +186,6 @@ var EquipmentConsultEquipmentComponent = (function () {
      *
      */
     EquipmentConsultEquipmentComponent.prototype.emitter = function () {
-        console.log('asdfasdf');
         this.selectEquipment();
     };
     /**
@@ -216,7 +215,6 @@ var EquipmentConsultEquipmentComponent = (function () {
         this.order = sortEvent.order === __WEBPACK_IMPORTED_MODULE_5__covalent_core__["q" /* TdDataTableSortingOrder */].Ascending ? 'DESC' : 'ASC';
         ;
         this.property = sortEvent.name;
-        console.log(sortEvent);
         this.getEquipments();
     };
     return EquipmentConsultEquipmentComponent;
@@ -392,16 +390,18 @@ var _a, _b, _c, _d, _e, _f, _g;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__manter_localizacao_location_consult_location_location_consult_location_component__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__equipment_consult_equipment_equipment_consult_equipment_component__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_PageRequest__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Equipment__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__covalent_core__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__service_location_service__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__service_equipment_service__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_material__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_router__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__service_user_service__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_User__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__manter_localizacao_location_consult_location_location_consult_location_component__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__equipment_consult_equipment_equipment_consult_equipment_component__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_PageRequest__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__model_Equipment__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__covalent_core__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__service_location_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__service_equipment_service__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_material__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_router__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EquipmentFormComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -423,7 +423,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var EquipmentFormComponent = (function () {
+    /**
+     *
+     */
     /*-------------------------------------------------------------------
        * 		 					CONSTRUCTOR
        *-------------------------------------------------------------------*/
@@ -437,7 +442,7 @@ var EquipmentFormComponent = (function () {
      * @param _loadingService
      * @param fileUploadService
      */
-    function EquipmentFormComponent(locationService, equipmentService, activatedRoute, snackBar, router, _loadingService, fileUploadService, _viewContainerRef, _dialogService, dialog) {
+    function EquipmentFormComponent(locationService, equipmentService, activatedRoute, snackBar, router, _loadingService, fileUploadService, _viewContainerRef, _dialogService, dialog, userService) {
         var _this = this;
         this.locationService = locationService;
         this.equipmentService = equipmentService;
@@ -449,21 +454,22 @@ var EquipmentFormComponent = (function () {
         this._viewContainerRef = _viewContainerRef;
         this._dialogService = _dialogService;
         this.dialog = dialog;
+        this.userService = userService;
         /*-------------------------------------------------------------------
            * 		 					ATTRIBUTES
            *-------------------------------------------------------------------*/
         /**
          *
          */
-        this.equipment = new __WEBPACK_IMPORTED_MODULE_3__model_Equipment__["a" /* Equipment */]();
+        this.equipment = new __WEBPACK_IMPORTED_MODULE_5__model_Equipment__["a" /* Equipment */]();
         /**
          *
          */
-        this.mainEquipments = new __WEBPACK_IMPORTED_MODULE_2__model_PageRequest__["a" /* PageRequest */]();
+        this.mainEquipments = new __WEBPACK_IMPORTED_MODULE_4__model_PageRequest__["a" /* PageRequest */]();
         /**
          *
          */
-        this.subEquipments = new __WEBPACK_IMPORTED_MODULE_2__model_PageRequest__["a" /* PageRequest */]();
+        this.subEquipments = new __WEBPACK_IMPORTED_MODULE_4__model_PageRequest__["a" /* PageRequest */]();
         /**
          *
          */
@@ -504,6 +510,13 @@ var EquipmentFormComponent = (function () {
          *
          */
         this.filePath = null;
+        /**
+         *
+         */
+        this.userCurrent = new __WEBPACK_IMPORTED_MODULE_1__model_User__["a" /* User */]();
+        userService.getCurrentUser().subscribe(function (user) {
+            _this.userCurrent = user;
+        }, function (erro) { return console.log(erro); });
         activatedRoute.params.subscribe(function (params) {
             var id = params['id'];
             _this.id = id;
@@ -525,8 +538,8 @@ var EquipmentFormComponent = (function () {
         });
         this._loadingService.create({
             name: 'configFullscreen',
-            mode: __WEBPACK_IMPORTED_MODULE_4__covalent_core__["r" /* LoadingMode */].Indeterminate,
-            type: __WEBPACK_IMPORTED_MODULE_4__covalent_core__["s" /* LoadingType */].Linear,
+            mode: __WEBPACK_IMPORTED_MODULE_6__covalent_core__["r" /* LoadingMode */].Indeterminate,
+            type: __WEBPACK_IMPORTED_MODULE_6__covalent_core__["s" /* LoadingType */].Linear,
             color: 'accent',
         });
     }
@@ -576,7 +589,6 @@ var EquipmentFormComponent = (function () {
             this.filter = "null";
         }
         this.equipmentService.listSubEquipmentByFilter(this.page - 1, this.size, this.property, this.order, this.filter, this.id).subscribe(function (subEquipments) {
-            console.log(_this.id);
             _this.subEquipments = subEquipments;
             _this.total = _this.subEquipments.totalElements;
         }, function (erro) { return console.log(erro); });
@@ -608,7 +620,7 @@ var EquipmentFormComponent = (function () {
      */
     EquipmentFormComponent.prototype.dialogSelectMainEquipment = function () {
         var _this = this;
-        var dialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_1__equipment_consult_equipment_equipment_consult_equipment_component__["a" /* EquipmentConsultEquipmentComponent */], {
+        var dialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__equipment_consult_equipment_equipment_consult_equipment_component__["a" /* EquipmentConsultEquipmentComponent */], {
             height: '480px',
             width: '800px',
             data: this.id
@@ -624,7 +636,7 @@ var EquipmentFormComponent = (function () {
      */
     EquipmentFormComponent.prototype.dialogSelectLocation = function () {
         var _this = this;
-        var dialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_0__manter_localizacao_location_consult_location_location_consult_location_component__["a" /* LocationConsultLocationComponent */], {
+        var dialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__manter_localizacao_location_consult_location_location_consult_location_component__["a" /* LocationConsultLocationComponent */], {
             height: '480px',
             width: '800px',
             data: null
@@ -702,19 +714,19 @@ var EquipmentFormComponent = (function () {
     return EquipmentFormComponent;
 }());
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__angular_core__["_14" /* ViewChild */])('fileInput'),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_9__angular_core__["m" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__angular_core__["m" /* ElementRef */]) === "function" && _a || Object)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__angular_core__["_14" /* ViewChild */])('fileInput'),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_11__angular_core__["m" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__angular_core__["m" /* ElementRef */]) === "function" && _a || Object)
 ], EquipmentFormComponent.prototype, "inputEl", void 0);
 EquipmentFormComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__angular_core__["_12" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__angular_core__["_12" /* Component */])({
         selector: 'app-equipment-form',
         template: __webpack_require__(486),
         styles: [__webpack_require__(294)],
     }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__service_location_service__["a" /* LocationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__service_location_service__["a" /* LocationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_6__service_equipment_service__["a" /* EquipmentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__service_equipment_service__["a" /* EquipmentService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_8__angular_router__["d" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__angular_router__["d" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_7__angular_material__["X" /* MdSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__angular_material__["X" /* MdSnackBar */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__angular_router__["a" /* Router */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__covalent_core__["n" /* TdLoadingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__covalent_core__["n" /* TdLoadingService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_4__covalent_core__["t" /* TdFileService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__covalent_core__["t" /* TdFileService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_9__angular_core__["u" /* ViewContainerRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__angular_core__["u" /* ViewContainerRef */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_4__covalent_core__["o" /* TdDialogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__covalent_core__["o" /* TdDialogService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_7__angular_material__["F" /* MdDialog */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__angular_material__["F" /* MdDialog */]) === "function" && _l || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_7__service_location_service__["a" /* LocationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__service_location_service__["a" /* LocationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_8__service_equipment_service__["a" /* EquipmentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__service_equipment_service__["a" /* EquipmentService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_10__angular_router__["d" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__angular_router__["d" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_9__angular_material__["X" /* MdSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__angular_material__["X" /* MdSnackBar */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_10__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__angular_router__["a" /* Router */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_6__covalent_core__["n" /* TdLoadingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__covalent_core__["n" /* TdLoadingService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_6__covalent_core__["t" /* TdFileService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__covalent_core__["t" /* TdFileService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_11__angular_core__["u" /* ViewContainerRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__angular_core__["u" /* ViewContainerRef */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_6__covalent_core__["o" /* TdDialogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__covalent_core__["o" /* TdDialogService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_9__angular_material__["F" /* MdDialog */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__angular_material__["F" /* MdDialog */]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_0__service_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__service_user_service__["a" /* UserService */]) === "function" && _m || Object])
 ], EquipmentFormComponent);
 
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
 //# sourceMappingURL=equipment-form.component.js.map
 
 /***/ }),
@@ -724,8 +736,8 @@ var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_PageRequest__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_User__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_user_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_User__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_user_service__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__service_equipment_service__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__covalent_core__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core__ = __webpack_require__(0);
@@ -902,7 +914,7 @@ var EquipmentListComponent = (function () {
      * @param equipment
      */
     EquipmentListComponent.prototype.downloadFile = function (equipment) {
-        window.location.assign("/projeto/equipment/downloadFile/" + equipment.id);
+        window.location.assign("/projeto/api/equipment/downloadFile/" + equipment.id);
     };
     /**
      *
@@ -1087,12 +1099,13 @@ var _a, _b, _c, _d;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__location_consult_location_location_consult_location_component__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__manter_usuario_user_consult_user_user_consult_user_component__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Location__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__covalent_core__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__service_location_service__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__service_user_service__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_material__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_router__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_User__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__covalent_core__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__service_location_service__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__service_user_service__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_material__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_router__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocationFormComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1103,6 +1116,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1186,6 +1200,13 @@ var LocationFormComponent = (function () {
          *
          */
         this.fullCodLocation = null;
+        /**
+         *
+         */
+        this.userCurrent = new __WEBPACK_IMPORTED_MODULE_4__model_User__["a" /* User */]();
+        userService.getCurrentUser().subscribe(function (user) {
+            _this.userCurrent = user;
+        }, function (erro) { return console.log(erro); });
         activatedRoute.params.subscribe(function (params) {
             var id = params['id'];
             _this.id = id;
@@ -1209,8 +1230,8 @@ var LocationFormComponent = (function () {
         });
         this._loadingService.create({
             name: 'configFullscreen',
-            mode: __WEBPACK_IMPORTED_MODULE_4__covalent_core__["r" /* LoadingMode */].Indeterminate,
-            type: __WEBPACK_IMPORTED_MODULE_4__covalent_core__["s" /* LoadingType */].Linear,
+            mode: __WEBPACK_IMPORTED_MODULE_5__covalent_core__["r" /* LoadingMode */].Indeterminate,
+            type: __WEBPACK_IMPORTED_MODULE_5__covalent_core__["s" /* LoadingType */].Linear,
             color: 'accent',
         });
     }
@@ -1386,12 +1407,12 @@ var LocationFormComponent = (function () {
     return LocationFormComponent;
 }());
 LocationFormComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__angular_core__["_12" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__angular_core__["_12" /* Component */])({
         selector: 'app-location-form',
         template: __webpack_require__(490),
         styles: [__webpack_require__(298)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_6__service_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__service_user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__service_location_service__["a" /* LocationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__service_location_service__["a" /* LocationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_8__angular_router__["d" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__angular_router__["d" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_7__angular_material__["X" /* MdSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__angular_material__["X" /* MdSnackBar */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_8__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__angular_router__["a" /* Router */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4__covalent_core__["n" /* TdLoadingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__covalent_core__["n" /* TdLoadingService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_7__angular_material__["F" /* MdDialog */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__angular_material__["F" /* MdDialog */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_4__covalent_core__["o" /* TdDialogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__covalent_core__["o" /* TdDialogService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_9__angular_core__["u" /* ViewContainerRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__angular_core__["u" /* ViewContainerRef */]) === "function" && _j || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_7__service_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__service_user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__service_location_service__["a" /* LocationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__service_location_service__["a" /* LocationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_9__angular_router__["d" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__angular_router__["d" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_8__angular_material__["X" /* MdSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__angular_material__["X" /* MdSnackBar */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_9__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__angular_router__["a" /* Router */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__covalent_core__["n" /* TdLoadingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__covalent_core__["n" /* TdLoadingService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_8__angular_material__["F" /* MdDialog */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__angular_material__["F" /* MdDialog */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_5__covalent_core__["o" /* TdDialogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__covalent_core__["o" /* TdDialogService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_10__angular_core__["u" /* ViewContainerRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__angular_core__["u" /* ViewContainerRef */]) === "function" && _j || Object])
 ], LocationFormComponent);
 
 var _a, _b, _c, _d, _e, _f, _g, _h, _j;
@@ -1404,8 +1425,8 @@ var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_PageRequest__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_User__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_user_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_User__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_user_service__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__service_location_service__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__covalent_core__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core__ = __webpack_require__(0);
@@ -1619,11 +1640,11 @@ var _a, _b, _c, _d, _e, _f, _g;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__service_user_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__service_user_service__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__covalent_core__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_User__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_User__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__model_PageRequest__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserConsultUserComponent; });
@@ -1768,7 +1789,6 @@ var UserConsultUserComponent = (function () {
     UserConsultUserComponent.prototype.sortEvent = function (sortEvent) {
         this.sortBy = sortEvent.name;
         this.order = sortEvent.order == __WEBPACK_IMPORTED_MODULE_3__covalent_core__["q" /* TdDataTableSortingOrder */].Ascending ? 'DESC' : 'ASC';
-        console.log(this.order);
         this.property = sortEvent.name;
         this.getUsers();
     };
@@ -1793,8 +1813,8 @@ var _a, _b, _c, _d;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_user_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_user_service__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserDetailComponent; });
@@ -1860,9 +1880,9 @@ var _a, _b, _c;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__covalent_core__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_user_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_user_service__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__(1);
@@ -1937,14 +1957,10 @@ var UserFormComponent = (function () {
                 value: 'ROLE_USER', viewValue: 'Engenheiro'
             },
         ];
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        console.log(JSON.parse(localStorage.getItem('currentUser')));
-        console.log(this.currentUser);
         activatedRouter.params.subscribe(function (params) {
             var id = params['id'];
             if (id) {
                 _this.userService.findUserbyId(id).subscribe(function (user) { return _this.user = user; }, function (erro) { return console.log(erro); });
-                console.log(_this.user);
             }
         });
         this._loadingService.create({
@@ -1973,7 +1989,6 @@ var UserFormComponent = (function () {
      */
     UserFormComponent.prototype.insertUser = function (event) {
         var _this = this;
-        console.log(this.user);
         this._loadingService.register('configFullscreen');
         setTimeout(function () {
             _this._loadingService.resolve('configFullscreen');
@@ -2023,10 +2038,10 @@ var _a, _b, _c, _d, _e;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_PageRequest__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_eits_ng2__ = __webpack_require__(128);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__service_user_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__service_user_service__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_material__ = __webpack_require__(1);
@@ -2160,7 +2175,6 @@ var UserListComponent = (function () {
         this.userService.listUsersByFilters(this.page - 1, this.size, this.property, this.order, this.filter).subscribe(function (users) {
             _this.users = users;
             _this.total = users.totalElements;
-            console.log(_this.total);
         }, function (erro) { return console.log(erro); });
     };
     /**
@@ -2221,7 +2235,7 @@ var UserListComponent = (function () {
             afterClosed().subscribe(function (accept) {
             if (accept) {
                 if (!user.active) {
-                    _this.userService.activateUser(user).subscribe(function () {
+                    _this.userService.updateUsertoActivate(user).subscribe(function () {
                         _this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
                         _this.getUsers();
                     }, function (erro) {
@@ -2229,7 +2243,7 @@ var UserListComponent = (function () {
                     });
                 }
                 else {
-                    _this.userService.deactivateUser(user).subscribe(function () {
+                    _this.userService.updateUsertoDeactivate(user).subscribe(function () {
                         _this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
                         _this.getUsers();
                     }, function (erro) {
@@ -2256,6 +2270,24 @@ var _a, _b, _c, _d, _e, _f, _g;
 
 /***/ }),
 
+/***/ 16:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return User; });
+/**
+ * MODEL User
+ */
+var User = (function () {
+    function User() {
+    }
+    return User;
+}());
+
+//# sourceMappingURL=User.js.map
+
+/***/ }),
+
 /***/ 169:
 /***/ (function(module, exports) {
 
@@ -2270,32 +2302,11 @@ webpackEmptyContext.id = 169;
 
 /***/ }),
 
-/***/ 170:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(232);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(233);
-
-
-
-
-if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* enableProdMode */])();
-}
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
-//# sourceMappingURL=main.js.map
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -2322,12 +2333,8 @@ var UserService = (function () {
          *
          */
         this.url = '/projeto/api/user/';
-        var username = 'andre.luiz@eits.com.br';
-        var password = 'admin';
         this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["d" /* Headers */]();
-        this.headers.append("Authorization", "Basic " + btoa(username + ":" + password));
         this.headers.append('Content-Type', 'application/json');
-        console.log(this.headers);
     }
     /*-------------------------------------------------------------------
        *				 		     SERVICES
@@ -2346,33 +2353,17 @@ var UserService = (function () {
     };
     /**
      *
+     * @param user
      */
-    UserService.prototype.listAllUser = function () {
-        return this.http.get(this.url + 'listAllUser').map(function (res) { return res.json(); });
-    };
-    /**
-     *
-     * @param page
-     * @param size
-     * @param property
-     * @param order
-     */
-    UserService.prototype.listUsers = function (page, size, property, order) {
-        return this.http.get(this.url + 'listUsers/' + page + '/' + size + '/' + property + '/' + order).map(function (res) { return res.json(); });
+    UserService.prototype.updateUsertoActivate = function (user) {
+        return this.http.patch(this.url + 'updateUsertoActivate/' + user.id, JSON.stringify(user), { headers: this.headers });
     };
     /**
      *
      * @param user
      */
-    UserService.prototype.activateUser = function (user) {
-        return this.http.patch(this.url + 'activateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
-    };
-    /**
-     *
-     * @param user
-     */
-    UserService.prototype.deactivateUser = function (user) {
-        return this.http.patch(this.url + 'deactivateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
+    UserService.prototype.updateUsertoDeactivate = function (user) {
+        return this.http.patch(this.url + 'updateUsertoDeactivate/' + user.id, JSON.stringify(user), { headers: this.headers });
     };
     /**
      *
@@ -2419,21 +2410,24 @@ var _a;
 
 /***/ }),
 
-/***/ 22:
+/***/ 170:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return User; });
-/**
- * MODEL User
- */
-var User = (function () {
-    function User() {
-    }
-    return User;
-}());
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(233);
 
-//# sourceMappingURL=User.js.map
+
+
+
+if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* enableProdMode */])();
+}
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
+//# sourceMappingURL=main.js.map
 
 /***/ }),
 
@@ -2589,7 +2583,7 @@ var _a, _b;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__manter_equipamento_equipment_consult_equipment_equipment_consult_equipment_component__ = __webpack_require__(130);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_PageRequest__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_User__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_User__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Location__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Equipment__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__manter_equipamento_equipment_list_equipment_list_component__ = __webpack_require__(133);
@@ -2597,7 +2591,7 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__manter_usuario_user_list_user_list_component__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__service_equipment_service__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__service_location_service__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__service_user_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__service_user_service__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__manter_usuario_user_detail_user_detail_component__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__manter_usuario_user_form_user_form_component__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__manter_localizacao_location_detail_location_detail_component__ = __webpack_require__(134);
@@ -2608,7 +2602,7 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_common__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__angular_forms__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_http__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_http__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__app_routing_module__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__app_component__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__angular_material__ = __webpack_require__(1);
@@ -3031,7 +3025,7 @@ module.exports = module.exports.toString();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocationService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -3147,7 +3141,7 @@ var _a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EquipmentService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -3355,7 +3349,7 @@ module.exports = "<form>\n    <div layout=\"row\" layout-align=\"start center\" 
 /***/ 489:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \r\n    <td-layout-card-over  cardWidth=\"75\"  >\r\n        <md-card>    \r\n                <md-card-title>{{location.codLocation}}</md-card-title>\r\n                <md-divider></md-divider>\r\n                <md-list>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Localização\" md-list-avatar>location_on</md-icon>\r\n                        <h1 md-line >Código localizador: {{location.codLocation}}</h1>\r\n                    </md-list-item>\r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Responsável\" md-list-avatar>perm_identity</md-icon>\r\n                        <h1 md-line>Responsável: {{location?.responsible?.name}}</h1>\r\n                        <p md-line>{{location?.responsible?.email}}<p>\r\n                    </md-list-item>\r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item *ngIf=\"location.viceResponsible != null\">\r\n                        <md-icon mdTooltip=\"Vice Responsável\" md-list-avatar>person_outline</md-icon>\r\n                        <h1 md-line>Vice Responsável: {{location?.viceResponsible?.name}}</h1>\r\n                        <p md-line>{{location?.viceResponsible?.email}}<p>\r\n                    </md-list-item>\r\n                    </md-list> \r\n                    <md-list>\r\n                    <md-divider></md-divider>\r\n                    <md-list>\r\n                        <div layout=\"row\" layout-align=\"start center\" class=\"pad-left-sm pad-right-sm\">\r\n                            <td-search-box [alwaysVisible]=\"true\" #textSearch backIcon=\"arrow_back\" class=\"push-right-sm\" placeholder=\"Procurar sub localização por código localizador ou nome completo do responsável\" (searchDebounce)=\"search(textSearch.value)\" flex>\r\n                            </td-search-box>\r\n                        </div>\r\n                        <md-list-item *ngIf=\"total == 0\">\r\n                            <md-icon md-list-icon>hourglass_empty</md-icon>\r\n                            <h4 md-line>Sem resultados</h4>\r\n                        </md-list-item> \r\n                        <md-list-item *ngFor=\"let subLocation of subLocations.content\">\r\n                            <md-icon mdTooltip=\"Sub Localização\" md-list-icon>location_on</md-icon> \r\n                            <h4 md-line>Sub Localização: {{subLocation?.codLocation}}</h4>\r\n                            <p md-line> Reponsável: {{subLocation?.responsible?.name }} {{ subLocation?.responsible?.lastName }} </p>                                \r\n                            <button md-button mdTooltip=\"Editar\" class=\"button\" [routerLink]=\"['/location-edit', subLocation.id]\" class=\"text-upper\"><md-icon >edit</md-icon></button> \r\n                        </md-list-item>\r\n                    </md-list>\r\n                    <td-paging-bar *ngIf=\"total != 0\" #pagingBar [firstLast]=\"true\" \r\n                            [pageSizeAll]=\"false\" [pageSizes]=\"[5,10,20]\"\r\n                    pageLinkCount=\"5\" [initialPage]=\"1\" [pageSize]=\"5\" [total]=\"total\" (change)=\"change($event)\">\r\n                        {{pagingBar.range}} \r\n                    <span hide-xs>\r\n                        of {{pagingBar.total}}\r\n                    </span>\r\n                </td-paging-bar>\r\n                </md-list>                        \r\n                <md-divider></md-divider>\r\n                <md-card-actions class=\"button\" >\r\n                    <button md-raised-button class=\"button\" color=\"accent\" [routerLink]=\"['/location-edit', location.id]\" class=\"text-upper\">Editar</button> \r\n                    <button md-raised-button class=\"button\" color=\"accent\" routerLink=\"/location\" [queryParams]=\"{page:1}\" class=\"text-upper\">Cancelar</button>\r\n                </md-card-actions>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav> "
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over  cardWidth=\"75\"  >\r\n        <md-card>    \r\n                <md-card-title>{{location.codLocation}}</md-card-title>\r\n                <md-divider></md-divider>\r\n                <md-list>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Localização\" md-list-avatar>location_on</md-icon>\r\n                        <h1 md-line >Código localizador: {{location.codLocation}}</h1>\r\n                    </md-list-item>\r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Responsável\" md-list-avatar>perm_identity</md-icon>\r\n                        <h1 md-line>Responsável: {{location?.responsible?.name}} {{location?.responsible?.lastName}}</h1>\r\n                        <p md-line>{{location?.responsible?.email}}<p>\r\n                    </md-list-item>\r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item *ngIf=\"location.viceResponsible != null\">\r\n                        <md-icon mdTooltip=\"Vice Responsável\" md-list-avatar>person_outline</md-icon>\r\n                        <h1 md-line>Vice Responsável: {{location?.viceResponsible?.name}} {{location?.viceResponsible?.lastName}}</h1>\r\n                        <p md-line>{{location?.viceResponsible?.email}}<p>\r\n                    </md-list-item>\r\n                    </md-list> \r\n                    <md-list>\r\n                    <md-divider></md-divider>\r\n                    <md-list>\r\n                        <div layout=\"row\" layout-align=\"start center\" class=\"pad-left-sm pad-right-sm\">\r\n                            <td-search-box [alwaysVisible]=\"true\" #textSearch backIcon=\"arrow_back\" class=\"push-right-sm\" placeholder=\"Procurar sub localização por código localizador ou nome completo do responsável\" (searchDebounce)=\"search(textSearch.value)\" flex>\r\n                            </td-search-box>\r\n                        </div>\r\n                        <md-list-item *ngIf=\"total == 0\">\r\n                            <md-icon md-list-icon>hourglass_empty</md-icon>\r\n                            <h4 md-line>Sem resultados</h4>\r\n                        </md-list-item> \r\n                        <md-list-item *ngFor=\"let subLocation of subLocations.content\">\r\n                            <md-icon mdTooltip=\"Sub Localização\" md-list-icon>location_on</md-icon> \r\n                            <h4 md-line>Sub Localização: {{subLocation?.codLocation}}</h4>\r\n                            <p md-line> Reponsável: {{subLocation?.responsible?.name }} {{ subLocation?.responsible?.lastName }} </p>                                \r\n                            <button md-button mdTooltip=\"Editar\" class=\"button\" [routerLink]=\"['/location-edit', subLocation.id]\" class=\"text-upper\"><md-icon >edit</md-icon></button> \r\n                        </md-list-item>\r\n                    </md-list>\r\n                    <td-paging-bar *ngIf=\"total != 0\" #pagingBar [firstLast]=\"true\" \r\n                            [pageSizeAll]=\"false\" [pageSizes]=\"[5,10,20]\"\r\n                    pageLinkCount=\"5\" [initialPage]=\"1\" [pageSize]=\"5\" [total]=\"total\" (change)=\"change($event)\">\r\n                        {{pagingBar.range}} \r\n                    <span hide-xs>\r\n                        of {{pagingBar.total}}\r\n                    </span>\r\n                </td-paging-bar>\r\n                </md-list>                        \r\n                <md-divider></md-divider>\r\n                <md-card-actions class=\"button\" >\r\n                    <button md-raised-button class=\"button\" color=\"accent\" [routerLink]=\"['/location-edit', location.id]\" class=\"text-upper\">Editar</button> \r\n                    <button md-raised-button class=\"button\" color=\"accent\" routerLink=\"/location\" [queryParams]=\"{page:1}\" class=\"text-upper\">Cancelar</button>\r\n                </md-card-actions>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav> "
 
 /***/ }),
 
@@ -3383,7 +3377,7 @@ module.exports = "<form>\n    <div layout=\"row\" layout-align=\"start center\" 
 /***/ 493:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \r\n    <td-layout-card-over  cardWidth=\"75\"  >\r\n        <md-card>    \r\n                <md-card-title>{{user.name}} {{user.lastName}}</md-card-title>\r\n                <md-card-subtitle>{{user.email}}</md-card-subtitle>\r\n                <md-divider></md-divider>\r\n                <md-list> \r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Nome completo\" md-list-avatar>account_box</md-icon>\r\n                        <h1 md-line >Nome completo: {{user.name}} {{user.lastName}}</h1>\r\n                    </md-list-item>\r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Email\" md-list-avatar>email</md-icon>\r\n                        <h1 md-line>Email: {{user.email}}</h1>\r\n                    </md-list-item>\r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Sexo\" md-list-avatar>perm_identity</md-icon>\r\n                        <h1 md-line>Sexo: {{user.sex}}</h1>\r\n                    </md-list-item> \r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item *ngIf=\"user.permission == 'ROLE_ADMIN'\">\r\n                        <md-icon mdTooltip=\"Permissão\" md-list-avatar>security</md-icon>\r\n                        <h1 md-line>Permissão: Administrador</h1>\r\n                    </md-list-item> \r\n                    <md-list-item *ngIf=\"user.permission == 'ROLE_USER'\">\r\n                        <md-icon mdTooltip=\"Permissão\" md-list-avatar>security</md-icon>\r\n                        <h1 md-line>Permissão: Usuário</h1>\r\n                    </md-list-item> \r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Status\" md-list-avatar>power_settings_new</md-icon>\r\n                        <h1 md-line *ngIf=\"user?.active\" >Status: Ativado</h1>\r\n                        <h1 md-line *ngIf=\"!user?.active\" >Status: Desativado</h1>\r\n                    </md-list-item>\r\n                </md-list>\r\n                <md-divider></md-divider>\r\n                <md-card-actions class=\"button\" >\r\n                    <button md-raised-button class=\"button\" color=\"accent\" *ngIf=\"( (user.id != 1) && (userCurrent?.permission == 'ROLE_ADMIN'))\" [routerLink]=\"['/user-edit', user.id]\" class=\"text-upper\">Editar</button> \r\n                    <button md-raised-button class=\"button\" color=\"accent\" routerLink=\"/user\" [queryParams]=\"{page:1}\" class=\"text-upper\">Voltar</button>\r\n                </md-card-actions>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over  cardWidth=\"75\"  >\r\n        <md-card>    \r\n                <md-card-title>{{user.name}} {{user.lastName}}</md-card-title>\r\n                <md-card-subtitle>{{user.email}}</md-card-subtitle>\r\n                <md-divider></md-divider>\r\n                <md-list> \r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Nome completo\" md-list-avatar>account_box</md-icon>\r\n                        <h1 md-line >Nome completo: {{user.name}} {{user.lastName}}</h1>\r\n                    </md-list-item>\r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Email\" md-list-avatar>email</md-icon>\r\n                        <h1 md-line>Email: {{user.email}}</h1>\r\n                    </md-list-item>\r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Sexo\" md-list-avatar>perm_identity</md-icon>\r\n                        <h1 md-line>Sexo: {{user.sex}}</h1>\r\n                    </md-list-item> \r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item *ngIf=\"user.permission == 'ROLE_ADMIN'\">\r\n                        <md-icon mdTooltip=\"Permissão\" md-list-avatar>security</md-icon>\r\n                        <h1 md-line>Permissão: Administrador</h1>\r\n                    </md-list-item> \r\n                    <md-list-item *ngIf=\"user.permission == 'ROLE_USER'\">\r\n                        <md-icon mdTooltip=\"Permissão\" md-list-avatar>security</md-icon>\r\n                        <h1 md-line>Permissão: Usuário</h1>\r\n                    </md-list-item> \r\n                    <md-divider md-inset></md-divider>\r\n                    <md-list-item>\r\n                        <md-icon mdTooltip=\"Status\" md-list-avatar>power_settings_new</md-icon>\r\n                        <h1 md-line *ngIf=\"user?.active\" >Status: Ativado</h1>\r\n                        <h1 md-line *ngIf=\"!user?.active\" >Status: Desativado</h1>\r\n                    </md-list-item>\r\n                </md-list>\r\n                <md-divider></md-divider>\r\n                <md-card-actions class=\"button\" >\r\n                    <button md-raised-button class=\"button\" color=\"accent\" *ngIf=\"( (user.id != 1) && (userCurrent?.permission == 'ROLE_ADMIN') )\" [routerLink]=\"['/user-edit', user.id]\" class=\"text-upper\">Editar</button> \r\n                    <button md-raised-button class=\"button\" color=\"accent\" routerLink=\"/user\" [queryParams]=\"{page:1}\" class=\"text-upper\">Voltar</button>\r\n                </md-card-actions>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>"
 
 /***/ }),
 
@@ -3397,7 +3391,7 @@ module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Usuá
 /***/ 495:
 /***/ (function(module, exports) {
 
-module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Lista de usuários\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <div layout=\"row\" layout-align=\"start center\" class=\"pad-left-sm pad-right-sm\">\r\n                <td-search-box [alwaysVisible]=\"true\" #textSearch backIcon=\"arrow_back\" class=\"push-right-sm\" placeholder=\"Procurar por nome, sobrenome ou email\" (searchDebounce)=\"search(textSearch.value)\" flex>\r\n                </td-search-box>\r\n            </div>\r\n            <md-divider></md-divider>\r\n            <table td-data-table #dataTable>\r\n                <th td-data-table-column\r\n                     [name]=\"column.name\"\r\n                     [active]=\"sortBy == column.name\"\r\n                     [sortable]=\"column.sortable\"\r\n                     [sortOrder]=\"order\"\r\n                     (sortChange)=\"sortEvent($event)\"\r\n                    *ngFor=\"let column of columns\">\r\n                    {{column.label}}\r\n                </th>\r\n                <tr td-data-table-row *ngFor=\"let user of users.content\">\r\n                    <td td-data-table-cell>\r\n                      <span>\r\n                        {{user.name | truncate:15}}\r\n                     </span>\r\n                    </td> \r\n                    <td td-data-table-cell>\r\n                      <span>  \r\n                        {{user.lastName | truncate:15}} \r\n                     </span>\r\n                    </td>\r\n                    <td td-data-table-cell>\r\n                     <span>\r\n                        {{user.email | truncate:25}}\r\n                     </span>\r\n                    </td>\r\n                    <td td-data-table-row class=\"buttons\" layout-align=\"left left\">\r\n                        <button md-icon-button mdTooltip=\"Status\" *ngIf=\"( (userCurrent?.permission == 'ROLE_ADMIN') )\" (click)=\"openConfirm($event, user)\" ><md-icon  [ngClass]=\"(user?.active)?'activateButton':'deactivateButton'\" >power_settings_new</md-icon></button>\r\n                        <button md-icon-button mdTooltip=\"Editar\" *ngIf=\"( (userCurrent?.permission == 'ROLE_ADMIN'))\" [routerLink]=\"['/user-edit', user.id]\"><md-icon md-list-avatar >edit</md-icon></button>\r\n                        <button md-icon-button mdTooltip=\"Detalhar\" [routerLink]=\"['/user-detail', user.id]\" ><md-icon md-list-avatar>details</md-icon></button>\r\n                    </td>\r\n                </tr>\r\n                <div class=\"Empty\" *ngIf=\"!total\" layout-align=\"center center\">\r\n                    <h3 class=\"Empty\">Sem resultados.</h3>\r\n                </div>\r\n            </table>\r\n             <td-paging-bar #pagingBar [firstLast]=\"true\" \r\n                         [pageSizeAll]=\"false\" [pageSizes]=\"[5,10,20]\"\r\n                pageLinkCount=\"5\" [initialPage]=\"1\" [pageSize]=\"5\" [total]=\"total\" (change)=\"change($event)\">\r\n                    {{pagingBar.range}} \r\n                <span hide-xs>\r\n                    of {{pagingBar.total}}\r\n                </span>\r\n            </td-paging-bar>\r\n          <a md-fab td-sidenav-content *ngIf=\"userCurrent?.permission == 'ROLE_ADMIN'\" color=\"accent\" [routerLink]=\"['/user-new']\" class=\"buttonAdd\" > \r\n              <md-icon mdTooltip=\"Novo\" >add</md-icon>\r\n          </a>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>\r\n\r\n\r\n\r\n"
+module.exports = "<td-layout-nav> \r\n    <td-layout-card-over cardTitle=\"Lista de usuários\"  cardWidth=\"75\"  >\r\n        <md-card>      \r\n            <div layout=\"row\" layout-align=\"start center\" class=\"pad-left-sm pad-right-sm\">\r\n                <td-search-box [alwaysVisible]=\"true\" #textSearch backIcon=\"arrow_back\" class=\"push-right-sm\" placeholder=\"Procurar por nome, sobrenome ou email\" (searchDebounce)=\"search(textSearch.value)\" flex>\r\n                </td-search-box>\r\n            </div>\r\n            <md-divider></md-divider>\r\n            <table td-data-table #dataTable>\r\n                <th td-data-table-column\r\n                     [name]=\"column.name\"\r\n                     [active]=\"sortBy == column.name\"\r\n                     [sortable]=\"column.sortable\"\r\n                     [sortOrder]=\"order\"\r\n                     (sortChange)=\"sortEvent($event)\"\r\n                    *ngFor=\"let column of columns\">\r\n                    {{column.label}}\r\n                </th>\r\n                <tr td-data-table-row *ngFor=\"let user of users.content\">\r\n                    <td td-data-table-cell>\r\n                      <span>\r\n                        {{user.name | truncate:15}}\r\n                     </span>\r\n                    </td> \r\n                    <td td-data-table-cell>\r\n                      <span>  \r\n                        {{user.lastName | truncate:15}} \r\n                     </span>\r\n                    </td>\r\n                    <td td-data-table-cell>\r\n                     <span>\r\n                        {{user.email | truncate:25}}\r\n                     </span>\r\n                    </td>\r\n                    <td td-data-table-row class=\"buttons\" layout-align=\"left left\">\r\n                        <button md-icon-button mdTooltip=\"Status\" *ngIf=\"( (userCurrent?.permission == 'ROLE_ADMIN') && ( user?.id != 1 ) )\" (click)=\"openConfirm($event, user)\" ><md-icon  [ngClass]=\"(user?.active)?'activateButton':'deactivateButton'\" >power_settings_new</md-icon></button>\r\n                        <button md-icon-button mdTooltip=\"Editar\" *ngIf=\"( (userCurrent?.permission == 'ROLE_ADMIN') && ( user?.id != 1 ) )\" [routerLink]=\"['/user-edit', user.id]\"><md-icon md-list-avatar >edit</md-icon></button>\r\n                        <button md-icon-button mdTooltip=\"Detalhar\" [routerLink]=\"['/user-detail', user.id]\" ><md-icon md-list-avatar>details</md-icon></button>\r\n                    </td>\r\n                </tr>\r\n                <div class=\"Empty\" *ngIf=\"!total\" layout-align=\"center center\">\r\n                    <h3 class=\"Empty\">Sem resultados.</h3>\r\n                </div>\r\n            </table>\r\n             <td-paging-bar #pagingBar [firstLast]=\"true\" \r\n                         [pageSizeAll]=\"false\" [pageSizes]=\"[5,10,20]\"\r\n                pageLinkCount=\"5\" [initialPage]=\"1\" [pageSize]=\"5\" [total]=\"total\" (change)=\"change($event)\">\r\n                    {{pagingBar.range}} \r\n                <span hide-xs>\r\n                    of {{pagingBar.total}}\r\n                </span>\r\n            </td-paging-bar>\r\n          <a md-fab td-sidenav-content *ngIf=\"userCurrent?.permission == 'ROLE_ADMIN'\" color=\"accent\" [routerLink]=\"['/user-new']\" class=\"buttonAdd\" > \r\n              <md-icon mdTooltip=\"Novo\" >add</md-icon>\r\n          </a>\r\n     </md-card> \r\n  </td-layout-card-over>\r\n</td-layout-nav>\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -3413,8 +3407,8 @@ module.exports = __webpack_require__(170);
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_user_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_user_service__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__(0);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
@@ -3577,7 +3571,6 @@ var LocationConsultLocationComponent = (function () {
         if (this.filter === '') {
             this.filter = "null";
         }
-        console.log('id: ' + id);
         if (!id) {
             this.locationService.listLocationsByFilters(this.page - 1, this.size, this.property, this.order, this.filter).subscribe(function (mainLocations) {
                 _this.mainLocations = mainLocations;
@@ -3638,7 +3631,6 @@ var LocationConsultLocationComponent = (function () {
     LocationConsultLocationComponent.prototype.sortEvent = function (sortEvent) {
         this.sortBy = sortEvent.name;
         this.order = sortEvent.order == __WEBPACK_IMPORTED_MODULE_3__covalent_core__["q" /* TdDataTableSortingOrder */].Ascending ? 'DESC' : 'ASC';
-        console.log(this.order);
         this.property = sortEvent.name;
         this.getLocations(this.id);
     };

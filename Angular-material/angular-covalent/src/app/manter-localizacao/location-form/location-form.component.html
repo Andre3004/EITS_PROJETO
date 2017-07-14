@@ -78,10 +78,11 @@
                                 <h4 md-line>Sem resultados</h4>
                             </md-list-item> 
                             <md-list-item *ngFor="let subLocation of subLocations.content">
+                                <md-icon mdTooltip="Sub Localização" md-list-icon>location_on</md-icon> 
                                 <h4 md-line>Sub Localização: {{subLocation?.codLocation}}</h4>
                                 <p md-line> Reponsável: {{subLocation?.responsible?.name }} {{ subLocation?.responsible?.lastName }} </p>                                
-                                <button md-icon-button mdTooltip="Excluir" class="button" (click)="openConfirmDelete(subLocation)" class="text-upper"><md-icon md-list-avatar>delete</md-icon></button> 
-                                 <a md-icon-button mdTooltip="Editar" class="button" (click)="editNavigate(subLocation.id)" class="text-upper"><md-icon md-list-avatar>edit</md-icon></a>
+                                <button *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" md-icon-button mdTooltip="Excluir" class="button" (click)="openConfirmDelete(subLocation)" class="text-upper"><md-icon md-list-avatar>delete</md-icon></button> 
+                                 <a md-icon-button mdTooltip="Editar" class="button" [routerLink]="['/location-edit', subLocation.id]" class="text-upper"><md-icon md-list-avatar>edit</md-icon></a>
                                 <button md-icon-button mdTooltip="Detalhar" class="button" [routerLink]="['/location-detail', subLocation.id]" class="text-upper"><md-icon md-list-avatar>details</md-icon></button>  
                             </md-list-item>
                          </md-list>

@@ -74,7 +74,6 @@ body {
 					 Email ou senha inválidos
 				 </font>
 			  </c:if>
-		  
 	    </form>
 	  </div>
 	</div>

@@ -54,6 +54,22 @@ export class LocationListComponent implements OnInit {
     * 
     */
    filter : String = "";
+   /**
+   * 
+   */
+   columns: ITdDataTableColumn[] = 
+   [
+     { 
+       name: 'codLocation', label: 'Código Localizador' , sortable: true
+     },
+     { 
+       name: 'responsible', label: 'Responsável' , sortable: true
+     },
+     { 
+       name: '', label: '' , sortable: false
+     }
+   ];
+    
 
    /*-------------------------------------------------------------------
 	 * 		 					ONINIT
@@ -113,28 +129,13 @@ export class LocationListComponent implements OnInit {
   }
   /**
    * 
-   */
-  columns: ITdDataTableColumn[] = 
-  [
-    { 
-      name: 'codLocation', label: 'Código Localizador' , sortable: true
-    },
-    { 
-      name: 'responsible', label: 'Responsável' , sortable: true
-    },
-    { 
-      name: '', label: '' , sortable: false
-    }
-  ];
-  /**
-   * 
    * @param textSearch 
    */
   search(textSearch: String) 
   {
     this.filter = textSearch;
+    this.page = 1;
     this.getLocations();
-    console.log(this.locations);
     this.router.navigate(['/location'],
     {queryParams: {'page': this.page}});
   }
@@ -149,7 +150,6 @@ export class LocationListComponent implements OnInit {
        this.getLocations();
        this.router.navigate(['/location'],
        {queryParams: {'page': this.page}});
-
   }
   /**
    * 

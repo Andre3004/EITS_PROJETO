@@ -23,7 +23,7 @@ export class UserService
   /**
    * 
    */
-  url: String = '/projeto/user/';
+  url: String = '/projeto/api/user/';
 
  
   /*-------------------------------------------------------------------
@@ -31,8 +31,8 @@ export class UserService
 	 *-------------------------------------------------------------------*/
   constructor(public http: Http) 
   { 
-    this.headers = new Headers();
-    this.headers.append('Content-Type', 'application/json');
+     this.headers = new Headers();
+     this.headers.append('Content-Type', 'application/json');
   }
 
   /*-------------------------------------------------------------------
@@ -56,37 +56,19 @@ export class UserService
   }
   /**
    * 
+   * @param user 
    */
-  listAllUser(): Observable<User[]>
+  updateUsertoActivate(user): Observable<Response>
   {
-    return this.http.get(this.url + 'listAllUser').map(res => res.json());
-  }
-  /**
-   * 
-   * @param page 
-   * @param size 
-   * @param property 
-   * @param order 
-   */
-  listUsers(page: number, size: number, property: String, order: String): Observable<PageRequest>
-  {
-    return this.http.get(this.url + 'listUsers/'+ page + '/' + size + '/' + property + '/' + order).map(res => res.json());
+    return this.http.patch(this.url + 'updateUsertoActivate/' + user.id, JSON.stringify(user), { headers: this.headers });
   }
   /**
    * 
    * @param user 
    */
-  activateUser(user): Observable<Response>
+  updateUsertoDeactivate(user): Observable<Response>
   {
-    return this.http.patch(this.url + 'activateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
-  }
-  /**
-   * 
-   * @param user 
-   */
-  deactivateUser(user): Observable<Response>
-  {
-    return this.http.patch(this.url + 'deactivateUser/' + user.id, JSON.stringify(user), { headers: this.headers });
+    return this.http.patch(this.url + 'updateUsertoDeactivate/' + user.id, JSON.stringify(user), { headers: this.headers });
   }
   /**
    * 

@@ -22,7 +22,7 @@ export class EquipmentService {
   /**
    * 
    */
-  url: String = '/projeto/equipment/';
+  url: String = '/projeto/api/equipment/';
 
   /*-------------------------------------------------------------------
 	 * 		 					CONSTRUCTOR
@@ -42,6 +42,14 @@ export class EquipmentService {
   /*-------------------------------------------------------------------
 	 *				 		     SERVICES
 	 *-------------------------------------------------------------------*/
+  /**
+   * 
+   * @param id 
+   */
+  clearFileEquipment(id: Number)
+  {
+    return this.http.delete(this.url + 'clearFileEquipment/' + id);
+  }
   /**
    * 
    * @param equipment 

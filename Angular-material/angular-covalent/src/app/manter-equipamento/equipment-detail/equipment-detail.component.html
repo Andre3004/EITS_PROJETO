@@ -30,6 +30,7 @@
                             <h4 md-line>Sem resultados</h4>
                         </md-list-item> 
                         <md-list-item *ngFor="let subEquipment of subEquipments.content">
+                            <md-icon mdTooltip="Sub Equipamento" md-list-icon>android</md-icon> 
                             <h4 md-line>Sub Equipamento: {{subEquipment?.name}}</h4>
                             <p md-line> descrição: {{subEquipment?.description }} </p>                                
                             <button md-button mdTooltip="Editar" class="button" [routerLink]="['/equipment-edit', subEquipment.id]" class="text-upper"><md-icon >edit</md-icon></button> 

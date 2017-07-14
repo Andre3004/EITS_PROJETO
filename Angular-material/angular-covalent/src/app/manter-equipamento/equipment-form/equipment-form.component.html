@@ -50,17 +50,15 @@
                                             (fileDrop)="file = $event"
                                             (click)="fileInput.inputElement.click()"
                                             (keyup.enter)="fileInput.inputElement.click()"
-                                            (keyup.delete)="fileInput.clear()"
-                                            (keyup.backspace)="fileInput.clear()"
                                             class="select"
                                             flex>
                             <input mdInput
                                 placeholder="Selecione ou araste o arquivo"
-                                [value]="file?.length ? (file?.length + ' file') : file?.name"
+                                [value]="file ? file?.name : equipment?.filePath "
                                 [disabled]="disabled"
                                 readonly/>
                         </md-input-container>
-                        <button md-icon-button *ngIf="file" (click)="fileInput.clear()" (keyup.enter)="fileInput.clear()">
+                        <button md-icon-button *ngIf="file || equipment.filePath" (click)="clearFile()" (keyup.enter)="clearFile()">
                             <md-icon>cancel</md-icon>
                         </button>
                         <div>
@@ -103,10 +101,11 @@
                                 <h4 md-line>Sem resultados</h4>
                             </md-list-item> 
                             <md-list-item *ngFor="let subEquipment of subEquipments.content">
+                                <md-icon mdTooltip="Sub Equipamento" md-list-icon>android</md-icon> 
                                 <h4 md-line>Sub Equipamento: {{subEquipment?.name}}</h4>
                                 <p md-line> Descrição: {{subEquipment?.description }} </p>                                
-                                <button md-icon-button mdTooltip="Excluir" class="button" (click)="openConfirmDelete(subEquipment)" class="text-upper"><md-icon md-list-avatar>delete</md-icon></button> 
-                                 <a md-icon-button mdTooltip="Editar" class="button" (click)="editNavigate(subEquipment.id)" class="text-upper"><md-icon md-list-avatar>edit</md-icon></a>
+                                <button *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" md-icon-button mdTooltip="Excluir" class="button" (click)="openConfirmDelete(subEquipment)" class="text-upper"><md-icon md-list-avatar>delete</md-icon></button> 
+                                 <a md-icon-button mdTooltip="Editar" class="button" [routerLink]="['/equipment-edit', subEquipment.id]"class="text-upper"><md-icon md-list-avatar>edit</md-icon></a>
                                 <button md-icon-button mdTooltip="Detalhar" class="button" [routerLink]="['/equipment-detail', subEquipment.id]" class="text-upper"><md-icon md-list-avatar>details</md-icon></button>  
                             </md-list-item>
                          </md-list>

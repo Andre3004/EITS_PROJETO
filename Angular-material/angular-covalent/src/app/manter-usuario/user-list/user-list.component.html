@@ -33,8 +33,8 @@
                      </span>
                     </td>
                     <td td-data-table-row class="buttons" layout-align="left left">
-                        <button md-icon-button mdTooltip="Status" (click)="openConfirm($event, user)" ><md-icon *ngIf="( (userCurrent?.permission == 'ROLE_ADMIN') )" [ngClass]="(user?.active)?'activateButton':'deactivateButton'" >power_settings_new</md-icon></button>
-                        <button md-icon-button mdTooltip="Editar" [routerLink]="['/user-edit', user.id]"><md-icon md-list-avatar *ngIf="( (userCurrent?.permission == 'ROLE_ADMIN'))">edit</md-icon></button>
+                        <button md-icon-button mdTooltip="Status" *ngIf="( (userCurrent?.permission == 'ROLE_ADMIN') && ( user?.id != 1 ) )" (click)="openConfirm($event, user)" ><md-icon  [ngClass]="(user?.active)?'activateButton':'deactivateButton'" >power_settings_new</md-icon></button>
+                        <button md-icon-button mdTooltip="Editar" *ngIf="( (userCurrent?.permission == 'ROLE_ADMIN') && ( user?.id != 1 ) )" [routerLink]="['/user-edit', user.id]"><md-icon md-list-avatar >edit</md-icon></button>
                         <button md-icon-button mdTooltip="Detalhar" [routerLink]="['/user-detail', user.id]" ><md-icon md-list-avatar>details</md-icon></button>
                     </td>
                 </tr>

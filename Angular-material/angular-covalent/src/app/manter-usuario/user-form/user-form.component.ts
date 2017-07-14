@@ -9,8 +9,6 @@ import { MdInputModule, MdSnackBar} from '@angular/material';
 import { Broker } from 'eits-ng2';
 import {FormControl, Validators} from '@angular/forms';
 
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -28,7 +26,7 @@ export class UserFormComponent
     /**
      * 
      */
-    emailFormControl = new FormControl('', [Validators.required,Validators.pattern(EMAIL_REGEX)]);
+    currentUser: User = new User();
     /**
      * 
      */
@@ -78,7 +76,6 @@ export class UserFormComponent
           if (id)
           {
             this.userService.findUserbyId(id).subscribe( user => this.user = user, erro => console.log(erro));
-            console.log(this.user);
           }
       });
       this._loadingService.create({
@@ -111,7 +108,6 @@ export class UserFormComponent
      */
     insertUser(event)
     { 
-      console.log(this.user);
       this._loadingService.register('configFullscreen');
 
       setTimeout(() => {

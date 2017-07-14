@@ -134,6 +134,7 @@ export class UserConsultUserComponent
   search(textSearch: String) 
   {
     this.filter = textSearch;
+    this.page = 1;
     this.getUsers();
   }
   /**
@@ -154,7 +155,6 @@ export class UserConsultUserComponent
   {
     this.sortBy = sortEvent.name;
     this.order = sortEvent.order == TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; 
-    console.log(this.order);
     this.property = sortEvent.name; 
     this.getUsers();
   }

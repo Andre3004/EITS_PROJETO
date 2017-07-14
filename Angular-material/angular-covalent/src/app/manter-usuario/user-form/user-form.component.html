@@ -100,8 +100,9 @@
                     <md-input-container flex>
                          <input mdInput [required]="user.id" #newPassword minlength="8" maxlength="50" mdInput tdAutoTrim type="password" name ="password" [(ngModel)]="user.password" placeholder="Nova senha"/>
                          <md-error>A senha deve possuir no mínimo 8 caracteres</md-error>                         
-                         <md-error>Este campo é obrigatório</md-error>
+                         <md-error *ngIf="passwordForm.submitted" >Este campo é obrigatório</md-error>
                     </md-input-container>
+                    <br><br>
                     <md-input-container flex>
                          <input mdInput [required]="user.id" #confirmNewPassword minlength="8" maxlength="50" mdInput tdAutoTrim type="password" name ="confirmPassword" [(ngModel)]="user.confirmPassword" placeholder="Confirme a senha"/>
                          <md-error>Este campo é obrigatório</md-error>

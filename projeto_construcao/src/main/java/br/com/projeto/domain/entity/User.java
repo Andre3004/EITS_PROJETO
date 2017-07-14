@@ -70,7 +70,7 @@ public class User implements Serializable, UserDetails
 	 * 
 	 */
 	@NotBlank
-	@Column(length = 50)
+	@Column(name="last_name", length = 50)
 	private String lastName;
 
 	/**
@@ -230,7 +230,7 @@ public class User implements Serializable, UserDetails
 	 * 
 	 * @return
 	 */
-	public boolean isValid()
+	public boolean passwordIsValid()
 	{
 		if ( this.password.equals(this.confirmPassword)) 
 		{

@@ -94,20 +94,20 @@ public class UserRestController
 	 * @param id
 	 */
 	@CrossOrigin
-	@RequestMapping(value = "/activateUser/{id}", method = RequestMethod.PATCH)
+	@RequestMapping(value = "/updateUsertoActivate/{id}", method = RequestMethod.PATCH)
 	public void activateUser(@PathVariable Long id)
 	{
-		userService.activateUser(userService.findUserById(id));
+		userService.updateUsertoActivate(userService.findUserById(id));
 	}
 	/**
 	 * 
 	 * @param id
 	 */
 	@CrossOrigin
-	@RequestMapping(value = "/deactivateUser/{id}", method = RequestMethod.PATCH)
-	public void deactivateUser(@PathVariable Long id)
+	@RequestMapping(value = "/updateUsertoDeactivate/{id}", method = RequestMethod.PATCH)
+	public void updateUsertoDeactivate(@PathVariable Long id)
 	{
-		userService.deactivateUser(userService.findUserById(id));
+		userService.updateUsertoDeactivate(userService.findUserById(id));
 	}
     /**
      * 

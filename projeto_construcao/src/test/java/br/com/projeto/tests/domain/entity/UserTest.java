@@ -32,23 +32,23 @@ public class UserTest
      * 
      */
 	@Test
-	public void isValidMustPass()
+	public void passowordIsValidMustPass()
 	{
 		final User user = new User();
 		user.setPassword("12345678");
 		user.setConfirmPassword("12345678");
-		Assert.assertTrue(user.isValid());
+		Assert.assertTrue(user.passwordIsValid());
 	}
 	/**
      * 
      */
 	@Test(expected = AssertionError.class)
-	public void isValidMustFail()
+	public void passowordIsValidMustFail()
 	{
 		final User user = new User();
 		user.setPassword("12345678");
 		user.setConfirmPassword("87654321");
-		Assert.assertTrue(user.isValid());
+		Assert.assertTrue(user.passwordIsValid());
 	}
 	
 }

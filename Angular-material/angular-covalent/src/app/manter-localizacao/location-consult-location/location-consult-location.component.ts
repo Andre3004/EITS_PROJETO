@@ -92,7 +92,6 @@ export class LocationConsultLocationComponent
       {
         this.filter = "null";
       }
-      console.log('id: ' + id);
       if (!id)
       {
         this.locationService.listLocationsByFilters(this.page -1, this.size, this.property, this.order, this.filter).subscribe(mainLocations => 
@@ -147,6 +146,7 @@ export class LocationConsultLocationComponent
   search(textSearch: String) 
   {
     this.filter = textSearch;
+    this.page = 1;
     this.getLocations(this.id);
   }
   /**
@@ -167,7 +167,6 @@ export class LocationConsultLocationComponent
   {
     this.sortBy = sortEvent.name;
     this.order = sortEvent.order == TdDataTableSortingOrder.Ascending ? 'DESC' : 'ASC'; 
-    console.log(this.order);
     this.property = sortEvent.name; 
     this.getLocations(this.id);
   }

@@ -24,9 +24,6 @@ export class EquipmentDetailComponent
   /**
    * 
    */
-  /**
-   * 
-   */
   subEquipments: PageRequest = new PageRequest();
   /**
    * 
@@ -113,6 +110,7 @@ export class EquipmentDetailComponent
   search(textSearch: String) 
   {
     this.filter = textSearch;
+    this.page = 1;
     this.getSubEquipments();
   }
   /**

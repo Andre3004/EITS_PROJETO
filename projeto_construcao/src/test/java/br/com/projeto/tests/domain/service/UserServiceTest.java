@@ -86,10 +86,10 @@ public class UserServiceTest extends IntegrationTests
 	@Sql({
 		"dataset/user/users_data.sql"
 	})
-	public void deactivateMustPass() 
+	public void updateUsertoDeactivateMustPass() 
 	{
 		User user = userService.findUserById(new Long(2));
-		userService.deactivateUser(user);
+		userService.updateUsertoDeactivate(user);
 	}
 	/**
 	 * 
@@ -99,10 +99,10 @@ public class UserServiceTest extends IntegrationTests
 	@Sql({
 		"dataset/user/users_data.sql"
 	})
-	public void deactivateMustFail() 
+	public void updateUsertoDeactivateMustFail() 
 	{
 		User user = userService.findUserById(new Long(1));
-		userService.deactivateUser(user);
+		userService.updateUsertoDeactivate(user);
 	}
 	/**
 	 * 

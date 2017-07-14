@@ -22,7 +22,7 @@ export class LocationService
   /**
    * 
    */
-  url: String = '/projeto/location/';
+  url: String = '/projeto/api/location/';
 
 
   /*-------------------------------------------------------------------

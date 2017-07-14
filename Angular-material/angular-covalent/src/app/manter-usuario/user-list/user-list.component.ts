@@ -112,14 +112,13 @@ export class UserListComponent  implements OnInit
       }, 
       erro => console.log(erro));
       this.getUsers();
-      // Broker.of("userService").promise("helloWorld")
-      // .then((result) => {
-      //   console.log(result);
-      // })
-      // .catch((message) => {
-      // //this.messagesService.toastError( message );
-      // console.log(message);
-      // });
+      Broker.of("userService").promise("helloWorld")
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((message) => {
+      console.log(message);
+      });
       
   }
 
@@ -149,6 +148,7 @@ export class UserListComponent  implements OnInit
   search(textSearch: String) 
   {
     this.filter = textSearch;
+    this.page = 1;
     this.getUsers();
     this.router.navigate(['/user'],
     {queryParams: {'page': this.page}});
@@ -212,7 +212,7 @@ export class UserListComponent  implements OnInit
         {
           if (!user.active) 
           {
-            this.userService.activateUser(user).subscribe(() => 
+            this.userService.updateUsertoActivate(user).subscribe(() => 
             {
                 this.openSnackBar('Usuário ativado com sucesso', 'Sucesso!');
                 this.getUsers();
@@ -225,7 +225,7 @@ export class UserListComponent  implements OnInit
           }
           else 
           {
-            this.userService.deactivateUser(user).subscribe(() => 
+            this.userService.updateUsertoDeactivate(user).subscribe(() => 
             {
                 this.openSnackBar('Usuário desativado com sucesso', 'Sucesso!');
                 this.getUsers();

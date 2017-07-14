@@ -35,7 +35,7 @@ export class LocationFormComponent implements OnInit{
   subLocations: PageRequest = new PageRequest();
   /**
    * 
-   */
+   */ 
   page: number = 1;
   /**
     * 
@@ -88,6 +88,10 @@ export class LocationFormComponent implements OnInit{
   /**
    * 
    */
+  userCurrent : User = new User();
+   /**
+    * 
+    */
   /*-------------------------------------------------------------------
 	 * 		 					ONINIT
 	 *-------------------------------------------------------------------*/
@@ -116,6 +120,11 @@ export class LocationFormComponent implements OnInit{
               private _loadingService: TdLoadingService,  public dialog: MdDialog, private _dialogService: TdDialogService,
               private _viewContainerRef: ViewContainerRef) 
   {
+      userService.getCurrentUser().subscribe(user => 
+      { 
+        this.userCurrent = user;
+      }, 
+      erro => console.log(erro));
       activatedRoute.params.subscribe(params => {
                 
         let id = params['id'];
@@ -181,6 +190,7 @@ export class LocationFormComponent implements OnInit{
   search(textSearch: String) 
   {
     this.filter = textSearch;
+    this.page = 1;
     this.getSubLocations();
   }
   /**
@@ -352,15 +362,6 @@ export class LocationFormComponent implements OnInit{
             );
         }
       })
-  }
-  /**
-   * 
-   * @param id 
-   */
-  editNavigate(id: Number)
-  {
-    this.router.navigate(['/location-edit/' + id]);
-    location.reload();
   }
 
 }

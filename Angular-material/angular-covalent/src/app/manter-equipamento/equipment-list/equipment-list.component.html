@@ -37,7 +37,7 @@
                         {{equipment?.location?.codLocation | truncate:15}}
                      </span>
                     </td>
-                    <td td-data-table-row class="buttons" layout-align="left left">                        
+                    <td>                        
                         <button md-icon-button mdTooltip="Remover"  *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" (click)="openConfirm(equipment)"><md-icon md-list-avatar>delete</md-icon></button>
                         <button md-icon-button mdTooltip="Editar"  [routerLink]="['/equipment-edit', equipment.id]"><md-icon md-list-avatar>edit</md-icon></button>       
                         <button md-icon-button mdTooltip="Detalhar" [routerLink]="['/equipment-detail', equipment.id]" ><md-icon md-list-avatar>details</md-icon></button>
@@ -56,46 +56,9 @@
                     of {{pagingBar.total}}
                 </span>
             </td-paging-bar>
-          <a md-fab td-sidenav-content *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" color="accent" [routerLink]="['/equipment-new']" class="buttonAdd" > 
-              <md-icon mdTooltip="Novo" >add</md-icon>
-          </a>
-     </md-card> 
-  </td-layout-card-over>
-</td-layout-nav>
-
-<!--
-<td-layout-nav> 
-    <td-layout-card-over cardTitle="Lista de equipamentos"  cardWidth="75"  >
-        <md-card>      
-            <md-card-title layout>
-                <md-input-container class="text-sm" flex>
-                    <input #textSearch (keyup)="0" mdInput placeholder="Procurar equipamentos"/>
-                    <span mdPrefix><md-icon class="icon">search</md-icon></span>
-                </md-input-container> 
-            </md-card-title>
-            <md-list class="pull-top">
-                <md-list-item>
-                    <md-icon mdTooltip="Equipamentos" md-list-avatar>bug_report</md-icon>
-                    <h3 md-line>Equipamentos</h3>
-                </md-list-item>   
-                <ng-template let-item="$implicit" let-i="index" let-last="last" ngFor [ngForOf]="equipments | filterNameEquipment: textSearch.value" >
-                    <a md-list-item>
-                        <h3 md-line> {{item.name}} </h3>
-                        <p md-line *ngIf="item.location"> Localização: {{item?.location?.codLocation}} </p>
-                        <span flex></span>
-                        <button md-button mdTooltip="Detalhar"  [routerLink]="['/equipment-detail', item.id]" ><md-icon md-list-avatar>details</md-icon></button>
-                        <button md-button mdTooltip="Editar"  [routerLink]="['/equipment-edit', item.id]"><md-icon md-list-avatar>edit</md-icon></button>
-                        <button md-button mdTooltip="Remover"  *ngIf="userCurrent?.permission == 'ROLE_ADMIN'" (click)="openConfirm(item)"><md-icon md-list-avatar>delete</md-icon></button>
-                    </a>
-                    <md-divider *ngIf="!last" md-inset></md-divider>        
-              </ng-template>
-          </md-list>
           <a md-fab td-sidenav-content color="accent" [routerLink]="['/equipment-new']" class="buttonAdd" > 
               <md-icon mdTooltip="Novo" >add</md-icon>
           </a>
      </md-card> 
   </td-layout-card-over>
 </td-layout-nav>
- -->
-
-

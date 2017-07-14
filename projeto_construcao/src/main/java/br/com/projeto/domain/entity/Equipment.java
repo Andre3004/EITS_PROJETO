@@ -54,7 +54,7 @@ public class Equipment implements Serializable
 	/**
 	 * 
 	 */
-	@Size(max = 144, message = "O tamanho da senha deve ter no máximo 144 caracteres")
+	@Column(length = 144)
 	@NotBlank
 	private String description;
 	
@@ -75,6 +75,7 @@ public class Equipment implements Serializable
 	/**
 	 * 
 	 */
+	@Column(name = "file_path", length = 144)
 	private String filePath;
 
 	
